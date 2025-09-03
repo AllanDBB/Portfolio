@@ -1,0 +1,17 @@
+[
+  {"id":"p2","title":"Demo IA","category":"tecnologicos","summary":"Prototipo con embeddings y RAG","tech":["Python","FastAPI"],"status":"in_progress"},
+  {"id":"p3","title":"Paper X","category":"cientificos","summary":"Análisis de datos y visualización","tech":["R","D3"],"status":"planned"},
+  {"id":"p4","title":"Recetario de familia","category":"gastronomia","summary":"Colección de recetas con fotos","tech":["Next.js"],"status":"canceled"},
+  {"id":"p5","title":"IEEE Student Branch","category":"voluntariados","summary":"Organización de actividades y mentoring","tech":["Leadership"],"status":"done"},
+  {"id":"p6","title":"Charla: Intro a RAG","category":"conferencias","summary":"Workshop para devs sobre RAG y vectores","tech":["Slides","Demo"],"status":"done"},
+  {"id":"p7","title":"Premio Hackathon X","category":"premios","summary":"1er lugar por solución de impacto","tech":["Team"],"status":"done"},
+
+  {"id":"p8","title":"Centennial Partners","category":"laborales","summary":"Database Assistant – SQL/MySQL, gestión y optimización de datos","tech":["SQL","MySQL"],"status":"done"},
+  {"id":"p9","title":"Petziclub","category":"laborales","summary":"Full Stack Developer – App escalable con Node.js y React Native","tech":["Node.js","React Native","MongoDB"],"status":"done"},
+  {"id":"p10","title":"Scientific High School of Alajuela","category":"laborales","summary":"Web Developer – React app con dashboard responsivo","tech":["React"],"status":"in_progress"},
+  {"id":"p11","title":"Costa Rica Institute of Technology","category":"laborales","summary":"Research Assistant – ML en Change Point Detection y predicción de deserción","tech":["Machine Learning","Python"],"status":"in_progress"},
+
+  {"id":"p12","title":"World Robot Olympiad International 2023","category":"premios","summary":"1st Place – AI Project Category","tech":["AI"],"status":"done"},
+  {"id":"p13","title":"National Programming Olympiad 2023","category":"premios","summary":"Absolute Gold Medal – Costa Rica","tech":["Algorithms","Programming"],"status":"done"},
+  {"id":"p14","title":"RetoMarte 2024","category":"premios","summary":"Winner – Avance a finales internacionales en España","tech":["Innovation","Teamwork"],"status":"done"}
+]
