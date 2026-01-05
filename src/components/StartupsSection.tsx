@@ -17,7 +17,7 @@ export function StartupsSection({ items, title = 'Startups', seeAllLabel = 'See 
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map((s) => (
-          <a key={s.id} href={s.link ?? '#'} target={s.link ? '_blank' : undefined} rel={s.link ? 'noreferrer' : undefined} className="rounded-xl card p-4 transition hover:translate-y-[-2px]">
+          <a key={s.id} href={s.link ?? '#'} target={s.link ? '_blank' : undefined} rel={s.link ? 'noreferrer' : undefined} className="rounded-xl card p-4 transition-shadow hover:shadow-md">
             <div className="flex items-center gap-3 mb-2">
               <div className="size-14 rounded-md overflow-hidden flex-shrink-0" style={{background:'#f0efee'}}>
                 {s.logoUrl ? <img src={s.logoUrl} alt={s.name} className="w-full h-full object-contain" /> : null}

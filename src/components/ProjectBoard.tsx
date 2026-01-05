@@ -7,12 +7,13 @@ function statusStyle(s: Status) {
     case 'done':
       return { bg: '#E6F7EE', fg: '#0F8C5A', br: '#C8ECDD' }
     case 'in_progress':
-      return { bg: '#FFF4E5', fg: '#B4690E', br: '#FDE1BD' }
+      // Turquoise/Teal theme
+      return { bg: 'var(--accent-light)', fg: 'var(--accent)', br: 'var(--accent)' }
     case 'canceled':
       return { bg: '#FDE7EB', fg: '#B42318', br: '#FAC5CE' }
     case 'planned':
     default:
-      return { bg: '#EEF2F7', fg: '#3B4A66', br: '#D5DEEA' }
+      return { bg: '#F3F4F6', fg: '#4B5563', br: '#E5E7EB' }
   }
 }
 
@@ -69,34 +70,45 @@ export function ProjectBoard({ projects, note, pageSize = 6, onOpen }: { project
           return (
             <article
               key={p.id}
-              className="rounded-xl overflow-hidden card cursor-pointer"
+              className="group relative flex flex-col h-full rounded-xl overflow-hidden card cursor-pointer transition-all duration-300 hover:shadow-md hover:-translate-y-1 bg-white border border-[color:var(--border)]"
               onClick={() => onOpen?.(p)}
             >
-              {thumb ? (
-                <img src={thumb} alt={p.title} className="h-36 w-full object-cover" />
-              ) : (
-                <div className="h-36 w-full" style={{ background: 'linear-gradient(135deg,#eee,#e6e2de)' }} />
-              )}
-              <div className="p-4 space-y-2">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-lg font-semibold">{p.title}</h3>
-                  <span
-                    className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs"
-                    style={{ background: bg, color: fg, border: `1px solid ${br}` }}
-                  >
-                    <span className="size-1.5 rounded-full" style={{ background: fg }} />
-                    {t(`status.${s}`)}
-                  </span>
+              {/* Image Container with subtle overlay on hover */}
+              <div className="relative h-40 w-full overflow-hidden">
+                {thumb ? (
+                  <img src={thumb} alt={p.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                ) : (
+                  <div className="h-full w-full bg-[color:var(--bg-alt)] flex items-center justify-center text-[color:var(--muted)]/20">
+                     <svg className="size-12" fill="currentColor" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" opacity="0.5"/></svg>
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+
+              <div className="flex flex-col flex-1 p-5">
+                <div className="mb-2 flex items-start justify-between gap-3">
+                    <h3 className="text-lg font-bold text-[color:var(--text)] group-hover:text-[color:var(--accent)] transition-colors line-clamp-1" title={p.title}>
+                        {p.title}
+                    </h3>
                 </div>
-                <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                  {p.summary}
+                
+                <p className="flex-1 text-sm text-[color:var(--muted)] line-clamp-3 mb-4 leading-relaxed">
+                    {p.summary}
                 </p>
-                <div className="mt-1 flex flex-wrap gap-1">
-                  {p.tech.map((tch) => (
-                    <span key={tch} className="text-xs px-2 py-0.5 rounded-full chip">
-                      {tch}
+
+                <div className="flex items-center justify-between pt-3 border-t border-[color:var(--border)]/50 mt-auto">
+                    <span
+                        className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium tracking-wide uppercase"
+                        style={{ background: bg, color: fg }}
+                    >
+                        <span className="size-1.5 rounded-full" style={{ background: fg }} />
+                        {t(`status.${s}`)}
                     </span>
-                  ))}
+                    
+                    {/* Optional: Add a subtle 'View' or arrow icon */}
+                     <span className="text-[color:var(--accent)] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                        →
+                     </span>
                 </div>
               </div>
             </article>

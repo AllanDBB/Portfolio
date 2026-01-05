@@ -33,12 +33,13 @@ function Icon({ name }: { name: 'linkedin' | 'github' | 'cv' | 'instagram' }) {
 
 export function NavBar() {
   return (
-    <header className="sticky top-0 z-30" style={{ background: 'transparent' }}>
+    <header className="sticky top-0 z-30" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)' }}>
       <div className="max-w-6xl mx-auto px-4 py-3">
         <nav className="flex items-center justify-center">
-          <div className="rounded-full px-2 py-1 card">
-            <div className="flex items-center gap-1.5">
+          <div className="rounded-full px-4 py-2 bg-white/50 border border-[color:var(--border)] shadow-sm">
+            <div className="flex items-center gap-3">
               <img src="/Logo.svg" alt="logo" className="size-6" />
+              <div className="h-4 w-px bg-[color:var(--border)]" />
               {links.map((l) => (
                 <a
                   key={l.key}
@@ -47,7 +48,7 @@ export function NavBar() {
                   aria-label={l.label}
                   target={l.href.startsWith('http') ? '_blank' : undefined}
                   rel={l.href.startsWith('http') ? 'noreferrer' : undefined}
-                  className="inline-flex items-center justify-center size-8 rounded-full chip hover:opacity-90"
+                  className="inline-flex items-center justify-center size-8 rounded-full text-[color:var(--muted)] hover:bg-[color:var(--bg-alt)] hover:text-[color:var(--accent)] transition-all duration-200"
                 >
                   <Icon name={l.key} />
                 </a>

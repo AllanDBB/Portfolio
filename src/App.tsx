@@ -6,14 +6,11 @@ import { Tabs } from './components/Tabs'
 import { ProjectBoard } from './components/ProjectBoard'
 import type { Project } from './types'
 import { profile } from './data/profile'
-import { StartupsSection } from './components/StartupsSection'
-import { startups } from './data/startups'
 import { useI18n } from './i18n'
 import { LanguageToggle } from './components/LanguageToggle'
 import { Footer } from './components/Footer'
 import { NavBar } from './components/NavBar'
 import { ProjectModal } from './components/ProjectModal'
-import { BackgroundDecor } from './components/BackgroundDecor'
 
 export default function App() {
   const { locale, t } = useI18n()
@@ -23,13 +20,12 @@ export default function App() {
 
   const categories = useMemo(
     () => [
-      { id: 'laborales', label: t('tabs.laborales'), icon: '/figures/Trabajando.png' },
-      { id: 'tecnologicos', label: t('tabs.tecnologicos'), icon: '/figures/Programando.png' },
-      { id: 'cientificos', label: t('tabs.cientificos'), icon: '/figures/Cientifico.png' },
-      { id: 'gastronomia', label: t('tabs.gastronomia'), icon: '/figures/Cocinando.png' },
-      { id: 'voluntariados', label: t('tabs.voluntariados'), icon: '/figures/Voluntariado.png' },
-      { id: 'conferencias', label: t('tabs.conferencias'), icon: '/figures/Conferencia.png' },
-      { id: 'premios', label: t('tabs.premios'), icon: '/figures/Premios.png' },
+      { id: 'laborales', label: t('tabs.laborales') },
+      { id: 'proyectos', label: t('tabs.proyectos') },
+      { id: 'cartas', label: t('tabs.cartas') },
+      { id: 'voluntariados', label: t('tabs.voluntariados') },
+      { id: 'conferencias', label: t('tabs.conferencias') },
+      { id: 'premios', label: t('tabs.premios') },
     ],
     [t]
   )
@@ -45,45 +41,44 @@ export default function App() {
   const note = t(`notes.${active}`)
 
   return (
-    <div className="min-h-screen relative">
-      {/* Top container: night sky behind navbar and hero */}
-      <div className="relative mb-6">
-        <BackgroundDecor active={active} scope="section" cutoff="top" />
-        <div className="relative z-10">
-          <NavBar />
-          <div className="max-w-6xl mx-auto px-4 py-6" style={selected ? { filter: 'blur(4px)' } : undefined}>
-            <div className="flex justify-end mb-4">
-              <LanguageToggle />
+    <div className="min-h-screen flex flex-col font-sans text-[color:var(--text)] bg-[color:var(--bg)]">
+      
+      {/* Section 1: Header & Intro (White) */}
+      <section className="w-full bg-[color:var(--bg)] pb-10">
+        <NavBar />
+        <div className="max-w-6xl mx-auto px-4 pt-4" style={selected ? { filter: 'blur(4px)' } : undefined}>
+          <div className="flex justify-end mb-6">
+            <LanguageToggle />
+          </div>
+          <div className="grid grid-cols-12 gap-6">
+            <div className="col-span-12 md:col-span-9">
+              <Hero name={profile.name} about={profile.about[locale]} avatars={profile.avatars} />
             </div>
-            <div className="grid grid-cols-12 gap-4">
-              <div className="col-span-12 md:col-span-9">
-                <Hero name={profile.name} about={profile.about[locale]} avatars={profile.avatars} />
-              </div>
-              <div className="hidden md:block md:col-span-3">
-                <StatsPanel title={t('languages')} stats={profile.languages[locale]} />
-              </div>
-              <div className="col-span-12">
-                <TechBar title={t('technologies')} imageUrl={profile.techBanner} />
-              </div>
+            <div className="hidden md:block md:col-span-3">
+              <StatsPanel title={t('languages')} stats={profile.languages[locale]} />
+            </div>
+            <div className="col-span-12">
+              <TechBar title={t('technologies')} imageUrl={profile.techBanner} />
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Rest of the page on light background */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 py-6" style={selected ? { filter: 'blur(4px)' } : undefined}>
-        <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-12">
-            <StartupsSection title={t('startups')} seeAllLabel={t('seeAll')} items={startups as any} />
+      {/* Section 2: Projects & Content (Alt Background) */}
+      <section className="w-full flex-1 bg-[color:var(--bg-alt)] py-12 border-t border-[color:var(--border)]">
+        <div className="max-w-6xl mx-auto px-4 space-y-12" style={selected ? { filter: 'blur(4px)' } : undefined}>
+          
+          <div className="grid grid-cols-12 gap-6">
+            <div className="col-span-12">
+              <Tabs tabs={categories} active={active} onChange={setActive} />
+            </div>
+            <div className="col-span-12">
+              <ProjectBoard projects={filtered} note={note} onOpen={(p) => setSelected(p)} />
+            </div>
           </div>
-          <div className="col-span-12">
-            <Tabs tabs={categories} active={active} onChange={setActive} />
-          </div>
-          <div className="col-span-12">
-            <ProjectBoard projects={filtered} note={note} onOpen={(p) => setSelected(p)} />
-          </div>
+
         </div>
-      </div>
+      </section>
 
       {selected && <ProjectModal project={selected} onClose={() => setSelected(null)} />}
       <Footer />

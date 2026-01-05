@@ -8,8 +8,10 @@ export function LanguageToggle() {
     <button
       onClick={() => setLocale(code)}
       className={
-        'px-2 py-1 rounded-full text-xs transition ' +
-        (locale === code ? 'card font-medium' : 'chip hover:opacity-90')
+        'px-3 py-1.5 rounded-full text-xs font-medium transition-all ' +
+        (locale === code 
+            ? 'bg-[color:var(--text)] text-[color:var(--bg)] shadow-md' 
+            : 'text-[color:var(--muted)] hover:text-[color:var(--text)] hover:bg-[color:var(--bg-alt)]')
       }
       aria-pressed={locale === code}
     >
@@ -18,7 +20,7 @@ export function LanguageToggle() {
   )
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1 bg-white p-1 rounded-full border border-[color:var(--border)] shadow-sm">
       {btn('es', 'ES')}
       {btn('en', 'EN')}
     </div>

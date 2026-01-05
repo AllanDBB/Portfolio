@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  /* Paleta clara revisada (gris claro inspirado en iconos) */
-  --bg: #f7f7f8; /* gris muy claro */
-  --card: #ffffff; /* blanco base */
-  --border: #e7e1db; /* beige grisáceo */
-  --text: #1f1f1f; /* casi negro */
-  --muted: #6b6b6b; /* gris texto secundario */
-  --accent: #ff7aa2; /* rosa startup */
-  --accent-2: #7ac4ff; /* azul startup */
+  /* Minimalist: White, Black, Turquoise */
+  --bg: #ffffff;
+  --bg-alt: #f3f4f6; /* zinc-100 for section contrast */
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --text: #111827; /* gray-900 */
+  --muted: #6b7280; /* gray-500 */
+  --accent: #0d9488; /* teal-600 */
+  --accent-light: #ccfbf1; /* teal-100 */
+  --text-on-accent: #ffffff;
 }
 
 html, body, #root { height: 100%; }
@@ -17,98 +19,42 @@ body {
   margin: 0;
   color: var(--text);
   background: var(--bg);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .card {
   background: var(--card);
   border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
 }
 
 .chip {
-  background: #f3f2f1;
+  background: #f9fafb;
   border: 1px solid var(--border);
-}
-
-.accent-ring { box-shadow: 0 0 0 3px rgba(255, 122, 162, 0.25); }
-
-/* Aesthetic helpers for the Tech section */
-.soft-shadow { box-shadow: 0 8px 28px rgba(0,0,0,0.06); }
-.gradient-frame {
-  background: linear-gradient(90deg, rgba(255,122,162,0.35), rgba(122,196,255,0.35));
-  padding: 1px; /* border thickness */
+  transition: all 0.2s ease;
   border-radius: 9999px;
+  color: var(--text);
 }
-.pill-inner {
-  background: var(--card);
-  border-radius: 9999px;
-}
-
-/* subtle floating animation for small avatars */
-@keyframes bob {
-  0% { transform: translateY(0) }
-  50% { transform: translateY(-2px) }
-  100% { transform: translateY(0) }
-}
-.float-slow { animation: bob 6s ease-in-out infinite; }
-.float-slower { animation: bob 8s ease-in-out infinite; }
-.float-slowest { animation: bob 10s ease-in-out infinite; }
-
-/* gentle drifting/rotation for background blobs */
-@keyframes drift {
-  0% { transform: translate3d(0, 0, 0) }
-  50% { transform: translate3d(10px, -8px, 0) }
-  100% { transform: translate3d(0, 0, 0) }
-}
-@keyframes drift2 {
-  0% { transform: translate3d(0, 0, 0) }
-  50% { transform: translate3d(-12px, 10px, 0) }
-  100% { transform: translate3d(0, 0, 0) }
-}
-@keyframes slow-rotate {
-  0% { transform: rotate(0deg) }
-  100% { transform: rotate(360deg) }
-}
-.drift-slow { animation: drift 22s ease-in-out infinite; }
-.drift-medium { animation: drift2 26s ease-in-out infinite; }
-.drift-slowest { animation: drift 32s ease-in-out infinite; }
-.rotate-slower { animation: slow-rotate 120s linear infinite; }
-
-/* Aurora shift for dark background */
-@keyframes aurora {
-  0% { background-position: 0% 50% }
-  50% { background-position: 100% 50% }
-  100% { background-position: 0% 50% }
-}
-.aurora {
-  background-size: 220% 220%;
-  animation: aurora 36s ease-in-out infinite;
-  mix-blend-mode: screen;
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-/* Background figure responsive sizing for mobile/Desktop */
-.bg-figure {
-  width: min(68vw, 300px);
-  opacity: 0.32;
-  transform: translate(-6%, 4%);
-  filter: drop-shadow(0 8px 28px rgba(0,0,0,0.08));
-  transition: opacity 220ms ease;
-}
-@media (min-width: 768px) {
-  .bg-figure {
-    width: min(34vw, 480px);
-    opacity: 0.36;
-    transform: translate(-8%, 6%);
-  }
+/* Formal focus rings */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
-/* Small bubble icon for tabs */
+/* Simple shadows */
+.soft-shadow {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
 .tab-bubble {
-  width: 22px;
-  height: 22px;
-  border-radius: 9999px;
-  background: #fff;
-  border: 1px solid var(--border);
-  overflow: hidden;
+  display: none; /* Hide old bubbles if any remain */
 }
+

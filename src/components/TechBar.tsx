@@ -6,17 +6,17 @@ interface Props {
 
 export function TechBar({ tech, imageUrl, title = 'Technologies' }: Props) {
   return (
-    <section className="mt-3">
-      <h3 className="mb-2 text-sm font-medium text-neutral-200 drop-shadow-sm">{title}</h3>
+    <section className="mt-8">
+      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[color:var(--muted)]">{title}</h3>
       <div className="px-0 py-0">
         {imageUrl ? (
-          // framed pill with soft gradient border
-          <div className="gradient-frame soft-shadow">
-            <div className="pill-inner px-4 py-2 flex items-center justify-center">
+          // framed pill with simple border
+          <div className="rounded-xl border border-[color:var(--border)] bg-[color:var(--card)] soft-shadow overflow-hidden">
+            <div className="px-6 py-5 flex items-center justify-center">
               <img
                 src={imageUrl}
                 alt="Technologies"
-                className="mx-auto h-10 sm:h-12 md:h-14 object-contain max-w-full"
+                className="mx-auto h-12 sm:h-14 md:h-16 object-contain max-w-full"
               />
             </div>
           </div>
