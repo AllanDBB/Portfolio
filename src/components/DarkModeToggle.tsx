@@ -4,7 +4,7 @@ export function DarkModeToggle() {
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme')
-      return saved === 'dark'
+      return saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)
     }
     return false
   })
