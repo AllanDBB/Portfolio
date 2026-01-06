@@ -12,9 +12,9 @@ export const profile: Profile = {
   name: 'Allan Bolaños B.',
   about: {
     en:
-      "I'm a Computer Engineering student at ITCR and a builder at heart. I enjoy designing systems, playing with data and algorithms, and exploring the frontiers between science and software — from bioinformatics to a bit of quantum curiosity. I love technology, science and gastronomy; I learn fast, iterate faster, and keep things simple. From Costa Rica 🦥.",
+      "I'm a Computer Engineering student at ITCR. I enjoy designing systems, playing with data and algorithms, and exploring the frontiers between science and software from bioinformatics to a bit of quantum curiosity. I love technology, science and gastronomy; I learn fast, iterate faster, and keep things simple. From Costa Rica 🦥.",
     es:
-      'Soy estudiante de Ingeniería en Computación en el TEC y, sobre todo, un builder. Disfruto diseñar sistemas, jugar con datos y algoritmos, y explorar la frontera entre ciencia y software — de la bioinformática a un poco de curiosidad cuántica. Amo la tecnología, la ciencia y la gastronomía; aprendo rápido, itero más rápido y mantengo las cosas simples. Desde Costa Rica 🦥.',
+      'Soy estudiante de Ingeniería en Computación en el TEC. Disfruto diseñar sistemas, jugar con datos y algoritmos, y explorar la frontera entre ciencia y software. De la bioinformática a un poco de curiosidad cuántica. Amo la tecnología, la ciencia y la gastronomía; aprendo rápido, itero más rápido y mantengo las cosas simples. Desde Costa Rica 🦥.',
   },
   techBanner:
     'https://skillicons.dev/icons?i=python,java,cpp,html,css,js,react,vue,astro,django,nodejs,express,github,vscode,solidity&perline=20',
