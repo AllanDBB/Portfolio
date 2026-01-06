@@ -18,11 +18,15 @@ function statusStyle(s: Status) {
 }
 
 export function ProjectBoard({ projects, note, pageSize = 6, onOpen }: { projects: Project[]; note?: string; pageSize?: number; onOpen?: (p: Project) => void }) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [page, setPage] = useState<number>(1)
   useEffect(() => {
     setPage(1)
   }, [projects])
+
+  const getSummary = (summary: string | { es: string; en: string }) => {
+    return typeof summary === 'string' ? summary : summary[locale]
+  }
 
   const total = projects.length
   const pages = Math.max(1, Math.ceil(total / pageSize))
@@ -70,7 +74,7 @@ export function ProjectBoard({ projects, note, pageSize = 6, onOpen }: { project
           return (
             <article
               key={p.id}
-              className="group relative flex flex-col h-full rounded-xl overflow-hidden card cursor-pointer transition-all duration-300 hover:shadow-md hover:-translate-y-1 bg-white border border-[color:var(--border)]"
+              className="group relative flex flex-col h-full rounded-xl overflow-hidden card cursor-pointer transition-all duration-300 hover:shadow-md hover:-translate-y-1 bg-[color:var(--card)] border border-[color:var(--border)]"
               onClick={() => onOpen?.(p)}
             >
               {/* Image Container with subtle overlay on hover */}
@@ -87,13 +91,18 @@ export function ProjectBoard({ projects, note, pageSize = 6, onOpen }: { project
 
               <div className="flex flex-col flex-1 p-5">
                 <div className="mb-2 flex items-start justify-between gap-3">
+                  <div className="flex-1">
+                    {p.company && (
+                      <p className="text-xs font-medium text-[color:var(--accent)] mb-1">{p.company}</p>
+                    )}
                     <h3 className="text-lg font-bold text-[color:var(--text)] group-hover:text-[color:var(--accent)] transition-colors line-clamp-1" title={p.title}>
                         {p.title}
                     </h3>
+                  </div>
                 </div>
                 
                 <p className="flex-1 text-sm text-[color:var(--muted)] line-clamp-3 mb-4 leading-relaxed">
-                    {p.summary}
+                    {getSummary(p.summary)}
                 </p>
 
                 <div className="flex items-center justify-between pt-3 border-t border-[color:var(--border)]/50 mt-auto">

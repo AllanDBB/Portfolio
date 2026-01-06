@@ -21,7 +21,7 @@ export function Hero({ name, about, avatarUrl, avatars }: Props) {
         <div className="relative shrink-0">
           <div className="size-32 md:size-40 rounded-full overflow-hidden border-2 border-white shadow-lg ring-2 ring-[color:var(--accent)] ring-offset-2 ring-offset-transparent">
             {mainSrc ? (
-              <img src={mainSrc} alt={name} className="w-full h-full object-cover" />
+              <img src={mainSrc} alt={name} className="w-full h-full object-cover object-[center_35%]" />
             ) : (
                 <div className="w-full h-full bg-[color:var(--muted)]/10" />
             )}

@@ -11,6 +11,7 @@ import { LanguageToggle } from './components/LanguageToggle'
 import { Footer } from './components/Footer'
 import { NavBar } from './components/NavBar'
 import { ProjectModal } from './components/ProjectModal'
+import RecommendationLetters from './components/RecommendationLetters'
 
 export default function App() {
   const { locale, t } = useI18n()
@@ -23,6 +24,7 @@ export default function App() {
       { id: 'laborales', label: t('tabs.laborales') },
       { id: 'proyectos', label: t('tabs.proyectos') },
       { id: 'cartas', label: t('tabs.cartas') },
+      { id: 'papers', label: t('tabs.papers') },
       { id: 'voluntariados', label: t('tabs.voluntariados') },
       { id: 'conferencias', label: t('tabs.conferencias') },
       { id: 'premios', label: t('tabs.premios') },
@@ -73,7 +75,11 @@ export default function App() {
               <Tabs tabs={categories} active={active} onChange={setActive} />
             </div>
             <div className="col-span-12">
-              <ProjectBoard projects={filtered} note={note} onOpen={(p) => setSelected(p)} />
+              {active === 'cartas' ? (
+                <RecommendationLetters />
+              ) : (
+                <ProjectBoard projects={filtered} note={note} onOpen={(p) => setSelected(p)} />
+              )}
             </div>
           </div>
 

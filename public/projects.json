@@ -1,17 +1,241 @@
 [
-  {"id":"p2","title":"Demo IA","category":"proyectos","summary":"Prototipo con embeddings y RAG","tech":["Python","FastAPI"],"status":"in_progress"},
-  {"id":"p3","title":"Paper X","category":"proyectos","summary":"Análisis de datos y visualización","tech":["R","D3"],"status":"planned"},
-  {"id":"p4","title":"Recetario de familia","category":"gastronomia","summary":"Colección de recetas con fotos","tech":["Next.js"],"status":"canceled"},
-  {"id":"p5","title":"IEEE Student Branch","category":"voluntariados","summary":"Organización de actividades y mentoring","tech":["Leadership"],"status":"done"},
-  {"id":"p6","title":"Charla: Intro a RAG","category":"conferencias","summary":"Workshop para devs sobre RAG y vectores","tech":["Slides","Demo"],"status":"done"},
-  {"id":"p7","title":"Premio Hackathon X","category":"premios","summary":"1er lugar por solución de impacto","tech":["Team"],"status":"done"},
+  {
+    "id":"work1",
+    "title":"AI Research Assistant – Biomedical Time Series & Arrhythmia Detection",
+    "category":"laborales",
+    "company":"Tecnológico de Costa Rica",
+    "summary":{
+      "es":"Diseñé y evalué modelos de machine learning para detección temprana de eventos arrítmicos usando datos de series temporales cardíacas. Implementé técnicas de change point detection y anomaly detection para identificar patrones fisiológicos anormales.",
+      "en":"Designed and evaluated machine learning models for early detection of arrhythmic events using cardiac time series data. Implemented change point detection and anomaly detection techniques to identify abnormal physiological patterns."
+    },
+    "tech":["Machine Learning","Time Series Analysis","Signal Processing","Python","Change Point Detection"],
+    "status":"in_progress",
+    "imageUrl":"/images/biomedical.png",
+    "link":"https://www.tec.ac.cr"
+  },
+  {
+    "id":"work3",
+    "title":"Backend & Software Architecture Engineer – Petziclub",
+    "category":"laborales",
+    "company":"Petziclub",
+    "summary":{
+      "es":"Arquitecté e implementé servicios backend escalables y REST APIs. Definí arquitectura de sistema incluyendo descomposición de servicios, flujo de datos y patrones de integración. Optimicé diseño de base de datos y rendimiento de backend. Utilicé despliegues basados en Docker y ambientes de hosting en la nube.",
+      "en":"Architected and implemented scalable backend services and REST APIs. Defined system architecture including service decomposition, data flow, and integration patterns. Optimized database design and backend performance. Used Docker-based deployments and cloud hosting environments."
+    },
+    "tech":["Node.js","Express.js","Docker","REST API","System Design","MongoDB"],
+    "status":"in_progress",
+    "imageUrl":"/images/petzibackend.png",
+    "link":"https://petziclub.com"
+  },
+  {
+    "id":"work5",
+    "title":"Frontend Developer – Colegio Científico de Alajuela",
+    "category":"laborales",
+    "company":"Colegio Científico de Alajuela",
+    "summary":{
+      "es":"Desarrollé y optimicé una plataforma web usando React, HTML y Tailwind CSS, mejorando la experiencia de usuario y reduciendo tiempos de carga en ~30%. Implementé microservicio basado en Node.js para manejar solicitudes de datos en tiempo real, reduciendo latencia operacional en 25%. Diseñé arquitectura modular que mejoró escalabilidad del sistema.",
+      "en":"Developed and optimized a web platform using React, HTML, and Tailwind CSS, improving user experience and reducing load times by ~30%. Implemented Node.js-based microservice to handle real-time data requests, reducing operational latency by 25%. Designed modular architecture that improved system scalability."
+    },
+    "tech":["React","Node.js","Tailwind CSS","Microservices","Performance Optimization"],
+    "status":"in_progress",
+    "imageUrl":"/images/ccalajuela.png",
+    "link":"https://ccalajuela.ed.cr"
+  },
+  {
+    "id":"work2",
+    "title":"AI Research Assistant – Time Series & Anomaly Detection",
+    "category":"laborales",
+    "company":"Tecnológico de Costa Rica",
+    "summary":{
+      "es":"Comparé 16 algoritmos de change point detection online en datasets sintéticos y reales. Analicé el rendimiento de algoritmos bajo condiciones de alto ruido. Implementé modelos de ML para predicción de deserción y análisis de patrones de comportamiento. Desarrollé herramienta web de etiquetado para flujos de entrenamiento supervisado.",
+      "en":"Compared 16 online change point detection algorithms on synthetic and real datasets. Analyzed algorithm performance under high-noise conditions. Implemented ML models for dropout prediction and behavioral pattern analysis. Developed web-based labeling tool for supervised training workflows."
+    },
+    "tech":["Python","Machine Learning","Statistical Modeling","Anomaly Detection","Web Development"],
+    "status":"done",
+    "imageUrl":"/images/timeseries.png",
+    "link":"https://dcp-itcr-ashen.vercel.app/"
+  },
+  {
+    "id":"work4",
+    "title":"Full Stack Developer – Petziclub",
+    "category":"laborales",
+    "company":"Petziclub",
+    "summary":{
+      "es":"Construí aplicaciones full-stack usando Node.js (Express) y React Native. Entregué componentes frontend responsivos y lógica de negocio backend. Contribuí a una arquitectura orientada a microservicios que soporta escalamiento futuro.",
+      "en":"Built full-stack applications using Node.js (Express) and React Native. Delivered responsive frontend components and backend business logic. Contributed to a microservices-oriented architecture that supports future scaling."
+    },
+    "tech":["Node.js","Express.js","React Native","MongoDB","Microservices"],
+    "status":"done",
+    "imageUrl":"/images/petzifulstack.png",
+    "link":"https://petziclub.com"
+  },
+  {
+    "id":"work6",
+    "title":"Assistant Database Administrator – Centennial Partners",
+    "category":"laborales",
+    "company":"Centennial Partners",
+    "summary":{
+      "es":"Soporté tareas de gestión de base de datos y modificaciones de sistema, asegurando integridad de datos y eficiencia operacional. Trabajé con SQL y MySQL para optimizar consultas y mejorar rendimiento de base de datos. Implementé actualizaciones y procedimientos de mantenimiento de base de datos.",
+      "en":"Supported database management tasks and system modifications, ensuring data integrity and operational efficiency. Worked with SQL and MySQL to optimize queries and improve database performance. Implemented database updates and maintenance procedures."
+    },
+    "tech":["SQL","MySQL","Database Management","Query Optimization"],
+    "status":"done",
+    "imageUrl":"/images/centennial_partners.png",
+    "link":"https://www.linkedin.com/company/centennial-partnerstwr/"
+  },
 
-  {"id":"p8","title":"Centennial Partners","category":"laborales","summary":"Database Assistant – SQL/MySQL, gestión y optimización de datos","tech":["SQL","MySQL"],"status":"done"},
-  {"id":"p9","title":"Petziclub","category":"laborales","summary":"Full Stack Developer – App escalable con Node.js y React Native","tech":["Node.js","React Native","MongoDB"],"status":"done"},
-  {"id":"p10","title":"Scientific High School of Alajuela","category":"laborales","summary":"Web Developer – React app con dashboard responsivo","tech":["React"],"status":"in_progress"},
-  {"id":"p11","title":"Costa Rica Institute of Technology","category":"laborales","summary":"Research Assistant – ML en Change Point Detection y predicción de deserción","tech":["Machine Learning","Python"],"status":"in_progress"},
+  {
+    "id":"proj1",
+    "title":"Herramienta Web de Etiquetado para ML",
+    "category":"proyectos",
+    "summary":{
+      "es":"Desarrollé una herramienta web interactiva para etiquetar datasets de series temporales, facilitando flujos de trabajo de entrenamiento supervisado. La aplicación permite visualización de datos, anotación manual y exportación de etiquetas para modelos de ML.",
+      "en":"Developed an interactive web tool for labeling time series datasets, facilitating supervised training workflows. The application allows data visualization, manual annotation, and label export for ML models."
+    },
+    "tech":["React","Python","Data Visualization","Web Development"],
+    "status":"done",
+    "imageUrl":"/images/dcp.png",
+    "link":"https://dcp-itcr-ashen.vercel.app/"
+  },
+  {
+    "id":"proj2",
+    "title":"Sitio Web Colegio Científico de Alajuela",
+    "category":"proyectos",
+    "summary":{
+      "es":"Diseñé y desarrollé el sitio web institucional del Colegio Científico de Alajuela, proporcionando una plataforma moderna y accesible para compartir información sobre programas académicos, noticias y recursos para estudiantes y padres de familia.",
+      "en":"Designed and developed the institutional website for Colegio Científico de Alajuela, providing a modern and accessible platform to share information about academic programs, news, and resources for students and parents."
+    },
+    "tech":["React","TypeScript","Tailwind CSS","Web Development"],
+    "status":"done",
+    "imageUrl":"/images/ccalajuela_web.png",
+    "link":"https://ccalajuela.ed.cr/"
+  },
+  {
+    "id":"proj3",
+    "title":"Sitio Web Petziclub",
+    "category":"proyectos",
+    "summary":{
+      "es":"Desarrollé el sitio web corporativo de Petziclub, una plataforma completa para servicios de cuidado de mascotas. El sitio incluye catálogo de productos, sistema de reservas, galería de servicios y panel informativo para dueños de mascotas.",
+      "en":"Developed the corporate website for Petziclub, a comprehensive platform for pet care services. The site includes product catalog, booking system, service gallery, and informative panel for pet owners."
+    },
+    "tech":["React","TypeScript","Tailwind CSS","Web Development"],
+    "status":"done",
+    "imageUrl":"/images/petziweb.png",
+    "link":"https://petziclub.com"
+  },
+  {
+    "id":"proj4",
+    "title":"KuraForce Website",
+    "category":"proyectos",
+    "summary":{
+      "es":"Desarrollé sitio web como freelance para KuraForce. Implementé interfaz frontend moderna y responsiva con diseño atractivo y experiencia de usuario optimizada.",
+      "en":"Developed website as a freelancer for KuraForce. Implemented modern and responsive frontend interface with attractive design and optimized user experience."
+    },
+    "tech":["React","Frontend","UI/UX","Responsive Design"],
+    "status":"done",
+    "imageUrl":"/images/kura.png",
+    "link":"https://kuraforce.vercel.app/"
+  },
 
-  {"id":"p12","title":"World Robot Olympiad International 2023","category":"premios","summary":"1st Place – AI Project Category","tech":["AI"],"status":"done"},
-  {"id":"p13","title":"National Programming Olympiad 2023","category":"premios","summary":"Absolute Gold Medal – Costa Rica","tech":["Algorithms","Programming"],"status":"done"},
-  {"id":"p14","title":"RetoMarte 2024","category":"premios","summary":"Winner – Avance a finales internacionales en España","tech":["Innovation","Teamwork"],"status":"done"}
+  {
+    "id":"vol1",
+    "title":"Chair – IEEE EMBS TEC Student Chapter",
+    "category":"voluntariados",
+    "summary":{
+      "es":"Lideré el capítulo estudiantil de IEEE Engineering in Medicine and Biology Society en el TEC. Organicé actividades, workshops y eventos de mentoría para estudiantes interesados en ingeniería biomédica y aplicaciones de ML en salud.",
+      "en":"Led the IEEE Engineering in Medicine and Biology Society student chapter at TEC. Organized activities, workshops, and mentoring events for students interested in biomedical engineering and ML applications in healthcare."
+    },
+    "tech":["Leadership","Event Planning","Mentoring"],
+    "status":"in_progress",
+    "imageUrl":"/images/embs_chair.jpg"
+  },
+  {
+    "id":"vol2",
+    "title":"Student Volunteer – ACM ICIMI Costa Rica 2024",
+    "category":"voluntariados",
+    "summary":{
+      "es":"Voluntario estudiantil en la conferencia ACM International Conference on Intelligent Manufacturing and Internet of Things. Apoyé logística, coordinación de eventos y asistencia a participantes.",
+      "en":"Student volunteer at the ACM International Conference on Intelligent Manufacturing and Internet of Things. Supported logistics, event coordination, and participant assistance."
+    },
+    "tech":["Event Support","Networking","Coordination"],
+    "status":"done",
+    "imageUrl":"/images/BIP.png"
+  },
+  {
+    "id":"vol3",
+    "title":"Volunteer – IEEE Costa Rica Section Conferences",
+    "category":"voluntariados",
+    "summary":{
+      "es":"Participé como voluntario en múltiples conferencias organizadas por la sección de IEEE Costa Rica, colaborando en organización de eventos técnicos y networking profesional.",
+      "en":"Participated as a volunteer in multiple conferences organized by the IEEE Costa Rica section, collaborating in technical event organization and professional networking."
+    },
+    "tech":["Event Organization","Technical Support","Community Building"],
+    "status":"done",
+    "imageUrl":"/images/CONCAPAN.jpg"
+  },
+
+  {
+    "id":"talk1",
+    "title":"AlphaFold Workshop – Protein Structure Prediction using AI",
+    "category":"conferencias",
+    "summary":{
+      "es":"Participé en workshop especializado sobre predicción de estructura de proteínas usando AlphaFold y técnicas de inteligencia artificial aplicadas a bioinformática.",
+      "en":"Participated in specialized workshop on protein structure prediction using AlphaFold and artificial intelligence techniques applied to bioinformatics."
+    },
+    "tech":["AI","Bioinformatics","AlphaFold","Machine Learning"],
+    "status":"done",
+    "imageUrl":"/images/workshop_alphafold.jpg",
+    "link":"https://www.ucr.ac.cr"
+  },
+
+  {
+    "id":"paper1",
+    "title":"Benchmarking Online Change Point Detection Algorithms",
+    "category":"papers",
+    "summary":{
+      "es":"Artículo de investigación que compara 16 algoritmos de detección de puntos de cambio online en datasets sintéticos y reales. Análisis exhaustivo del rendimiento bajo condiciones de alto ruido, identificando trade-offs de robustez y aplicabilidad.",
+      "en":"Research article comparing 16 online change point detection algorithms on synthetic and real datasets. Comprehensive performance analysis under high-noise conditions, identifying robustness and applicability trade-offs."
+    },
+    "tech":["Time Series Analysis","Statistical Analysis","Machine Learning","Python","Research"],
+    "status":"paper",
+    "imageUrl":"/images/timeseries_paper.png",
+    "link":"/papers/ChangePoint_manuscript__Final.pdf"
+  },
+
+  {
+    "id":"award1",
+    "title":"World Robot Olympiad International 2023",
+    "category":"premios",
+    "summary":{
+      "es":"1er lugar en la categoría AI Project en la competencia internacional World Robot Olympiad 2023. Desarrollé solución innovadora utilizando inteligencia artificial para resolver desafíos de robótica.",
+      "en":"1st place in the AI Project category at the World Robot Olympiad International 2023. Developed innovative solution using artificial intelligence to solve robotics challenges."
+    },
+    "tech":["AI","Robotics","Competition","Innovation"],
+    "status":"done",
+    "imageUrl":"/images/wro.jpg"
+  },
+  {
+    "id":"award2",
+    "title":"National Programming Olympiad 2023",
+    "category":"premios",
+    "summary":{
+      "es":"Medalla de oro absoluta en la Olimpiada Nacional de Programación 2023 en Costa Rica. Demostré habilidades avanzadas en algoritmos, estructuras de datos y resolución de problemas computacionales.",
+      "en":"Absolute gold medal at the National Programming Olympiad 2023 in Costa Rica. Demonstrated advanced skills in algorithms, data structures, and computational problem-solving."
+    },
+    "tech":["Algorithms","Competitive Programming","Problem Solving"],
+    "status":"done",
+    "imageUrl":"/images/oci.png"
+  },
+  {
+    "id":"award3",
+    "title":"RetoMarte 2024",
+    "category":"premios",
+    "summary":{
+      "es":"Ganador de RetoMarte 2024, avanzando a finales internacionales en España. Proyecto enfocado en innovación tecnológica y trabajo en equipo para resolver desafíos de impacto social.",
+      "en":"Winner of RetoMarte 2024, advancing to international finals in Spain. Project focused on technological innovation and teamwork to solve social impact challenges."
+    },
+    "tech":["Innovation","Teamwork","International Competition"],
+    "status":"done",
+    "imageUrl":"/images/retomarte.jpg"
+  }
 ]

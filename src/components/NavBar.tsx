@@ -1,4 +1,5 @@
 import { links } from '../data/links'
+import { DarkModeToggle } from './DarkModeToggle'
 
 function Icon({ name }: { name: 'linkedin' | 'github' | 'cv' | 'instagram' }) {
   const common = { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'currentColor' } as const
@@ -33,10 +34,10 @@ function Icon({ name }: { name: 'linkedin' | 'github' | 'cv' | 'instagram' }) {
 
 export function NavBar() {
   return (
-    <header className="sticky top-0 z-30" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)' }}>
+    <header className="sticky top-0 z-30 bg-[color:var(--bg)]/85 backdrop-blur-md border-b border-[color:var(--border)]">
       <div className="max-w-6xl mx-auto px-4 py-3">
-        <nav className="flex items-center justify-center">
-          <div className="rounded-full px-4 py-2 bg-white/50 border border-[color:var(--border)] shadow-sm">
+        <nav className="flex items-center justify-between">
+          <div className="rounded-full px-4 py-2 bg-[color:var(--card)]/50 border border-[color:var(--border)] shadow-sm">
             <div className="flex items-center gap-3">
               <img src="/Logo.svg" alt="logo" className="size-6" />
               <div className="h-4 w-px bg-[color:var(--border)]" />
@@ -55,6 +56,7 @@ export function NavBar() {
               ))}
             </div>
           </div>
+          <DarkModeToggle />
         </nav>
       </div>
     </header>
