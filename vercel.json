@@ -6,7 +6,7 @@
       "permanent": false
     },
     {
-      "source": "/?",
+      "source": "/fa",
       "destination": "https://yellow-flowers-kappa.vercel.app/",
       "permanent": false
     }
