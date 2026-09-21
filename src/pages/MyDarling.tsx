@@ -266,22 +266,22 @@ const PETS = [
 ] as const
 
 /**
- * Los marcos. `src: null` = todavía vacío, muestra el placeholder.
- * Para llenar uno: deja el archivo en public/my-darling/ y pon su ruta aquí.
- *   foto-1.jpg · foto-2.jpg · foto-3.jpg · foto-4.jpg (cuadradas se ven mejor)
+ * Los marcos. Los archivos viven en public/my-darling/.
+ * `pos` es el object-position: el marco recorta a cuadrado, así que cada
+ * foto lleva el suyo para que nadie quede cortado. `src: null` deja el marco
+ * vacío con su placeholder.
  */
-const PHOTOS: Array<{ src: string | null; cap: string; r: string; tr: string }> = [
-  { src: null, cap: 'tú', r: '-2.6deg', tr: '3deg' },
-  { src: null, cap: 'nosotros', r: '1.8deg', tr: '-4deg' },
-  { src: null, cap: 'ese día', r: '-1.2deg', tr: '5deg' },
-  { src: null, cap: 'la que más me gusta', r: '2.4deg', tr: '-2deg' },
+const PHOTOS: Array<{ src: string | null; cap: string; pos: string; r: string; tr: string }> = [
+  { src: '/my-darling/tu.jpeg', cap: 'tú', pos: '50% 0%', r: '-2.6deg', tr: '3deg' },
+  { src: '/my-darling/nosotros.jpeg', cap: 'nosotros', pos: '42% 50%', r: '1.8deg', tr: '-4deg' },
+  { src: '/my-darling/ese-dia.jpeg', cap: 'ese día', pos: '50% 50%', r: '-1.2deg', tr: '5deg' },
+  { src: '/my-darling/mifav.jpeg', cap: 'la que más me gusta', pos: '88% 50%', r: '2.4deg', tr: '-2deg' },
 ]
 
 export default function MyDarling() {
   const [season, setSeason] = useState(0)
   const [hatched, setHatched] = useState(false)
   const [sunNote, setSunNote] = useState(false)
-  const [loaded, setLoaded] = useState<Record<number, boolean>>({})
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   const field = useMemo(() => growField(20260921 + season), [season])
@@ -567,11 +567,11 @@ export default function MyDarling() {
               <span className="md-sec-label">nuestras fotos</span>
               <h2 className="md-h2">Este espacio ya es tuyo</h2>
               <p className="md-p">
-                Cuatro marcos esperando. En cuanto pongamos las fotos, el jardín queda completo.
+                Cuatro que me gusta tener a mano. Con estas, el jardín ya está completo.
               </p>
 
               <div className="md-photos">
-                {PHOTOS.map((p, i) => (
+                {PHOTOS.map((p) => (
                   <figure
                     className="md-frame"
                     key={p.cap}
@@ -584,13 +584,14 @@ export default function MyDarling() {
                           src={p.src}
                           alt={p.cap}
                           loading="lazy"
-                          onLoad={() => setLoaded((prev) => ({ ...prev, [i]: true }))}
+                          decoding="async"
+                          style={{ objectPosition: p.pos }}
                           onError={(e) => {
                             e.currentTarget.style.display = 'none'
                           }}
                         />
                       )}
-                      {!(p.src && loaded[i]) && (
+                      {!p.src && (
                         <span className="md-shot-empty">
                           <CameraMark />
                           tu foto aquí
