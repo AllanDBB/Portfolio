@@ -74,6 +74,16 @@ function ring(n: number, from = 0) {
   return Array.from({ length: n }, (_, i) => from + (360 / n) * i)
 }
 
+function Leaf({ fill, vein, transform }: { fill: string; vein: string; transform: string }) {
+  return (
+    <g transform={transform}>
+      <path d="M0 0 C16 -13 40 -9 54 5 C37 20 12 17 0 0 Z" fill={fill} />
+      <path d="M3 2 C19 2 39 5 52 7" fill="none" stroke={vein} strokeWidth="1.7" strokeLinecap="round" opacity="0.45" />
+      <path d="M14 -3 L20 4 M26 -5 L31 5 M38 -4 L41 6" stroke={vein} strokeWidth="1.1" strokeLinecap="round" opacity="0.3" />
+    </g>
+  )
+}
+
 function Flower({
   id,
   kind,
@@ -115,7 +125,9 @@ function Flower({
       {kind === 'tulipan' ? (
         <>
           <path d="M1 44 C-28 54 -34 96 -7 112 C-17 88 -11 62 1 44 Z" fill={leaf} />
+          <path d="M0 50 C-14 66 -16 92 -7 110" fill="none" stroke={low} strokeWidth="1.6" strokeLinecap="round" opacity="0.3" />
           <path d="M-1 66 C28 76 33 112 8 126 C17 104 11 82 -1 66 Z" fill={GREENS[(tone + 1) % GREENS.length]} />
+          <path d="M0 72 C14 88 16 110 8 124" fill="none" stroke={low} strokeWidth="1.6" strokeLinecap="round" opacity="0.3" />
         </>
       ) : kind === 'mimosa' ? (
         <>
@@ -128,8 +140,8 @@ function Flower({
         </>
       ) : (
         <>
-          <ellipse cx="-23" cy="72" rx="23" ry="9.5" fill={leaf} transform="rotate(-24 -23 72)" />
-          <ellipse cx="24" cy="106" rx="21" ry="9" fill={GREENS[(tone + 1) % GREENS.length]} transform="rotate(22 24 106)" />
+          <Leaf fill={leaf} vein={low} transform="translate(-2 66) rotate(155) scale(0.92)" />
+          <Leaf fill={GREENS[(tone + 1) % GREENS.length]} vein={low} transform="translate(2 104) rotate(24) scale(0.82)" />
         </>
       )}
 
@@ -154,6 +166,14 @@ function Flower({
               stroke={low}
               strokeWidth="1.2"
             />
+            <path
+              d="M0 4 C-5 -14 -5 -34 0 -48 M-8 2 C-11 -12 -11 -28 -7 -40 M8 2 C11 -12 11 -28 7 -40"
+              fill="none"
+              stroke={low}
+              strokeWidth="1"
+              strokeLinecap="round"
+              opacity="0.28"
+            />
           </>
         )}
 
@@ -169,6 +189,17 @@ function Flower({
                 fill={`url(#${id}-p)`}
                 stroke={low}
                 strokeWidth="1.1"
+                transform={`rotate(${a})`}
+              />
+            ))}
+            {ring(6).map((a) => (
+              <path
+                key={`v${a}`}
+                d="M0 -18 L0 -50"
+                stroke={low}
+                strokeWidth="1.1"
+                strokeLinecap="round"
+                opacity="0.32"
                 transform={`rotate(${a})`}
               />
             ))}
@@ -265,106 +296,297 @@ function Kitten({
 }: {
   id: string
   neon?: boolean
+  /** Sólo cuando va anidado dentro de otro SVG. */
   box?: { x: number; y: number; width: number; height: number }
 }) {
-  const coat = neon ? `url(#${id}-neon)` : '#ffd884'
-  const dark = neon ? '#ff8bb0' : '#f0a94b'
+  const coat = `url(#${id}-coat)`
+  const far = neon ? '#f2a9c4' : '#dc9a3d'
+  const belly = neon ? '#fff6fb' : '#fff4dc'
+  const line = neon ? '#d1739a' : '#b9762a'
+  const inner = neon ? '#ffd9e6' : '#ffb6c8'
 
   return (
-    <svg viewBox="0 0 132 104" {...box} aria-hidden="true">
+    <svg viewBox="0 0 224 172" {...box} aria-hidden="true">
       <defs>
-        <linearGradient id={`${id}-neon`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#fff3b0" />
-          <stop offset="48%" stopColor="#ffd23f" />
-          <stop offset="100%" stopColor="#ffb1c8" />
+        <linearGradient id={`${id}-coat`} x1="0.25" y1="0" x2="0.6" y2="1">
+          <stop offset="0%" stopColor={neon ? '#fffbe0' : '#ffeec4'} />
+          <stop offset="46%" stopColor={neon ? '#ffd76b' : '#f9cd7e'} />
+          <stop offset="100%" stopColor={neon ? '#ff9ec4' : '#e5a748'} />
         </linearGradient>
+        <linearGradient id={`${id}-iris`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={neon ? '#bdf0ff' : '#b9dd7e'} />
+          <stop offset="55%" stopColor={neon ? '#63c8f0' : '#71b45c'} />
+          <stop offset="100%" stopColor={neon ? '#2f87b5' : '#3c7a42'} />
+        </linearGradient>
+        <linearGradient id={`${id}-tail`} x1="0.9" y1="1" x2="0.1" y2="0">
+          <stop offset="0%" stopColor={neon ? '#ffb0cf' : '#e8a94c'} />
+          <stop offset="62%" stopColor={neon ? '#ffd76b' : '#f9cd7e'} />
+          <stop offset="100%" stopColor={neon ? '#fffbe0' : '#fff2d4'} />
+        </linearGradient>
+        <radialGradient id={`${id}-cheek`} cx="50%" cy="45%">
+          <stop offset="0%" stopColor={belly} />
+          <stop offset="100%" stopColor={belly} stopOpacity="0" />
+        </radialGradient>
+        <clipPath id={`${id}-body`}>
+          <path d="M52 106 C50 86 62 74 84 70 C108 66 134 69 148 78 C162 87 166 104 158 118 C148 134 120 140 94 138 C68 136 55 126 52 106 Z" />
+        </clipPath>
       </defs>
 
-      <path d="M22 70 C2 68 6 40 22 44" fill="none" stroke={coat} strokeWidth="11" strokeLinecap="round" />
-      <ellipse cx="56" cy="68" rx="34" ry="23" fill={coat} />
-      <rect x="36" y="82" width="13" height="16" rx="6.5" fill={coat} />
-      <rect x="58" y="82" width="13" height="16" rx="6.5" fill={coat} />
-      <path d="M78 34 L74 14 L94 26 Z" fill={coat} />
-      <path d="M78 34 L76 20 L88 27 Z" fill={dark} />
-      <path d="M110 34 L118 16 L122 36 Z" fill={coat} />
-      <path d="M110 34 L116 22 L118 34 Z" fill={dark} />
-      <circle cx="98" cy="52" r="22" fill={coat} />
-      <path d="M86 46 q5 -4 10 0" fill="none" stroke="#5a4021" strokeWidth="3" strokeLinecap="round" />
-      <path d="M104 46 q5 -4 10 0" fill="none" stroke="#5a4021" strokeWidth="3" strokeLinecap="round" />
-      <path d="M96 57 l5 0 l-2.5 3.4 Z" fill="#d96a8c" />
-      <path d="M92 62 q6 5 12 0" fill="none" stroke="#5a4021" strokeWidth="2.4" strokeLinecap="round" />
+      <ellipse cx="112" cy="160" rx="72" ry="8" fill={line} opacity="0.16" />
+
       <path
-        d="M80 54 L68 51 M80 58 L68 60 M116 54 L128 51 M116 58 L128 60"
-        stroke="#5a4021"
+        d="M58 112 C34 122 14 110 12 84 C11 66 22 54 36 55"
+        fill="none"
+        stroke={far}
+        strokeWidth="15"
+        strokeLinecap="round"
+      />
+      <path
+        d="M58 112 C36 121 18 110 16 85 C15 69 24 58 34 57"
+        fill="none"
+        stroke={`url(#${id}-tail)`}
+        strokeWidth="11"
+        strokeLinecap="round"
+      />
+
+      <path d="M64 126 C58 140 60 154 66 158 C74 161 82 157 81 149 C80 139 76 130 74 124 Z" fill={far} />
+      <ellipse cx="73" cy="158" rx="8.5" ry="4.6" fill={belly} opacity="0.75" />
+      <path d="M132 124 C128 138 131 151 137 155 C145 158 153 154 152 146 C151 137 146 128 143 122 Z" fill={far} />
+      <ellipse cx="144" cy="155" rx="8.5" ry="4.6" fill={belly} opacity="0.75" />
+
+      <path
+        d="M52 106 C50 86 62 74 84 70 C108 66 134 69 148 78 C162 87 166 104 158 118 C148 134 120 140 94 138 C68 136 55 126 52 106 Z"
+        fill={coat}
+        stroke={line}
+        strokeWidth="2"
+        strokeOpacity="0.32"
+      />
+
+      <g clipPath={`url(#${id}-body)`}>
+        <path d="M60 130 C86 146 136 146 162 128 L166 142 L54 144 Z" fill={belly} opacity="0.85" />
+        <path d="M86 66 C92 82 92 98 86 114" fill="none" stroke={far} strokeWidth="7" strokeLinecap="round" opacity="0.4" />
+        <path d="M108 64 C114 82 114 98 108 116" fill="none" stroke={far} strokeWidth="6" strokeLinecap="round" opacity="0.32" />
+        <path d="M130 68 C135 84 135 98 130 112" fill="none" stroke={far} strokeWidth="5" strokeLinecap="round" opacity="0.26" />
+      </g>
+
+      <path
+        d="M94 128 C88 142 90 156 96 160 C104 163 113 159 112 151 C111 141 106 132 104 126 Z"
+        fill={coat}
+        stroke={line}
+        strokeWidth="1.8"
+        strokeOpacity="0.28"
+      />
+      <path
+        d="M154 126 C150 141 153 155 159 159 C167 162 176 158 175 150 C174 140 169 131 166 124 Z"
+        fill={coat}
+        stroke={line}
+        strokeWidth="1.8"
+        strokeOpacity="0.28"
+      />
+      <ellipse cx="104" cy="159" rx="9" ry="5" fill={belly} />
+      <ellipse cx="167" cy="158" rx="9" ry="5" fill={belly} />
+
+      <path d="M128 48 C122 30 124 16 131 14 C140 12 151 26 157 40 Z" fill={coat} stroke={line} strokeWidth="2" strokeLinejoin="round" />
+      <path d="M133 42 C129 30 130 22 134 21 C139 21 145 30 148 39 Z" fill={inner} />
+      <path d="M192 46 C199 28 198 15 191 13 C182 12 171 25 166 38 Z" fill={coat} stroke={line} strokeWidth="2" strokeLinejoin="round" />
+      <path d="M187 41 C191 29 190 21 186 20 C181 20 176 29 173 38 Z" fill={inner} />
+
+      <path
+        d="M160 30 C186 30 202 48 202 72 C202 96 185 112 160 112 C135 112 118 96 118 72 C118 48 134 30 160 30 Z"
+        fill={coat}
+        stroke={line}
+        strokeWidth="2"
+        strokeOpacity="0.5"
+      />
+      <ellipse cx="160" cy="92" rx="26" ry="18" fill={`url(#${id}-cheek)`} />
+
+      <g>
+        <path d="M131 68 C136 58 148 57 153 67 C149 77 136 78 131 68 Z" fill="#fffdf6" />
+        <circle cx="142" cy="68" r="7.2" fill={`url(#${id}-iris)`} />
+        <ellipse cx="142" cy="68" rx="2.1" ry="6.4" fill="#2a1d12" />
+        <circle cx="139.4" cy="64.8" r="2.1" fill="#fff" opacity="0.92" />
+        <path d="M131 68 C136 58 148 57 153 67" fill="none" stroke={line} strokeWidth="2" strokeLinecap="round" />
+      </g>
+      <g>
+        <path d="M167 67 C172 57 184 58 189 68 C184 78 171 77 167 67 Z" fill="#fffdf6" />
+        <circle cx="178" cy="68" r="7.2" fill={`url(#${id}-iris)`} />
+        <ellipse cx="178" cy="68" rx="2.1" ry="6.4" fill="#2a1d12" />
+        <circle cx="175.4" cy="64.8" r="2.1" fill="#fff" opacity="0.92" />
+        <path d="M167 67 C172 57 184 58 189 68" fill="none" stroke={line} strokeWidth="2" strokeLinecap="round" />
+      </g>
+
+      <path d="M154 86 L166 86 C166 92 162 95 160 95 C158 95 154 92 154 86 Z" fill="#e0809a" stroke={line} strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M160 95 C160 100 155 103 150 100 M160 95 C160 100 165 103 170 100" fill="none" stroke={line} strokeWidth="2.2" strokeLinecap="round" />
+
+      <path
+        d="M136 84 L108 76 M136 90 L107 90 M137 96 L110 104 M184 84 L212 76 M184 90 L213 90 M183 96 L210 104"
+        stroke={line}
         strokeWidth="1.8"
         strokeLinecap="round"
-        opacity="0.55"
+        opacity="0.5"
       />
     </svg>
   )
 }
 
-function Butterfly({ tint }: { tint: string }) {
+function Butterfly({ tint, dark }: { tint: string; dark: string }) {
   return (
-    <svg viewBox="0 0 44 34" aria-hidden="true">
-      <path className="md-wing" d="M21 17 C8 0 0 6 4 16 C0 26 10 32 21 17 Z" fill={tint} opacity="0.92" />
-      <path className="md-wing md-wing-r" d="M23 17 C36 0 44 6 40 16 C44 26 34 32 23 17 Z" fill={tint} opacity="0.92" />
-      <ellipse cx="22" cy="17" rx="2.4" ry="8" fill="#5a4021" />
-      <path d="M22 9 L17 3 M22 9 L27 3" stroke="#5a4021" strokeWidth="1.2" strokeLinecap="round" />
+    <svg viewBox="0 0 52 40" aria-hidden="true">
+      <g className="md-wing">
+        <path d="M25 20 C14 2 2 2 3 12 C1 20 6 26 13 25 C8 30 12 36 18 34 C22 32 24 27 25 22 Z" fill={tint} />
+        <path d="M25 20 C17 8 8 6 6 11 C5 16 11 22 18 22 Z" fill={dark} opacity="0.55" />
+        <circle cx="10" cy="12" r="2.2" fill="#fffdf2" opacity="0.9" />
+        <circle cx="14" cy="29" r="1.6" fill="#fffdf2" opacity="0.8" />
+        <path d="M25 20 C18 14 11 10 5 10 M25 20 C18 22 12 26 10 31" fill="none" stroke={dark} strokeWidth="0.7" opacity="0.6" />
+      </g>
+      <g className="md-wing md-wing-r">
+        <path d="M27 20 C38 2 50 2 49 12 C51 20 46 26 39 25 C44 30 40 36 34 34 C30 32 28 27 27 22 Z" fill={tint} />
+        <path d="M27 20 C35 8 44 6 46 11 C47 16 41 22 34 22 Z" fill={dark} opacity="0.55" />
+        <circle cx="42" cy="12" r="2.2" fill="#fffdf2" opacity="0.9" />
+        <circle cx="38" cy="29" r="1.6" fill="#fffdf2" opacity="0.8" />
+        <path d="M27 20 C34 14 41 10 47 10 M27 20 C34 22 40 26 42 31" fill="none" stroke={dark} strokeWidth="0.7" opacity="0.6" />
+      </g>
+      <path d="M26 10 C28.4 10 29.4 14 29.4 20 C29.4 27 28.2 32 26 32 C23.8 32 22.6 27 22.6 20 C22.6 14 23.6 10 26 10 Z" fill="#5a4021" />
+      <circle cx="26" cy="11" r="3" fill="#48331a" />
+      <path d="M25 9 C22 5 20 3 18 2.6 M27 9 C30 5 32 3 34 2.6" fill="none" stroke="#5a4021" strokeWidth="1.1" strokeLinecap="round" />
+      <circle cx="17.6" cy="2.2" r="1.3" fill="#5a4021" />
+      <circle cx="34.4" cy="2.2" r="1.3" fill="#5a4021" />
     </svg>
   )
 }
 
 function Bee() {
   return (
-    <svg viewBox="0 0 60 48" aria-hidden="true">
-      <ellipse cx="18" cy="14" rx="14" ry="9" fill="#ffffff" opacity="0.75" transform="rotate(-24 18 14)" />
-      <ellipse cx="40" cy="14" rx="14" ry="9" fill="#ffffff" opacity="0.75" transform="rotate(24 40 14)" />
-      <ellipse cx="30" cy="28" rx="18" ry="13" fill="#ffd23f" />
-      <path d="M24 17 L21 39 M32 16 L30 41 M40 20 L37 37" stroke="#5a4021" strokeWidth="4" strokeLinecap="round" />
-      <circle cx="13" cy="26" r="7" fill="#5a4021" />
-      <circle cx="11" cy="24" r="1.8" fill="#fff" />
+    <svg viewBox="0 0 72 56" aria-hidden="true">
+      <defs>
+        <linearGradient id="bee-wing" x1="0" y1="0" x2="0.4" y2="1">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#cfe6f2" stopOpacity="0.6" />
+        </linearGradient>
+        <linearGradient id="bee-body" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stopColor="#ffe373" />
+          <stop offset="60%" stopColor="#f6c026" />
+          <stop offset="100%" stopColor="#d79408" />
+        </linearGradient>
+        <clipPath id="bee-abd">
+          <ellipse cx="38" cy="32" rx="21" ry="15" transform="rotate(-8 38 32)" />
+        </clipPath>
+      </defs>
+
+      <path d="M30 20 C22 4 8 2 7 9 C6 16 17 23 29 23 Z" fill="url(#bee-wing)" stroke="#a9c7d6" strokeWidth="0.7" />
+      <path d="M34 20 C34 5 48 0 52 6 C56 12 47 22 35 23 Z" fill="url(#bee-wing)" stroke="#a9c7d6" strokeWidth="0.7" />
+      <path d="M29 22 C22 14 14 9 9 9 M34 22 C38 13 45 7 51 7" fill="none" stroke="#a9c7d6" strokeWidth="0.6" opacity="0.8" />
+
+      <path d="M20 40 L14 50 M27 44 L24 53 M36 45 L36 54" stroke="#4a3520" strokeWidth="2" strokeLinecap="round" />
+
+      <ellipse cx="38" cy="32" rx="21" ry="15" transform="rotate(-8 38 32)" fill="url(#bee-body)" />
+      <g clipPath="url(#bee-abd)">
+        <path d="M34 12 L27 52 L35 52 L42 12 Z" fill="#4a3520" />
+        <path d="M48 12 L41 52 L48 52 L55 12 Z" fill="#4a3520" />
+        <path d="M60 14 L54 52 L60 52 L66 14 Z" fill="#4a3520" />
+        <ellipse cx="34" cy="24" rx="13" ry="5" fill="#fff8d8" opacity="0.3" />
+      </g>
+      <path d="M58 40 C63 43 66 45 68 48" fill="none" stroke="#4a3520" strokeWidth="2.4" strokeLinecap="round" />
+
+      <ellipse cx="20" cy="29" rx="13" ry="12" fill="#f0b81c" />
+      <path
+        d="M9 22 L6 19 M8 27 L4 26 M9 33 L5 35 M13 38 L11 42 M19 41 L19 45 M26 39 L28 43"
+        stroke="#f0b81c"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="26" r="7.5" fill="#3a2a16" />
+      <circle cx="10" cy="23.5" r="2.4" fill="#fff" opacity="0.85" />
+      <path d="M11 18 C8 12 6 9 3 8 M17 17 C16 11 15 8 13 6" fill="none" stroke="#3a2a16" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="2.6" cy="7.4" r="1.8" fill="#3a2a16" />
+      <circle cx="12.6" cy="5.4" r="1.8" fill="#3a2a16" />
     </svg>
   )
 }
 
 function Egg({ id }: { id: string }) {
+  const speckles = [
+    [52, 58, 5],
+    [88, 44, 3.4],
+    [42, 96, 4.2],
+    [96, 112, 5.4],
+    [66, 128, 3.6],
+    [104, 76, 3],
+    [58, 40, 2.6],
+    [82, 138, 4],
+  ]
+
   return (
-    <svg viewBox="0 0 140 172" aria-hidden="true">
+    <svg viewBox="0 0 140 176" aria-hidden="true">
       <defs>
-        <linearGradient id={`${id}-shell`} x1="0" y1="0" x2="0.4" y2="1">
-          <stop offset="0%" stopColor="#fffaf0" />
-          <stop offset="55%" stopColor="#ffe9c0" />
-          <stop offset="100%" stopColor="#ffd0a8" />
+        <radialGradient id={`${id}-shell`} cx="36%" cy="28%">
+          <stop offset="0%" stopColor="#fffdf6" />
+          <stop offset="52%" stopColor="#ffeccb" />
+          <stop offset="100%" stopColor="#f0bd92" />
+        </radialGradient>
+        <linearGradient id={`${id}-inner`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#c98a63" />
+          <stop offset="100%" stopColor="#8f5a3c" />
         </linearGradient>
+        <clipPath id={`${id}-top`}>
+          <path d="M26 88 C26 46 46 20 70 20 C94 20 114 46 114 88 L104 80 L94 90 L84 80 L74 90 L64 80 L54 90 L44 80 L34 90 Z" />
+        </clipPath>
+        <clipPath id={`${id}-bot`}>
+          <path d="M26 88 L34 90 L44 80 L54 90 L64 80 L74 90 L84 80 L94 90 L104 80 L114 88 C114 126 96 152 70 152 C44 152 26 126 26 88 Z" />
+        </clipPath>
       </defs>
 
-      <ellipse cx="70" cy="162" rx="40" ry="7" fill="#4f9e54" opacity="0.28" />
+      <ellipse cx="70" cy="164" rx="42" ry="8" fill="#4f9e54" opacity="0.3" />
 
       <g className="md-neon" style={{ pointerEvents: 'none' }}>
-        <Kitten id={`${id}-k`} neon box={{ x: 20, y: 62, width: 100, height: 79 }} />
+        <Kitten id={`${id}-k`} neon box={{ x: 14, y: 54, width: 112, height: 86 }} />
       </g>
 
       <g className="md-egg-shell">
-        <path
-          className="md-egg-top"
-          d="M26 88 C26 46 46 20 70 20 C94 20 114 46 114 88 L104 80 L94 90 L84 80 L74 90 L64 80 L54 90 L44 80 L34 90 Z"
-          fill={`url(#${id}-shell)`}
-          stroke="#e8b98a"
-          strokeWidth="3"
-          strokeLinejoin="round"
-        />
-        <path
-          className="md-egg-bot"
-          d="M26 88 L34 90 L44 80 L54 90 L64 80 L74 90 L84 80 L94 90 L104 80 L114 88 C114 126 96 152 70 152 C44 152 26 126 26 88 Z"
-          fill={`url(#${id}-shell)`}
-          stroke="#e8b98a"
-          strokeWidth="3"
-          strokeLinejoin="round"
-        />
-        <circle className="md-egg-bot" cx="54" cy="118" r="7" fill="#ffb1c8" opacity="0.8" />
-        <circle className="md-egg-bot" cx="86" cy="132" r="5" fill="#ffd23f" opacity="0.85" />
-        <circle className="md-egg-top" cx="62" cy="48" r="6" fill="#ffd23f" opacity="0.8" />
+        <g className="md-egg-bot">
+          <path
+            d="M26 88 L34 90 L44 80 L54 90 L64 80 L74 90 L84 80 L94 90 L104 80 L114 88 C114 126 96 152 70 152 C44 152 26 126 26 88 Z"
+            fill={`url(#${id}-shell)`}
+          />
+          <g clipPath={`url(#${id}-bot)`}>
+            <path d="M26 86 C46 100 94 100 114 86 L114 76 L26 76 Z" fill={`url(#${id}-inner)`} opacity="0.35" />
+            {speckles
+              .filter(([, cy]) => cy > 92)
+              .map(([cx, cy, r], i) => (
+                <circle key={i} cx={cx} cy={cy} r={r} fill="#d99a6b" opacity="0.45" />
+              ))}
+            <ellipse cx="46" cy="118" rx="14" ry="22" fill="#fffdf6" opacity="0.4" />
+          </g>
+          <path
+            d="M26 88 L34 90 L44 80 L54 90 L64 80 L74 90 L84 80 L94 90 L104 80 L114 88 C114 126 96 152 70 152 C44 152 26 126 26 88 Z"
+            fill="none"
+            stroke="#d9a678"
+            strokeWidth="2.6"
+            strokeLinejoin="round"
+          />
+        </g>
+
+        <g className="md-egg-top">
+          <path
+            d="M26 88 C26 46 46 20 70 20 C94 20 114 46 114 88 L104 80 L94 90 L84 80 L74 90 L64 80 L54 90 L44 80 L34 90 Z"
+            fill={`url(#${id}-shell)`}
+          />
+          <g clipPath={`url(#${id}-top)`}>
+            {speckles
+              .filter(([, cy]) => cy <= 92)
+              .map(([cx, cy, r], i) => (
+                <circle key={i} cx={cx} cy={cy} r={r} fill="#d99a6b" opacity="0.45" />
+              ))}
+            <ellipse cx="50" cy="46" rx="15" ry="20" fill="#fffdf6" opacity="0.55" transform="rotate(-24 50 46)" />
+          </g>
+          <path
+            d="M26 88 C26 46 46 20 70 20 C94 20 114 46 114 88 L104 80 L94 90 L84 80 L74 90 L64 80 L54 90 L44 80 L34 90 Z"
+            fill="none"
+            stroke="#d9a678"
+            strokeWidth="2.6"
+            strokeLinejoin="round"
+          />
+        </g>
       </g>
     </svg>
   )
@@ -566,10 +788,10 @@ export default function MyDarling() {
           ))}
 
           <div className="md-fly" style={{ '--fb': '52%', '--fd': '21s', '--fdelay': '9s' } as CSSProperties}>
-            <Butterfly tint="#ffb1c8" />
+            <Butterfly tint="#ffc2d6" dark="#d9738f" />
           </div>
           <div className="md-fly" style={{ '--fb': '66%', '--fd': '27s', '--fdelay': '15s' } as CSSProperties}>
-            <Butterfly tint="#ffe58a" />
+            <Butterfly tint="#ffe58a" dark="#d99a0c" />
           </div>
 
           <div className="md-cat-walk">
