@@ -245,17 +245,17 @@ function CameraMark() {
 /* ------------------------------------------------------------------ */
 
 const POEM: Array<[string, string]> = [
-  ['S', 'iempre que pienso en vos'],
+  ['S', 'iempre que pienso en ti'],
   ['I', 'magino tu risa antes que nada,'],
   ['T', 'an clara que el día se arregla solo.'],
   ['E', 's por eso que junté pétalos'],
   ['L', 'ejos de cualquier floristería,'],
   ['A', ' mano, uno por uno,'],
   ['S', 'abiendo que ninguno se va a marchitar.'],
-  ['D', 'ejá que este jardín te cuide'],
+  ['D', 'eja que este jardín te cuide'],
   ['A', ' cualquier hora que lo abras,'],
   ['R', 'ecordándote una sola cosa,'],
-  ['E', 'sa que ya sabés.'],
+  ['E', 'sa que ya sabes.'],
 ]
 
 const PETS = [
@@ -267,11 +267,11 @@ const PETS = [
 
 /**
  * Los marcos. `src: null` = todavía vacío, muestra el placeholder.
- * Para llenar uno: dejá el archivo en public/my-darling/ y poné su ruta acá.
+ * Para llenar uno: deja el archivo en public/my-darling/ y pon su ruta aquí.
  *   foto-1.jpg · foto-2.jpg · foto-3.jpg · foto-4.jpg (cuadradas se ven mejor)
  */
 const PHOTOS: Array<{ src: string | null; cap: string; r: string; tr: string }> = [
-  { src: null, cap: 'vos', r: '-2.6deg', tr: '3deg' },
+  { src: null, cap: 'tú', r: '-2.6deg', tr: '3deg' },
   { src: null, cap: 'nosotros', r: '1.8deg', tr: '-4deg' },
   { src: null, cap: 'ese día', r: '-1.2deg', tr: '5deg' },
   { src: null, cap: 'la que más me gusta', r: '2.4deg', tr: '-2deg' },
@@ -409,7 +409,7 @@ export default function MyDarling() {
           <p className="md-lead">
             Sembré un jardín que no se marchita. Tarda un rato en abrir; vale la pena esperarlo.
           </p>
-          <p className="md-cue">seguí bajando ↓</p>
+          <p className="md-cue">sigue bajando ↓</p>
         </header>
 
         {/* ---- el campo que florece ---- */}
@@ -471,7 +471,7 @@ export default function MyDarling() {
           <section className="md-sec" id="rincon">
             <div className="md-card">
               <span className="md-sec-label">tu rincón</span>
-              <h2 className="md-h2">Te conseguí un huevo. Tocalo.</h2>
+              <h2 className="md-h2">Te conseguí un huevo. Tócalo.</h2>
               <p className="md-p">
                 Sin rerolls, sin trades raros, sin gente ofreciéndote un pet común por tu legendaria.
                 Acá todo sale legendario a la primera.
@@ -487,7 +487,7 @@ export default function MyDarling() {
                   >
                     <Egg id="egg" />
                   </button>
-                  <p className="md-egg-hint">{hatched ? '¡legendaria!' : 'tocá el huevo'}</p>
+                  <p className="md-egg-hint">{hatched ? '¡legendaria!' : 'toca el huevo'}</p>
                 </div>
 
                 <p className={`md-hatch-note ${hatched ? 'md-on' : ''}`}>
@@ -495,7 +495,7 @@ export default function MyDarling() {
                     <>
                       Salió una gatita neón amarilla.
                       <br />
-                      Igual que vos: rarísima, brillante, y no la cambio por nada.
+                      Igual que tú: rarísima, brillante, y no la cambio por nada.
                     </>
                   ) : (
                     <>
@@ -547,12 +547,12 @@ export default function MyDarling() {
                     ⇄
                   </div>
                   <div className="md-trade-side">
-                    <h3>vos ofrecés</h3>
+                    <h3>tú ofreces</h3>
                     <span className="md-slot">
                       💛
                       <span>
                         Nada
-                        <small>ya me encantás así</small>
+                        <small>ya me encantas así</small>
                       </span>
                     </span>
                   </div>
@@ -593,7 +593,7 @@ export default function MyDarling() {
                       {!(p.src && loaded[i]) && (
                         <span className="md-shot-empty">
                           <CameraMark />
-                          aquí va {p.cap}
+                          tu foto aquí
                         </span>
                       )}
                     </div>
@@ -609,9 +609,9 @@ export default function MyDarling() {
             <Flower id="letter-flower" petals={14} bend={0} tone={1} className="md-letter-mark" />
             <p className="md-letter-text">
               Tal vez no pueda darte flores físicas,
-              <span className="md-letter-em">pero quiero que sepas que me encantás.</span>
+              <span className="md-letter-em">pero quiero que sepas que me encantas.</span>
             </p>
-            <p className="md-sign">— con todo, para vos</p>
+            <p className="md-sign">— con todo, para ti</p>
           </section>
 
           <footer className="md-foot">
