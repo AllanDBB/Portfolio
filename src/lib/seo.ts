@@ -24,9 +24,25 @@ function meta(title: string, description: string, path: string, image = SITE.ogI
   }
 }
 
+/** Rendered, but kept out of the sitemap and robots — private page. */
+export const UNLISTED_ROUTES = ['/my-darling']
+
 /** Static routes plus one per project — this list drives the prerender. */
 export function allRoutes(): string[] {
-  return ['/', '/work', '/research', '/projects', '/about', ...projects.map((p) => `/projects/${p.id}`)]
+  return [
+    '/',
+    '/work',
+    '/research',
+    '/projects',
+    '/about',
+    ...projects.map((p) => `/projects/${p.id}`),
+    ...UNLISTED_ROUTES,
+  ]
+}
+
+/** Only what search engines should see. */
+export function publicRoutes(): string[] {
+  return allRoutes().filter((route) => !UNLISTED_ROUTES.includes(route))
 }
 
 export function metaForPath(path: string): PageMeta {
@@ -67,6 +83,13 @@ export function metaForPath(path: string): PageMeta {
       )
     case '/about':
       return meta('Perfil', profile.intro.es, '/about')
+    case '/my-darling':
+      return {
+        title: 'my darling',
+        description: 'Un jardín de girasoles que no se marchita.',
+        image: SITE.ogImage,
+        canonical: `${SITE.url}/my-darling`,
+      }
     default:
       return meta('Página no encontrada', 'La ruta que buscás no existe.', clean)
   }

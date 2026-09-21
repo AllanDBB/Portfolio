@@ -4,9 +4,9 @@ import { StaticRouter } from 'react-router'
 import App from './App'
 import { I18nProvider } from './i18n'
 import { ThemeProvider } from './theme'
-import { metaForPath, allRoutes } from './lib/seo'
+import { metaForPath, allRoutes, publicRoutes } from './lib/seo'
 
-export { allRoutes }
+export { allRoutes, publicRoutes }
 
 /** Renders one route to static HTML for the prerender step. */
 export function render(url: string) {

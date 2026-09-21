@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url'
 const root = dirname(fileURLToPath(import.meta.url))
 const distDir = join(root, 'dist')
 
-const { render, allRoutes } = await import('./dist-ssr/entry-server.js')
+const { render, allRoutes, publicRoutes } = await import('./dist-ssr/entry-server.js')
 
 const template = await readFile(join(distDir, 'index.html'), 'utf8')
 
@@ -66,9 +66,10 @@ for (const route of routes) {
 
 /* ---- sitemap.xml ---- */
 const today = new Date().toISOString().slice(0, 10)
+const indexed = publicRoutes()
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${routes
+${indexed
   .map(
     (route) =>
       `  <url><loc>https://allanbolanos.com${route === '/' ? '' : route}</loc><lastmod>${today}</lastmod></url>`
@@ -78,9 +79,10 @@ ${routes
 `
 await writeFile(join(distDir, 'sitemap.xml'), sitemap, 'utf8')
 
+const hidden = routes.filter((route) => !indexed.includes(route))
 await writeFile(
   join(distDir, 'robots.txt'),
-  'User-agent: *\nAllow: /\n\nSitemap: https://allanbolanos.com/sitemap.xml\n',
+  `User-agent: *\nAllow: /\n${hidden.map((route) => `Disallow: ${route}\n`).join('')}\nSitemap: https://allanbolanos.com/sitemap.xml\n`,
   'utf8'
 )
 

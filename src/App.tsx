@@ -9,6 +9,7 @@ import Projects from './pages/Projects'
 import ProjectDetail from './pages/ProjectDetail'
 import About from './pages/About'
 import NotFound from './pages/NotFound'
+import MyDarling from './pages/MyDarling'
 import { metaForPath } from './lib/seo'
 
 /** Keeps <title>/description in sync on client-side navigation. */
@@ -34,13 +35,19 @@ function ScrollToTop() {
   return null
 }
 
+/** Rutas privadas: se sirven sin nav, sin footer y sin el grano del sitio. */
+const BARE_ROUTES = ['/my-darling']
+
 export default function App() {
+  const { pathname } = useLocation()
+  const bare = BARE_ROUTES.includes(pathname.replace(/\/+$/, '') || '/')
+
   return (
-    <div className="grain flex min-h-screen flex-col">
+    <div className={`${bare ? '' : 'grain '}flex min-h-screen flex-col`}>
       <DocumentMeta />
       <ScrollToTop />
-      <NavBar />
-      <main className="relative z-[2] flex-1 pb-10">
+      {!bare && <NavBar />}
+      <main className={bare ? 'relative flex-1' : 'relative z-[2] flex-1 pb-10'}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/work" element={<Work />} />
@@ -48,10 +55,11 @@ export default function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:id" element={<ProjectDetail />} />
           <Route path="/about" element={<About />} />
+          <Route path="/my-darling" element={<MyDarling />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Footer />
+      {!bare && <Footer />}
     </div>
   )
 }
