@@ -2,14 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import './my-darling.css'
 
-/* ------------------------------------------------------------------ */
-/* Ruta privada: un jardín para ella. No va en el nav ni en el sitemap. */
-/* ------------------------------------------------------------------ */
-
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=Caveat:wght@500;700&display=swap'
 
-/** PRNG con semilla: el campo se ve igual en el servidor y en el cliente. */
+/** Con semilla, para que el campo salga igual en el servidor y en el cliente. */
 function seeded(seed: number) {
   let a = seed >>> 0
   return () => {
@@ -20,99 +16,243 @@ function seeded(seed: number) {
   }
 }
 
+type Kind = 'tulipan' | 'narciso' | 'margarita' | 'ranunculo' | 'mimosa'
+
+const KINDS: Kind[] = [
+  'tulipan',
+  'tulipan',
+  'tulipan',
+  'narciso',
+  'narciso',
+  'narciso',
+  'margarita',
+  'margarita',
+  'ranunculo',
+  'ranunculo',
+  'mimosa',
+]
+
 type Bloom = {
   x: number
   w: number
   b: number
   delay: number
   sway: number
-  petals: number
+  kind: Kind
   bend: number
-  tone: 0 | 1 | 2
+  tone: number
 }
 
-/** 32 girasoles que abren de izquierda a derecha a lo largo de ~17 s. */
 function growField(seed: number): Bloom[] {
   const rnd = seeded(seed)
-  return Array.from({ length: 32 }, (_, i) => {
-    const x = (i / 31) * 104 - 4 + (rnd() - 0.5) * 3
+  return Array.from({ length: 38 }, (_, i) => {
+    const x = (i / 37) * 106 - 5 + (rnd() - 0.5) * 3
+    const kind = KINDS[Math.floor(rnd() * KINDS.length)]
     return {
       x,
-      w: 58 + rnd() * 62,
-      b: rnd() * 16,
-      delay: ((x + 4) / 108) * 14.5 + rnd() * 2.2,
-      sway: 4.4 + rnd() * 3.6,
-      petals: [10, 12, 14][Math.floor(rnd() * 3)],
-      bend: (rnd() - 0.5) * 26,
-      tone: Math.floor(rnd() * 3) as 0 | 1 | 2,
+      w: (kind === 'mimosa' ? 40 : 46) + rnd() * 74,
+      b: rnd() * 27,
+      delay: ((x + 5) / 111) * 14.5 + rnd() * 2.4,
+      sway: 4.2 + rnd() * 3.8,
+      kind,
+      bend: (rnd() - 0.5) * 22,
+      tone: Math.floor(rnd() * 4),
     }
   })
 }
 
 const TONES = [
-  ['#ffe58a', '#ffd23f', '#f2a115'],
-  ['#fff0b4', '#ffc728', '#e08f0c'],
-  ['#ffe9a0', '#ffdb5c', '#f2a115'],
+  ['#fff7d2', '#ffe873', '#eab814'],
+  ['#ffe9a0', '#ffd23f', '#e09a0c'],
+  ['#fff6cf', '#ffe17a', '#d9a316'],
+  ['#ffeda8', '#ffc93f', '#d4890a'],
 ]
+
+const GREENS = ['#7cc96d', '#5fae5f', '#8fd977', '#63b86b']
+
+function ring(n: number, from = 0) {
+  return Array.from({ length: n }, (_, i) => from + (360 / n) * i)
+}
 
 function Flower({
   id,
-  petals,
+  kind,
   bend,
   tone,
   className = '',
 }: {
   id: string
-  petals: number
+  kind: Kind
   bend: number
-  tone: 0 | 1 | 2
+  tone: number
   className?: string
 }) {
-  const [hi, mid, low] = TONES[tone]
-  const ring = Array.from({ length: petals }, (_, i) => (360 / petals) * i)
+  const [hi, mid, low] = TONES[tone % TONES.length]
+  const leaf = GREENS[tone % GREENS.length]
+  const stem = `M0 0 C ${bend} 54, ${-bend} 110, ${bend * 0.35} 158`
 
   return (
     <svg viewBox="-70 -72 140 232" className={className} aria-hidden="true">
       <defs>
-        <linearGradient id={`${id}-p`} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={`${id}-p`} x1="0" y1="0" x2="0.3" y2="1">
           <stop offset="0%" stopColor={hi} />
-          <stop offset="70%" stopColor={mid} />
+          <stop offset="62%" stopColor={mid} />
           <stop offset="100%" stopColor={low} />
         </linearGradient>
+        <linearGradient id={`${id}-q`} x1="0" y1="0" x2="0.3" y2="1">
+          <stop offset="0%" stopColor="#fffdf2" />
+          <stop offset="58%" stopColor={hi} />
+          <stop offset="100%" stopColor={mid} />
+        </linearGradient>
         <radialGradient id={`${id}-c`} cx="38%" cy="34%">
-          <stop offset="0%" stopColor="#c98a2a" />
-          <stop offset="100%" stopColor="#7c4a10" />
+          <stop offset="0%" stopColor={hi} />
+          <stop offset="100%" stopColor={low} />
         </radialGradient>
       </defs>
 
-      <path
-        d={`M0 0 C ${bend} 56, ${-bend} 112, ${bend * 0.35} 158`}
-        fill="none"
-        stroke="#3c8b55"
-        strokeWidth="7"
-        strokeLinecap="round"
-      />
-      <ellipse cx="-24" cy="74" rx="24" ry="11" fill="#7cc96d" transform="rotate(-22 -24 74)" />
-      <ellipse cx="25" cy="108" rx="22" ry="10" fill="#5fae5f" transform="rotate(20 25 108)" />
+      <path d={stem} fill="none" stroke={leaf} strokeWidth="5.2" strokeLinecap="round" />
+
+      {kind === 'tulipan' ? (
+        <>
+          <path d="M1 44 C-28 54 -34 96 -7 112 C-17 88 -11 62 1 44 Z" fill={leaf} />
+          <path d="M-1 66 C28 76 33 112 8 126 C17 104 11 82 -1 66 Z" fill={GREENS[(tone + 1) % GREENS.length]} />
+        </>
+      ) : kind === 'mimosa' ? (
+        <>
+          {[28, 52, 76, 100].map((y, i) => (
+            <g key={y}>
+              <ellipse cx={-17} cy={y} rx="16" ry="4.2" fill={leaf} transform={`rotate(-18 -17 ${y})`} opacity={0.95 - i * 0.07} />
+              <ellipse cx={17} cy={y + 12} rx="16" ry="4.2" fill={leaf} transform={`rotate(18 17 ${y + 12})`} opacity={0.95 - i * 0.07} />
+            </g>
+          ))}
+        </>
+      ) : (
+        <>
+          <ellipse cx="-23" cy="72" rx="23" ry="9.5" fill={leaf} transform="rotate(-24 -23 72)" />
+          <ellipse cx="24" cy="106" rx="21" ry="9" fill={GREENS[(tone + 1) % GREENS.length]} transform="rotate(22 24 106)" />
+        </>
+      )}
 
       <g className="md-head">
-        {ring.map((a) => (
-          <ellipse
-            key={a}
-            cx="0"
-            cy="-36"
-            rx="15"
-            ry="34"
-            fill={`url(#${id}-p)`}
-            stroke={low}
-            strokeWidth="1.4"
-            transform={`rotate(${a})`}
-          />
-        ))}
-        <circle cx="0" cy="0" r="21" fill={`url(#${id}-c)`} />
-        <circle cx="-6" cy="-5" r="2.4" fill="#f6d79b" opacity="0.7" />
-        <circle cx="6" cy="3" r="2" fill="#f6d79b" opacity="0.55" />
-        <circle cx="1" cy="9" r="1.8" fill="#f6d79b" opacity="0.5" />
+        {kind === 'tulipan' && (
+          <>
+            <path
+              d="M0 10 C-21 3 -27 -26 -18 -50 C-12 -31 -6 -20 0 -14 Z"
+              fill={`url(#${id}-p)`}
+              stroke={low}
+              strokeWidth="1.2"
+            />
+            <path
+              d="M0 10 C21 3 27 -26 18 -50 C12 -31 6 -20 0 -14 Z"
+              fill={`url(#${id}-p)`}
+              stroke={low}
+              strokeWidth="1.2"
+            />
+            <path
+              d="M0 10 C-14 1 -16 -31 0 -54 C16 -31 14 1 0 10 Z"
+              fill={`url(#${id}-q)`}
+              stroke={low}
+              strokeWidth="1.2"
+            />
+          </>
+        )}
+
+        {kind === 'narciso' && (
+          <>
+            {ring(6).map((a) => (
+              <ellipse
+                key={a}
+                cx="0"
+                cy="-29"
+                rx="14"
+                ry="27"
+                fill={`url(#${id}-p)`}
+                stroke={low}
+                strokeWidth="1.1"
+                transform={`rotate(${a})`}
+              />
+            ))}
+            <circle r="14.5" fill={`url(#${id}-c)`} />
+            <circle r="14.5" fill="none" stroke={low} strokeWidth="2.6" />
+            <circle r="8" fill={low} opacity="0.45" />
+          </>
+        )}
+
+        {kind === 'margarita' && (
+          <>
+            {ring(16).map((a) => (
+              <ellipse
+                key={a}
+                cx="0"
+                cy="-29"
+                rx="4.6"
+                ry="28"
+                fill={`url(#${id}-q)`}
+                stroke={low}
+                strokeWidth="0.8"
+                transform={`rotate(${a})`}
+              />
+            ))}
+            <circle r="10.5" fill={`url(#${id}-c)`} />
+          </>
+        )}
+
+        {kind === 'ranunculo' && (
+          <>
+            {ring(9).map((a) => (
+              <ellipse
+                key={`o${a}`}
+                cx="0"
+                cy="-20"
+                rx="13"
+                ry="19"
+                fill={`url(#${id}-p)`}
+                stroke={low}
+                strokeWidth="1"
+                transform={`rotate(${a})`}
+              />
+            ))}
+            {ring(7, 22).map((a) => (
+              <ellipse
+                key={`i${a}`}
+                cx="0"
+                cy="-12"
+                rx="9"
+                ry="13"
+                fill={`url(#${id}-q)`}
+                stroke={low}
+                strokeWidth="0.8"
+                transform={`rotate(${a})`}
+              />
+            ))}
+            <circle r="5.5" fill={low} opacity="0.8" />
+          </>
+        )}
+
+        {kind === 'mimosa' &&
+          [
+            [0, -54, 7],
+            [-15, -43, 8],
+            [15, -43, 8],
+            [-29, -29, 7],
+            [0, -31, 8.5],
+            [29, -29, 7],
+            [-16, -17, 7.5],
+            [16, -17, 7.5],
+            [0, -8, 7],
+            [-31, -11, 6],
+            [31, -11, 6],
+          ].map(([cx, cy, r], i) => (
+            <circle
+              key={i}
+              cx={cx}
+              cy={cy}
+              r={r}
+              fill={i % 3 === 0 ? hi : mid}
+              stroke={low}
+              strokeWidth="0.8"
+            />
+          ))}
       </g>
     </svg>
   )
@@ -125,7 +265,6 @@ function Kitten({
 }: {
   id: string
   neon?: boolean
-  /** Sólo cuando el gatito va anidado dentro de otro SVG. */
   box?: { x: number; y: number; width: number; height: number }
 }) {
   const coat = neon ? `url(#${id}-neon)` : '#ffd884'
@@ -242,8 +381,6 @@ function CameraMark() {
   )
 }
 
-/* ------------------------------------------------------------------ */
-
 const POEM: Array<[string, string]> = [
   ['S', 'iempre que pienso en ti'],
   ['I', 'magino tu risa antes que nada,'],
@@ -261,16 +398,11 @@ const POEM: Array<[string, string]> = [
 const PETS = [
   { name: 'Gatita Amarilla', rar: 'Legendary', cls: 'md-legend', art: 'cat' },
   { name: 'Abeja Curiosa', rar: 'Ultra-Rare', cls: 'md-ultra', art: 'bee' },
-  { name: 'Girasol Eterno', rar: 'Rare', cls: 'md-rare', art: 'flower' },
+  { name: 'Tulipán Eterno', rar: 'Rare', cls: 'md-rare', art: 'flower' },
   { name: 'Huevo Sorpresa', rar: 'Common', cls: 'md-common', art: 'egg' },
 ] as const
 
-/**
- * Los marcos. Los archivos viven en public/my-darling/.
- * `pos` es el object-position: el marco recorta a cuadrado, así que cada
- * foto lleva el suyo para que nadie quede cortado. `src: null` deja el marco
- * vacío con su placeholder.
- */
+/** `pos` es el object-position: el marco recorta a cuadrado. */
 const PHOTOS: Array<{ src: string | null; cap: string; pos: string; r: string; tr: string }> = [
   { src: '/my-darling/tu.jpeg', cap: 'tú', pos: '50% 0%', r: '-2.6deg', tr: '3deg' },
   { src: '/my-darling/nosotros.jpeg', cap: 'nosotros', pos: '42% 50%', r: '1.8deg', tr: '-4deg' },
@@ -286,7 +418,6 @@ export default function MyDarling() {
 
   const field = useMemo(() => growField(20260921 + season), [season])
 
-  /* Fuentes y fondo: sólo mientras esta ruta está montada. */
   useEffect(() => {
     const link = document.createElement('link')
     link.rel = 'stylesheet'
@@ -303,7 +434,6 @@ export default function MyDarling() {
     }
   }, [])
 
-  /* Pétalos que flotan por encima de todo el scroll. */
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -393,7 +523,7 @@ export default function MyDarling() {
         onClick={() => setSunNote((v) => !v)}
       />
       <div className={`md-sun-note ${sunNote ? 'md-on' : ''}`} aria-hidden={!sunNote}>
-        spoiler chiquito: el ramo de verdad ya está encargado 🌻
+        spoiler chiquito: el ramo de verdad ya está encargado 🌼
       </div>
 
       <div className="md-cloud" style={{ '--ch': '34px', '--cd': '64s', '--cdelay': '0s', top: '12vh' } as CSSProperties} />
@@ -412,7 +542,6 @@ export default function MyDarling() {
           <p className="md-cue">sigue bajando ↓</p>
         </header>
 
-        {/* ---- el campo que florece ---- */}
         <div className="md-field" key={season}>
           <div className="md-ground" />
 
@@ -431,7 +560,7 @@ export default function MyDarling() {
               }
             >
               <div className="md-sway">
-                <Flower id={`fl${season}-${i}`} petals={f.petals} bend={f.bend} tone={f.tone} />
+                <Flower id={`fl${season}-${i}`} kind={f.kind} bend={f.bend} tone={f.tone} />
               </div>
             </div>
           ))}
@@ -451,7 +580,6 @@ export default function MyDarling() {
         </div>
 
         <div className="md-wrap">
-          {/* ---- el poema ---- */}
           <section className="md-sec" id="poema">
             <div className="md-card">
               <span className="md-sec-label">lo que quería decirte</span>
@@ -467,7 +595,6 @@ export default function MyDarling() {
             </div>
           </section>
 
-          {/* ---- rincón Adopt Me ---- */}
           <section className="md-sec" id="rincon">
             <div className="md-card">
               <span className="md-sec-label">tu rincón</span>
@@ -512,7 +639,7 @@ export default function MyDarling() {
                   <div className="md-pet" key={p.name}>
                     {p.art === 'cat' && <Kitten id={`pet-${p.art}`} />}
                     {p.art === 'bee' && <Bee />}
-                    {p.art === 'flower' && <Flower id="pet-flower" petals={12} bend={8} tone={0} />}
+                    {p.art === 'flower' && <Flower id="pet-flower" kind="tulipan" bend={6} tone={1} />}
                     {p.art === 'egg' && <Egg id="pet-egg" />}
                     <span className="md-pet-name">{p.name}</span>
                     <span className={`md-rar ${p.cls}`}>{p.rar}</span>
@@ -529,9 +656,9 @@ export default function MyDarling() {
                   <div className="md-trade-side">
                     <h3>yo ofrezco</h3>
                     <span className="md-slot">
-                      🌻
+                      🌼
                       <span>
-                        Ramo de girasoles
+                        Ramo de flores amarillas
                         <small>físico · en camino</small>
                       </span>
                     </span>
@@ -561,7 +688,6 @@ export default function MyDarling() {
             </div>
           </section>
 
-          {/* ---- las fotos ---- */}
           <section className="md-sec" id="fotos">
             <div className="md-card">
               <span className="md-sec-label">nuestras fotos</span>
@@ -605,9 +731,8 @@ export default function MyDarling() {
             </div>
           </section>
 
-          {/* ---- la carta ---- */}
           <section className="md-letter" id="carta">
-            <Flower id="letter-flower" petals={14} bend={0} tone={1} className="md-letter-mark" />
+            <Flower id="letter-flower" kind="narciso" bend={0} tone={1} className="md-letter-mark" />
             <p className="md-letter-text">
               Tal vez no pueda darte flores físicas,
               <span className="md-letter-em">pero quiero que sepas que me encantas.</span>
