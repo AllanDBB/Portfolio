@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
+import Pet3D from './Pet3D'
 import './my-darling.css'
 
 const FONTS =
@@ -289,39 +290,32 @@ function Flower({
   )
 }
 
-function Kitten({
-  id,
-  neon = false,
-  box,
-}: {
-  id: string
-  neon?: boolean
-  /** Sólo cuando va anidado dentro de otro SVG. */
-  box?: { x: number; y: number; width: number; height: number }
-}) {
+function Kitten({ id }: { id: string }) {
   const coat = `url(#${id}-coat)`
-  const far = neon ? '#f2a9c4' : '#dc9a3d'
-  const belly = neon ? '#fff6fb' : '#fff4dc'
-  const line = neon ? '#d1739a' : '#b9762a'
-  const inner = neon ? '#ffd9e6' : '#ffb6c8'
+  const far = '#9f958a'
+  const belly = '#faf6ee'
+  const line = '#7d7266'
+  const inner = '#dfb0b2'
+  const stripe = '#8d8375'
+  const nose = '#cf9096'
 
   return (
-    <svg viewBox="0 0 224 172" {...box} aria-hidden="true">
+    <svg viewBox="0 0 224 172" aria-hidden="true">
       <defs>
         <linearGradient id={`${id}-coat`} x1="0.25" y1="0" x2="0.6" y2="1">
-          <stop offset="0%" stopColor={neon ? '#fffbe0' : '#ffeec4'} />
-          <stop offset="46%" stopColor={neon ? '#ffd76b' : '#f9cd7e'} />
-          <stop offset="100%" stopColor={neon ? '#ff9ec4' : '#e5a748'} />
+          <stop offset="0%" stopColor="#f1ebe1" />
+          <stop offset="46%" stopColor="#d6cec1" />
+          <stop offset="100%" stopColor="#a89e91" />
         </linearGradient>
         <linearGradient id={`${id}-iris`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={neon ? '#bdf0ff' : '#b9dd7e'} />
-          <stop offset="55%" stopColor={neon ? '#63c8f0' : '#71b45c'} />
-          <stop offset="100%" stopColor={neon ? '#2f87b5' : '#3c7a42'} />
+          <stop offset="0%" stopColor="#d9e9c6" />
+          <stop offset="55%" stopColor="#9cc08d" />
+          <stop offset="100%" stopColor="#5b8a5c" />
         </linearGradient>
         <linearGradient id={`${id}-tail`} x1="0.9" y1="1" x2="0.1" y2="0">
-          <stop offset="0%" stopColor={neon ? '#ffb0cf' : '#e8a94c'} />
-          <stop offset="62%" stopColor={neon ? '#ffd76b' : '#f9cd7e'} />
-          <stop offset="100%" stopColor={neon ? '#fffbe0' : '#fff2d4'} />
+          <stop offset="0%" stopColor="#b3a99c" />
+          <stop offset="55%" stopColor="#cdc5b8" />
+          <stop offset="100%" stopColor="#7f7568" />
         </linearGradient>
         <radialGradient id={`${id}-cheek`} cx="50%" cy="45%">
           <stop offset="0%" stopColor={belly} />
@@ -349,6 +343,13 @@ function Kitten({
         strokeLinecap="round"
       />
 
+      <path
+        d="M45 112 L49 122 M27 107 L31 117 M13 95 L23 97 M13 77 L23 77"
+        stroke={stripe}
+        strokeWidth="3.6"
+        strokeLinecap="round"
+        opacity="0.32"
+      />
       <path d="M64 126 C58 140 60 154 66 158 C74 161 82 157 81 149 C80 139 76 130 74 124 Z" fill={far} />
       <ellipse cx="73" cy="158" rx="8.5" ry="4.6" fill={belly} opacity="0.75" />
       <path d="M132 124 C128 138 131 151 137 155 C145 158 153 154 152 146 C151 137 146 128 143 122 Z" fill={far} />
@@ -364,9 +365,13 @@ function Kitten({
 
       <g clipPath={`url(#${id}-body)`}>
         <path d="M60 130 C86 146 136 146 162 128 L166 142 L54 144 Z" fill={belly} opacity="0.85" />
-        <path d="M86 66 C92 82 92 98 86 114" fill="none" stroke={far} strokeWidth="7" strokeLinecap="round" opacity="0.4" />
-        <path d="M108 64 C114 82 114 98 108 116" fill="none" stroke={far} strokeWidth="6" strokeLinecap="round" opacity="0.32" />
-        <path d="M130 68 C135 84 135 98 130 112" fill="none" stroke={far} strokeWidth="5" strokeLinecap="round" opacity="0.26" />
+        <path d="M50 86 C82 74 122 72 156 82" fill="none" stroke={stripe} strokeWidth="5.5" strokeLinecap="round" opacity="0.34" />
+        <path d="M70 70 C76 86 76 102 70 118" fill="none" stroke={stripe} strokeWidth="5" strokeLinecap="round" opacity="0.42" />
+        <path d="M86 65 C92 83 92 101 86 119" fill="none" stroke={stripe} strokeWidth="5.4" strokeLinecap="round" opacity="0.42" />
+        <path d="M102 63 C108 82 108 101 102 119" fill="none" stroke={stripe} strokeWidth="5" strokeLinecap="round" opacity="0.38" />
+        <path d="M118 64 C124 82 124 100 118 117" fill="none" stroke={stripe} strokeWidth="4.5" strokeLinecap="round" opacity="0.34" />
+        <path d="M134 67 C139 83 139 99 134 114" fill="none" stroke={stripe} strokeWidth="4" strokeLinecap="round" opacity="0.3" />
+        <path d="M147 72 C151 85 151 97 147 110" fill="none" stroke={stripe} strokeWidth="3.4" strokeLinecap="round" opacity="0.26" />
       </g>
 
       <path
@@ -382,6 +387,13 @@ function Kitten({
         stroke={line}
         strokeWidth="1.8"
         strokeOpacity="0.28"
+      />
+      <path
+        d="M96 138 L110 137 M95 147 L111 146 M156 136 L173 135 M156 145 L174 144"
+        stroke={stripe}
+        strokeWidth="3"
+        strokeLinecap="round"
+        opacity="0.28"
       />
       <ellipse cx="104" cy="159" rx="9" ry="5" fill={belly} />
       <ellipse cx="167" cy="158" rx="9" ry="5" fill={belly} />
@@ -399,23 +411,42 @@ function Kitten({
         strokeOpacity="0.5"
       />
       <ellipse cx="160" cy="92" rx="26" ry="18" fill={`url(#${id}-cheek)`} />
+      <path
+        d="M144 52 C146 43 148 39 150 34 M160 49 C160 41 160 36 160 31 M176 52 C174 43 172 39 170 34"
+        fill="none"
+        stroke={stripe}
+        strokeWidth="3.6"
+        strokeLinecap="round"
+        opacity="0.4"
+      />
+      <path
+        d="M128 64 C123 60 120 57 118 53 M127 75 C121 74 117 72 114 70 M192 64 C197 60 200 57 202 53 M193 75 C199 74 203 72 206 70"
+        fill="none"
+        stroke={stripe}
+        strokeWidth="3"
+        strokeLinecap="round"
+        opacity="0.3"
+      />
+
+      <ellipse cx="129" cy="86" rx="9.5" ry="5.2" fill="#f0a8ae" opacity="0.42" />
+      <ellipse cx="191" cy="86" rx="9.5" ry="5.2" fill="#f0a8ae" opacity="0.42" />
 
       <g>
-        <path d="M131 68 C136 58 148 57 153 67 C149 77 136 78 131 68 Z" fill="#fffdf6" />
-        <circle cx="142" cy="68" r="7.2" fill={`url(#${id}-iris)`} />
-        <ellipse cx="142" cy="68" rx="2.1" ry="6.4" fill="#2a1d12" />
-        <circle cx="139.4" cy="64.8" r="2.1" fill="#fff" opacity="0.92" />
-        <path d="M131 68 C136 58 148 57 153 67" fill="none" stroke={line} strokeWidth="2" strokeLinecap="round" />
+        <ellipse cx="142" cy="69" rx="11.8" ry="12.8" fill="#fffdf6" stroke={line} strokeWidth="1.6" strokeOpacity="0.4" />
+        <circle cx="142" cy="70" r="9.6" fill={`url(#${id}-iris)`} />
+        <ellipse cx="142" cy="70" rx="3.4" ry="8.2" fill="#2a1d12" />
+        <circle cx="138.3" cy="65.4" r="3.1" fill="#fff" opacity="0.95" />
+        <circle cx="145.6" cy="74.4" r="1.8" fill="#fff" opacity="0.75" />
       </g>
       <g>
-        <path d="M167 67 C172 57 184 58 189 68 C184 78 171 77 167 67 Z" fill="#fffdf6" />
-        <circle cx="178" cy="68" r="7.2" fill={`url(#${id}-iris)`} />
-        <ellipse cx="178" cy="68" rx="2.1" ry="6.4" fill="#2a1d12" />
-        <circle cx="175.4" cy="64.8" r="2.1" fill="#fff" opacity="0.92" />
-        <path d="M167 67 C172 57 184 58 189 68" fill="none" stroke={line} strokeWidth="2" strokeLinecap="round" />
+        <ellipse cx="178" cy="69" rx="11.8" ry="12.8" fill="#fffdf6" stroke={line} strokeWidth="1.6" strokeOpacity="0.4" />
+        <circle cx="178" cy="70" r="9.6" fill={`url(#${id}-iris)`} />
+        <ellipse cx="178" cy="70" rx="3.4" ry="8.2" fill="#2a1d12" />
+        <circle cx="174.3" cy="65.4" r="3.1" fill="#fff" opacity="0.95" />
+        <circle cx="181.6" cy="74.4" r="1.8" fill="#fff" opacity="0.75" />
       </g>
 
-      <path d="M154 86 L166 86 C166 92 162 95 160 95 C158 95 154 92 154 86 Z" fill="#e0809a" stroke={line} strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M154 86 L166 86 C166 92 162 95 160 95 C158 95 154 92 154 86 Z" fill={nose} stroke={line} strokeWidth="1.2" strokeLinejoin="round" />
       <path d="M160 95 C160 100 155 103 150 100 M160 95 C160 100 165 103 170 100" fill="none" stroke={line} strokeWidth="2.2" strokeLinecap="round" />
 
       <path
@@ -538,10 +569,6 @@ function Egg({ id }: { id: string }) {
 
       <ellipse cx="70" cy="164" rx="42" ry="8" fill="#4f9e54" opacity="0.3" />
 
-      <g className="md-neon" style={{ pointerEvents: 'none' }}>
-        <Kitten id={`${id}-k`} neon box={{ x: 14, y: 54, width: 112, height: 86 }} />
-      </g>
-
       <g className="md-egg-shell">
         <g className="md-egg-bot">
           <path
@@ -618,7 +645,7 @@ const POEM: Array<[string, string]> = [
 ]
 
 const PETS = [
-  { name: 'Gatita Amarilla', rar: 'Legendary', cls: 'md-legend', art: 'cat' },
+  { name: 'Gatita Plateada', rar: 'Legendary', cls: 'md-legend', art: 'cat' },
   { name: 'Abeja Curiosa', rar: 'Ultra-Rare', cls: 'md-ultra', art: 'bee' },
   { name: 'Tulipán Eterno', rar: 'Rare', cls: 'md-rare', art: 'flower' },
   { name: 'Huevo Sorpresa', rar: 'Common', cls: 'md-common', art: 'egg' },
@@ -636,6 +663,7 @@ export default function MyDarling() {
   const [season, setSeason] = useState(0)
   const [hatched, setHatched] = useState(false)
   const [sunNote, setSunNote] = useState(false)
+  const [petReady, setPetReady] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   const field = useMemo(() => growField(20260921 + season), [season])
@@ -828,23 +856,38 @@ export default function MyDarling() {
 
               <div className="md-egg-row">
                 <div>
-                  <button
-                    type="button"
-                    className={`md-egg ${hatched ? 'md-open' : 'md-idle'}`}
-                    onClick={() => setHatched(true)}
-                    aria-label={hatched ? 'El huevo ya eclosionó' : 'Abrir el huevo'}
-                  >
-                    <Egg id="egg" />
-                  </button>
-                  <p className="md-egg-hint">{hatched ? '¡legendaria!' : 'toca el huevo'}</p>
+                  <div className="md-hatch">
+                    <button
+                      type="button"
+                      className={`md-egg ${hatched ? 'md-open' : 'md-idle'}`}
+                      onClick={() => setHatched(true)}
+                      aria-label={hatched ? 'El huevo ya eclosionó' : 'Abrir el huevo'}
+                    >
+                      <Egg id="egg" />
+                    </button>
+                    {hatched && (
+                      <div className={`md-pet-stage ${petReady ? 'md-on' : ''}`}>
+                        <div className="md-pet-fallback">
+                          <Kitten id="hatched" />
+                        </div>
+                        <Pet3D
+                          label="Gatita atigrada en 3D. Arrástrala para girarla."
+                          onReady={() => setPetReady(true)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <p className="md-egg-hint">
+                    {!hatched ? 'toca el huevo' : petReady ? 'arrástrala para girarla' : '¡legendaria!'}
+                  </p>
                 </div>
 
                 <p className={`md-hatch-note ${hatched ? 'md-on' : ''}`}>
                   {hatched ? (
                     <>
-                      Salió una gatita neón amarilla.
+                      Salió atigrada, gris plata, igualita a la que ya conoces.
                       <br />
-                      Igual que tú: rarísima, brillante, y no la cambio por nada.
+                      Legendaria, obvio. Y no la cambio por nada.
                     </>
                   ) : (
                     <>
