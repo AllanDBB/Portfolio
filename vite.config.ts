@@ -2,9 +2,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwind from '@tailwindcss/vite'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tailwind()],
   base: '/',
+  build: {
+    outDir: 'dist',
+    // Keep the prerendered markup in index.html as the SSR template.
+    emptyOutDir: true,
+  },
 })
-

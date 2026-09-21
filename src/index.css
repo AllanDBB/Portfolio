@@ -1,72 +1,258 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Design system — "Editorial oscuro"
+   Jade · Negro · Blanco
+   ============================================================ */
+
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-elev: var(--c-elev);
+  --color-surface: var(--c-surface);
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+  --color-fg: var(--c-fg);
+  --color-muted: var(--c-muted);
+  --color-faint: var(--c-faint);
+  --color-jade: var(--c-jade);
+  --color-jade-dim: var(--c-jade-dim);
+  --color-jade-deep: var(--c-jade-deep);
+  --color-on-jade: var(--c-on-jade);
+
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---- Dark is canonical ---- */
 :root {
-  /* Minimalist: White, Black, Turquoise */
-  --bg: #ffffff;
-  --bg-alt: #f3f4f6; /* zinc-100 for section contrast */
-  --card: #ffffff;
-  --border: #e5e7eb;
-  --text: #111827; /* gray-900 */
-  --muted: #6b7280; /* gray-500 */
-  --accent: #0d9488; /* teal-600 */
-  --accent-light: #ccfbf1; /* teal-100 */
-  --text-on-accent: #ffffff;
+  --c-bg: #070a09;
+  --c-elev: #0d1211;
+  --c-surface: #121917;
+  --c-line: #1d2724;
+  --c-line-strong: #2b3936;
+  --c-fg: #f2f6f4;
+  --c-muted: #93a49f;
+  --c-faint: #5d6d69;
+  --c-jade: #4fe3ae;
+  --c-jade-dim: #00a86b;
+  --c-jade-deep: #073f2e;
+  --c-on-jade: #04140e;
+
+  color-scheme: dark;
 }
 
-:root.dark {
-  --bg: #0f172a; /* slate-900 */
-  --bg-alt: #1e293b; /* slate-800 */
-  --card: #1e293b; /* slate-800 */
-  --border: #334155; /* slate-700 */
-  --text: #f1f5f9; /* slate-100 */
-  --muted: #94a3b8; /* slate-400 */
-  --accent: #14b8a6; /* teal-500 - slightly brighter for dark mode */
-  --accent-light: #134e4a; /* teal-900 */
-  --text-on-accent: #ffffff;
+/* ---- Light variant ---- */
+:root.light {
+  --c-bg: #ffffff;
+  --c-elev: #f7faf9;
+  --c-surface: #ffffff;
+  --c-line: #e3ebe8;
+  --c-line-strong: #cbd8d4;
+  --c-fg: #070d0b;
+  --c-muted: #566661;
+  --c-faint: #8b9a95;
+  --c-jade: #00784f;
+  --c-jade-dim: #00a86b;
+  --c-jade-deep: #d6f5e8;
+  --c-on-jade: #ffffff;
+
+  color-scheme: light;
 }
 
-html, body, #root { height: 100%; }
+html {
+  background: var(--c-bg);
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   margin: 0;
-  color: var(--text);
-  background: var(--bg);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--c-bg);
+  color: var(--c-fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+::selection {
+  background: var(--c-jade);
+  color: var(--c-on-jade);
 }
 
-.chip {
-  background: var(--card);
-  border: 1px solid var(--border);
-  transition: all 0.2s ease;
-  border-radius: 9999px;
-  color: var(--text);
-}
-.chip:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+/* ============================================================
+   Typography primitives
+   ============================================================ */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
 }
 
-/* Formal focus rings */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-faint);
+}
+
+.index-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--c-jade);
+  font-variant-numeric: tabular-nums;
+}
+
+.prose-body {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--c-muted);
+}
+.prose-body strong {
+  color: var(--c-fg);
+  font-weight: 600;
+}
+
+/* ============================================================
+   Rules & structure
+   ============================================================ */
+
+.hairline {
+  border-color: var(--c-line);
+}
+
+.jade-rule {
+  height: 1px;
+  width: 4.5rem;
+  background: var(--c-jade);
+}
+
+/* ============================================================
+   Interactions
+   ============================================================ */
+
+.link-underline {
+  background-image: linear-gradient(var(--c-jade), var(--c-jade));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Row that reveals a jade wash + arrow on hover */
+.row-item {
+  position: relative;
+  transition: color 0.3s ease;
+}
+.row-item::before {
+  content: "";
+  position: absolute;
+  inset: 0 -1.25rem;
+  background: var(--c-elev);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: 2px;
+}
+.row-item:hover::before {
+  opacity: 1;
+}
+.row-item > * {
+  position: relative;
+}
+
+.card-lift {
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  border-color: var(--c-line-strong);
+}
+
 *:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 2px solid var(--c-jade);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
-/* Simple shadows */
-.soft-shadow {
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+/* ============================================================
+   Reveal on scroll
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
 }
 
-.tab-bubble {
-  display: none; /* Hide old bubbles if any remain */
+/* Pre-rendered HTML must be readable before JS boots */
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   Grain / atmosphere — subtle, dark theme only
+   ============================================================ */
+
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:root.light .grain::after {
+  opacity: 0;
+}
+
+/* ============================================================
+   Scrollbar
+   ============================================================ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-line-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--c-line-strong);
+  border-radius: 99px;
+  border: 3px solid var(--c-bg);
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}

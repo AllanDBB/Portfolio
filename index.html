@@ -1,14 +1,63 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="no-js">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portafolio • Allan</title>
-    <meta name="description" content="Portafolio personal de Allan" />
+
+    <title>Allan Bolaños B.</title>
+    <meta
+      name="description"
+      content="Ingeniero de software e investigador en series temporales. Arquitectura backend, machine learning aplicado y detección de anomalías en señales biomédicas."
+    />
+    <link rel="canonical" href="https://allanbolanos.com" />
+    <meta name="author" content="Allan Bolaños B." />
+    <meta name="theme-color" content="#070a09" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Allan Bolaños B." />
+    <meta property="og:title" content="Allan Bolaños B." />
+    <meta
+      property="og:description"
+      content="Ingeniero de software e investigador en series temporales. Arquitectura backend, machine learning aplicado y detección de anomalías en señales biomédicas."
+    />
+    <meta property="og:image" content="https://allanbolanos.com/avatars/1.png" />
+    <meta property="og:url" content="https://allanbolanos.com" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Allan Bolaños B." />
+    <meta
+      name="twitter:description"
+      content="Ingeniero de software e investigador en series temporales."
+    />
+    <meta name="twitter:image" content="https://allanbolanos.com/avatars/1.png" />
+
     <link rel="icon" type="image/svg+xml" href="/Logo.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      // Apply the saved theme before first paint to avoid a flash.
+      (function () {
+        document.documentElement.classList.remove('no-js')
+        try {
+          var saved = localStorage.getItem('theme')
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+          if (saved === 'light' || (!saved && prefersLight)) {
+            document.documentElement.classList.add('light')
+          }
+          var lang = localStorage.getItem('locale')
+          if (lang === 'en' || lang === 'es') document.documentElement.lang = lang
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
-  </html>
+</html>
