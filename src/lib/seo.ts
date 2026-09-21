@@ -86,7 +86,7 @@ export function metaForPath(path: string): PageMeta {
     case '/my-darling':
       return {
         title: 'my darling',
-        description: 'Un jardín de girasoles que no se marchita.',
+        description: 'Un jardín de primavera que no se marchita.',
         image: SITE.ogImage,
         canonical: `${SITE.url}/my-darling`,
       }
