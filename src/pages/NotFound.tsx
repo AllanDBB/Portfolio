@@ -1,21 +1,26 @@
-import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
-import { Container } from '../components/primitives'
+import { Pill, Split } from '../components/primitives'
+import { SignalField } from '../components/SignalField'
 
 export default function NotFound() {
   const { t } = useI18n()
-
   return (
-    <Container className="flex min-h-[60vh] flex-col justify-center py-24">
-      <span className="index-num">404</span>
-      <h1 className="display mt-4 text-[clamp(2.5rem,8vw,6rem)]">{t('common.notFound')}</h1>
-      <p className="prose-body mt-4 max-w-md">{t('common.notFoundLead')}</p>
-      <Link
-        to="/"
-        className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-jade px-5 py-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-on-jade transition-opacity hover:opacity-90"
-      >
-        {t('common.goHome')} →
-      </Link>
-    </Container>
+    <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden px-[var(--gutter)] pb-16">
+      <div className="absolute inset-0 opacity-50">
+        <SignalField />
+      </div>
+      <div className="relative">
+        <p className="label">404 · {t('common.notFound')}</p>
+        <h1 className="display h-xl mt-6">
+          <Split text="404" />
+        </h1>
+        <p className="mt-6 max-w-md text-lg text-muted">{t('common.notFoundLead')}</p>
+        <div className="mt-8">
+          <Pill to="/" solid>
+            {t('common.goHome')}
+          </Pill>
+        </div>
+      </div>
+    </section>
   )
 }

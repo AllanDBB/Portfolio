@@ -60,7 +60,7 @@ export function metaForPath(path: string): PageMeta {
     case '/':
       return meta(
         SITE.title,
-        'Ingeniero de software e investigador en series temporales. Arquitectura backend, machine learning aplicado y detección de anomalías en señales biomédicas.',
+        'Allan Bolaños Barrientos — ingeniero de software e investigador en IA. Detección de puntos de cambio en señales biomédicas, arquitectura backend y productos desplegados.',
         '/'
       )
     case '/work':
@@ -72,7 +72,7 @@ export function metaForPath(path: string): PageMeta {
     case '/research':
       return meta(
         'Investigación',
-        `Detección de puntos de cambio, arritmias en series cardíacas y sistemas cognitivos. ${research.length} líneas y publicaciones.`,
+        `Publicado en ITISE 2026 (MDPI): benchmark de 16 detectores de puntos de cambio online bajo ruido. Más arritmias en series cardíacas y sistemas cognitivos — ${research.length} líneas.`,
         '/research'
       )
     case '/projects':

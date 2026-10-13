@@ -1,70 +1,81 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { projects } from '../content'
-import { PROJECT_KINDS, type ProjectKind } from '../types'
-import { Container, Reveal } from '../components/primitives'
-import { ProjectCard } from '../components/cards'
-import { PageHead } from './Work'
-
-type Filter = ProjectKind | 'all'
+import { PROJECT_KINDS } from '../types'
+import type { ProjectKind } from '../types'
+import { PageHero } from '../components/PageHero'
+import { Reveal } from '../components/primitives'
+import { useHoverPreview } from '../components/HoverPreview'
+import { opt } from '../lib/img'
 
 export default function Projects() {
-  const { t } = useI18n()
-  const [filter, setFilter] = useState<Filter>('all')
+  const { t, locale } = useI18n()
+  const [filter, setFilter] = useState<ProjectKind | 'all'>('all')
+  const { show, hide } = useHoverPreview()
 
-  const filtered = useMemo(
-    () => (filter === 'all' ? projects : projects.filter((p) => p.kind === filter)),
-    [filter]
-  )
-
-  const counts = useMemo(() => {
-    const map = new Map<Filter, number>([['all', projects.length]])
-    for (const kind of PROJECT_KINDS) {
-      map.set(kind, projects.filter((p) => p.kind === kind).length)
-    }
-    return map
-  }, [])
-
-  const filters: Filter[] = ['all', ...PROJECT_KINDS]
+  const list = filter === 'all' ? projects : projects.filter((p) => p.kind === filter)
+  const count = (k: ProjectKind | 'all') => (k === 'all' ? projects.length : projects.filter((p) => p.kind === k).length)
 
   return (
-    <Container className="pt-12">
-      <Reveal>
-        <PageHead label={t('nav.projects')} title={t('projects.title')} lead={t('projects.lead')} />
-      </Reveal>
+    <>
+      <PageHero
+        index="P"
+        eyebrow={t('projects.title')}
+        title={locale === 'es' ? 'Índice de\n_proyectos_' : 'Project\n_index_'}
+        lead={t('projects.lead')}
+        meta={<span className="display text-[4rem] leading-none">{projects.length}</span>}
+      />
 
-      <div className="sticky top-[72px] z-30 -mx-2 mt-8 flex flex-wrap gap-2 bg-bg/90 px-2 py-4 backdrop-blur-sm">
-        {filters.map((key) => {
-          const active = filter === key
-          return (
+      <section className="px-[var(--gutter)]">
+        <div className="flex flex-wrap gap-2" role="tablist" aria-label={t('projects.title')}>
+          {(['all', ...PROJECT_KINDS] as const).map((k) => (
             <button
-              key={key}
-              onClick={() => setFilter(key)}
-              aria-pressed={active}
-              className={`rounded-full border px-4 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.12em] transition-colors ${
-                active
-                  ? 'border-jade bg-jade text-on-jade'
-                  : 'border-line text-muted hover:border-jade hover:text-jade'
+              key={k}
+              role="tab"
+              aria-selected={filter === k}
+              onClick={() => setFilter(k)}
+              className={`rounded-full border px-4 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] transition-colors duration-500 ${
+                filter === k ? 'border-fg bg-fg text-bg' : 'border-line-strong text-muted hover:border-fg hover:text-fg'
               }`}
             >
-              {t(`projects.${key}`)}
-              <span className={`ml-2 ${active ? 'text-on-jade/70' : 'text-faint'}`}>{counts.get(key) ?? 0}</span>
+              {t(`projects.${k}`)}
+              <sup className="ml-1 opacity-60">{count(k)}</sup>
             </button>
-          )
-        })}
-      </div>
-
-      {filtered.length === 0 ? (
-        <p className="py-20 text-center text-sm text-muted">{t('projects.empty')}</p>
-      ) : (
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((project, i) => (
-            <Reveal key={project.id} delay={(i % 3) * 70}>
-              <ProjectCard item={project} />
-            </Reveal>
           ))}
         </div>
-      )}
-    </Container>
+
+        <div className="label mt-12 hidden grid-cols-[4rem_1fr_14rem_10rem_5rem] gap-6 border-b border-line pb-4 md:grid">
+          <span>#</span>
+          <span>{locale === 'es' ? 'Proyecto' : 'Project'}</span>
+          <span>{locale === 'es' ? 'Tipo' : 'Type'}</span>
+          <span>Stack</span>
+          <span className="text-right">{t('detail.year')}</span>
+        </div>
+
+        <ul onPointerLeave={hide} className="border-t border-line md:border-t-0">
+          {list.map((p, i) => (
+            <Reveal as="li" key={`${filter}-${p.id}`} delay={Math.min(i, 8) * 40}>
+              <Link
+                to={`/projects/${p.id}`}
+                onPointerEnter={() => show(opt(p.image))}
+                data-cursor={p.image ? undefined : t('projects.view')}
+                className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-6 gap-y-2 border-b border-line py-6 md:grid-cols-[4rem_1fr_14rem_10rem_5rem] md:py-7"
+              >
+                <span className="label">{String(i + 1).padStart(2, '0')}</span>
+                <span className="display text-[clamp(1.5rem,3.2vw,3rem)] leading-[1] tracking-[-0.035em] transition-[transform,color] duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-4 group-hover:text-signal-ink">
+                  {p.title}
+                </span>
+                <span className="label text-right md:hidden">{p.year}</span>
+                <span className="label col-start-2 md:col-start-auto">{t(`projects.${p.kind}`)}</span>
+                <span className="hidden truncate text-xs text-muted md:block">{p.tech.slice(0, 3).join(' · ')}</span>
+                <span className="label hidden text-right md:block">{p.year}</span>
+              </Link>
+            </Reveal>
+          ))}
+        </ul>
+        {list.length === 0 && <p className="py-16 text-muted">{t('projects.empty')}</p>}
+      </section>
+    </>
   )
 }

@@ -7,18 +7,18 @@
     <title>Allan Bolaños B.</title>
     <meta
       name="description"
-      content="Ingeniero de software e investigador en series temporales. Arquitectura backend, machine learning aplicado y detección de anomalías en señales biomédicas."
+      content="Allan Bolaños Barrientos — ingeniero de software e investigador en IA. Detección de puntos de cambio en señales biomédicas, arquitectura backend y productos desplegados."
     />
     <link rel="canonical" href="https://allanbolanos.com" />
     <meta name="author" content="Allan Bolaños B." />
-    <meta name="theme-color" content="#070a09" />
+    <meta name="theme-color" content="#0b0b0a" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Allan Bolaños B." />
     <meta property="og:title" content="Allan Bolaños B." />
     <meta
       property="og:description"
-      content="Ingeniero de software e investigador en series temporales. Arquitectura backend, machine learning aplicado y detección de anomalías en señales biomédicas."
+      content="Allan Bolaños Barrientos — ingeniero de software e investigador en IA. Detección de puntos de cambio en señales biomédicas, arquitectura backend y productos desplegados."
     />
     <meta property="og:image" content="https://allanbolanos.com/avatars/1.png" />
     <meta property="og:url" content="https://allanbolanos.com" />
@@ -36,15 +36,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..700&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
     <script>
       // Apply the saved theme before first paint to avoid a flash.
       (function () {
-        document.documentElement.classList.remove('no-js')
+        var root = document.documentElement
+        root.classList.remove('no-js')
+        root.classList.add('js')
         try {
+          if (sessionStorage.getItem('intro') || location.pathname !== '/') root.classList.add('intro-seen')
           var saved = localStorage.getItem('theme')
           var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
           if (saved === 'light' || (!saved && prefersLight)) {

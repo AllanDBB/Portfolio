@@ -3,15 +3,20 @@ import type { Research } from '../types'
 export const research: Research[] = [
   {
     id: 'cpd-benchmark',
-    title: 'Benchmarking Online Change Point Detection Algorithms',
+    title: 'Assessing Online Change Point Detection in Noisy Environments: A Case Study on Synthetic and Real Crime Data',
     kind: 'paper',
-    year: '2025',
-    venue: { es: 'Manuscrito · Tecnológico de Costa Rica', en: 'Manuscript · Tecnológico de Costa Rica' },
+    year: '2026',
+    venue: {
+      es: 'ITISE 2026 · Computer Sciences & Mathematics Forum (MDPI) 16(1), 2',
+      en: 'ITISE 2026 · Computer Sciences & Mathematics Forum (MDPI) 16(1), 2',
+    },
+    authors: 'Allan Bolaños Barrientos, Martín Solís',
+    doi: '10.3390/cmsf2026016002',
     status: 'shipped',
     featured: true,
     abstract: {
-      es: 'Comparación sistemática de 16 algoritmos de detección de puntos de cambio online sobre datasets sintéticos y reales, con análisis del rendimiento bajo condiciones de ruido alto.',
-      en: 'Systematic comparison of 16 online change point detection algorithms across synthetic and real datasets, analyzing performance under high-noise conditions.',
+      es: 'Benchmark de 16 algoritmos de detección de puntos de cambio online sobre series sintéticas (variando ruido, magnitud y tipo de cambio) y series reales de criminalidad etiquetadas a mano. Ningún método gana en todos los regímenes.',
+      en: 'A benchmark of 16 online change point detection algorithms over synthetic series (varying noise, change magnitude and change type) and hand-labeled real crime-count series. No single method wins across regimes.',
     },
     detail: {
       es: 'La detección de puntos de cambio online tiene un problema práctico: la literatura reporta resultados sobre datos limpios, pero las señales reales llegan con ruido. Este trabajo evalúa 16 algoritmos bajo un protocolo común, midiendo tiempo medio hasta la detección (MTTD) y F1 con tolerancia, y caracteriza cómo se degrada cada familia de métodos conforme aumenta el ruido.\n\nEl resultado no es un ganador único sino un mapa de trade-offs: qué algoritmos sostienen precisión a costa de latencia, cuáles detectan rápido pero generan falsos positivos, y en qué regímenes de ruido cada uno deja de ser útil.',
@@ -19,6 +24,7 @@ export const research: Research[] = [
     },
     tech: ['Time Series', 'Statistical Analysis', 'CUSUM', 'EWMA', 'Python'],
     links: [
+      { label: 'DOI · MDPI', href: 'https://doi.org/10.3390/cmsf2026016002', kind: 'paper' },
       { label: 'Manuscrito (PDF)', href: '/papers/ChangePoint_manuscript__Final.pdf', kind: 'paper' },
       { label: 'Pipeline', href: 'https://github.com/AllanDBB/online-cpd-pipeline', kind: 'repo' },
       { label: 'Plataforma DCP', href: 'https://dcp-itcr.vercel.app', kind: 'demo' },

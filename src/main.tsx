@@ -21,7 +21,7 @@ const tree = (
 const container = document.getElementById('root')!
 
 // Prerendered HTML is hydrated; a cold dev start mounts fresh.
-if (container.hasChildNodes()) {
+if (container.firstElementChild) {
   hydrateRoot(container, tree)
 } else {
   createRoot(container).render(tree)

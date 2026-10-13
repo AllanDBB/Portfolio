@@ -1,155 +1,150 @@
 import { useI18n } from '../i18n'
-import { languages, links, profile, skillGroups, ventures } from '../content'
-import { Container, Reveal, SectionHead } from '../components/primitives'
-import { PageHead } from './Work'
+import { languages, profile, skillGroups, ventures } from '../content'
+import { Eyebrow, Pill, Reveal, Split } from '../components/primitives'
+import { opt } from '../lib/img'
+
+const PRINCIPLES = [
+  {
+    es: ['Ciencia con ambición de startup', 'Me encantan las startups. La investigación da las preguntas; fundar obliga a responderlas con algo que exista.'],
+    en: ['Science with startup ambition', 'I love startups. Research gives the questions; founding forces you to answer them with something that exists.'],
+  },
+  {
+    es: ['Medir antes de opinar', 'Un benchmark honesto vale más que una intuición elegante. Si no está medido, todavía es una hipótesis.'],
+    en: ['Measure before opining', 'An honest benchmark beats an elegant hunch. If it is not measured, it is still a hypothesis.'],
+  },
+  {
+    es: ['Ruido real, no de laboratorio', 'Los modelos se rompen en el mundo. Pruebo bajo ruido, artefactos y datos faltantes desde el principio.'],
+    en: ['Real noise, not lab noise', 'Models break in the world. I test under noise, artefacts and missing data from day one.'],
+  },
+  {
+    es: ['Que llegue a producción', 'La investigación que nadie usa es un borrador. Diseño para que el resultado termine en código desplegado.'],
+    en: ['Make it ship', 'Research nobody uses is a draft. I design so the result ends up as deployed code.'],
+  },
+  {
+    es: ['Complejo, a propósito', 'No creo en KISS. Los problemas que me importan — el cerebro, el corazón, los sistemas vivos — no son simples, y fingir que lo son es la forma más rápida de resolver el problema equivocado.'],
+    en: ['Complex, on purpose', 'I do not believe in KISS. The problems I care about — the brain, the heart, living systems — are not simple, and pretending they are is the fastest way to solve the wrong problem.'],
+  },
+]
 
 export default function About() {
   const { t, locale } = useI18n()
 
   return (
-    <Container className="pt-12">
-      <Reveal>
-        <PageHead label={t('nav.about')} title={t('about.title')} lead={t('about.lead')} />
-      </Reveal>
-
-      <div className="grid gap-14 pt-14 md:grid-cols-12">
+    <>
+      <section className="grid gap-12 px-[var(--gutter)] pt-36 md:grid-cols-12 md:pt-48">
         <div className="md:col-span-7">
-          <Reveal>
-            <div className="max-w-2xl space-y-6">
-              {profile.about[locale].split('\n\n').map((paragraph, i) => (
-                <p key={i} className={i === 0 ? 'prose-body text-lg text-fg' : 'prose-body'}>
-                  {paragraph}
-                </p>
-              ))}
-            </div>
+          <Eyebrow index="A">{t('about.title')}</Eyebrow>
+          <h1 className="display h-lg mt-8">
+            <Split text={locale === 'es' ? 'Hola, soy\n_Allan._' : "Hi, I'm\n_Allan._"} />
+          </h1>
+          <Reveal delay={200} className="prose-body mt-12 max-w-2xl">
+            {profile.about[locale].split('\n\n').map((p, i) => (
+              <p key={i} className={i === 0 ? 'text-[1.3rem] leading-snug text-fg' : ''}>
+                {p}
+              </p>
+            ))}
           </Reveal>
-
-          <Reveal>
-            <section className="mt-16">
-              <h2 className="label">{t('about.skills')}</h2>
-              <div className="mt-6 space-y-7">
-                {skillGroups.map((group) => (
-                  <div key={group.label.en} className="border-t border-line pt-5">
-                    <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-jade">
-                      {group.label[locale]}
-                    </h3>
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {group.items.map((item) => (
-                        <span
-                          key={item}
-                          className="rounded-full border border-line px-3 py-1 font-mono text-[0.7rem] text-muted"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+          <Reveal delay={260} className="mt-10 flex flex-wrap gap-3">
+            <Pill href="/AllanBolanos_CV.pdf" solid>
+              {t('about.downloadCV')}
+            </Pill>
+            <Pill href={`mailto:${profile.email}`}>Email</Pill>
           </Reveal>
         </div>
-
-        <aside className="md:col-span-5 md:pl-6">
-          <Reveal>
-            <div className="overflow-hidden rounded-lg border border-line bg-elev">
-              <img src={profile.avatar} alt={profile.name} className="aspect-[4/5] w-full object-cover" />
+        <div className="md:col-span-5">
+          <Reveal clip className="overflow-hidden rounded-[2px] md:sticky md:top-24">
+            <img
+              src={opt('/avatars/1.jpg')}
+              alt={profile.fullName}
+              className="aspect-[4/5] w-full object-cover object-[60%_40%]"
+            />
+            <div className="label mt-3 flex justify-between">
+              <span>{profile.fullName}</span>
+              <span>Costa Rica</span>
             </div>
           </Reveal>
-
-          <Reveal>
-            <section className="mt-10">
-              <h2 className="label">{t('about.languages')}</h2>
-              <ul className="mt-5 space-y-4">
-                {languages.map((language) => (
-                  <li key={language.name.en}>
-                    <div className="flex items-baseline justify-between gap-4">
-                      <span className="text-sm text-fg">{language.name[locale]}</span>
-                      <span className="font-mono text-[0.7rem] text-faint">{language.level[locale]}</span>
-                    </div>
-                    <div className="mt-2 h-px w-full bg-line">
-                      <div className="h-px bg-jade" style={{ width: `${language.proficiency}%` }} />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </Reveal>
-
-          <Reveal>
-            <section className="mt-10">
-              <h2 className="label">{t('about.education')}</h2>
-              <p className="mt-4 text-sm text-fg">{profile.education.degree[locale]}</p>
-              <p className="mt-1 text-sm text-muted">{profile.education.school}</p>
-              <p className="mt-1 font-mono text-xs text-jade">{profile.education.period}</p>
-            </section>
-          </Reveal>
-
-          <Reveal>
-            <section className="mt-10">
-              <h2 className="label">{t('about.ventures')}</h2>
-              <ul className="mt-4 space-y-4">
-                {ventures.map((venture) => (
-                  <li key={venture.id}>
-                    {venture.href ? (
-                      <a
-                        href={venture.href}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="link-underline text-sm text-fg hover:text-jade"
-                      >
-                        {venture.name} ↗
-                      </a>
-                    ) : (
-                      <span className="text-sm text-fg">{venture.name}</span>
-                    )}
-                    <p className="mt-1 text-xs leading-relaxed text-muted">{venture.tagline[locale]}</p>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </Reveal>
-
-          <Reveal>
-            <section className="mt-10 border-t border-line pt-8">
-              <h2 className="label">{t('about.contact')}</h2>
-              <ul className="mt-4 space-y-2">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-                      className="link-underline text-sm text-muted hover:text-jade"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="/AllanBolanos_CV.pdf"
-                className="mt-6 inline-block rounded-full bg-jade px-5 py-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-on-jade transition-opacity hover:opacity-90"
-              >
-                {t('about.downloadCV')} ↓
-              </a>
-            </section>
-          </Reveal>
-        </aside>
-      </div>
-
-      <section className="pt-28">
-        <Reveal>
-          <SectionHead label={t('about.contact')} title={locale === 'es' ? 'Escribime' : 'Get in touch'} />
-        </Reveal>
-        <Reveal>
-          <a
-            href={`mailto:${profile.email}`}
-            className="display mt-8 block break-all text-[clamp(1.5rem,5vw,3.5rem)] transition-colors hover:text-jade"
-          >
-            {profile.email}
-          </a>
-        </Reveal>
+        </div>
       </section>
-    </Container>
+
+      {/* ---- Principles ---- */}
+      <section className="px-[var(--gutter)] pt-36">
+        <Eyebrow index="01">{t('about.principles')}</Eyebrow>
+        <div className="mt-10 grid border-t border-line md:grid-cols-2">
+          {PRINCIPLES.map((p, i) => (
+            <Reveal key={i} delay={i * 80} className="border-b border-line py-10 md:px-8 md:[&:nth-child(odd)]:border-r md:[&:nth-child(odd)]:pl-0 md:last:col-span-2 md:last:border-r-0">
+              <span className="label text-signal-ink">0{i + 1}</span>
+              <h3 className="display mt-4 text-[clamp(1.75rem,3vw,2.75rem)] tracking-[-0.03em]">{p[locale][0]}</h3>
+              <p className="mt-4 max-w-md leading-relaxed text-muted">{p[locale][1]}</p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ---- Skills ---- */}
+      <section className="px-[var(--gutter)] pt-36">
+        <Eyebrow index="02">{t('about.skills')}</Eyebrow>
+        <div className="mt-10 border-t border-line">
+          {skillGroups.map((g, i) => (
+            <Reveal key={i} delay={i * 60} className="grid gap-4 border-b border-line py-8 md:grid-cols-12">
+              <span className="label md:col-span-3">{g.label[locale]}</span>
+              <p className="display text-[clamp(1.4rem,2.6vw,2.4rem)] leading-[1.1] tracking-[-0.03em] md:col-span-9">
+                {g.items.map((item, k) => (
+                  <span key={item}>
+                    {item}
+                    {k < g.items.length - 1 && <span className="serif px-2 text-faint">/</span>}
+                  </span>
+                ))}
+              </p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ---- Languages, education, ventures ---- */}
+      <section className="grid gap-16 px-[var(--gutter)] pt-36 md:grid-cols-3">
+        <div>
+          <Eyebrow index="03">{t('about.languages')}</Eyebrow>
+          <ul className="mt-8 space-y-6">
+            {languages.map((l) => (
+              <Reveal as="li" key={l.name.en}>
+                <div className="flex items-baseline justify-between">
+                  <span className="text-lg">{l.name[locale]}</span>
+                  <span className="label">{l.level[locale]}</span>
+                </div>
+                <div className="mt-3 h-px bg-line">
+                  <div className="h-px bg-signal-ink" style={{ width: `${l.proficiency}%` }} />
+                </div>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <Eyebrow index="04">{t('about.education')}</Eyebrow>
+          <Reveal className="mt-8">
+            <p className="display text-[2.25rem] leading-[0.95] tracking-[-0.03em]">{profile.education.degree[locale]}</p>
+            <p className="mt-3 text-muted">{profile.education.school}</p>
+            <p className="label mt-2">{profile.education.period}</p>
+          </Reveal>
+        </div>
+        <div>
+          <Eyebrow index="05">{t('about.ventures')}</Eyebrow>
+          <ul className="mt-8 space-y-6">
+            {ventures.map((v) => (
+              <Reveal as="li" key={v.id}>
+                {v.href ? (
+                  <a href={v.href} target="_blank" rel="noreferrer" className="link-line display text-[2.25rem] tracking-[-0.03em]">
+                    {v.name}
+                  </a>
+                ) : (
+                  <span className="display text-[2.25rem] tracking-[-0.03em]">{v.name}</span>
+                )}
+                <p className="mt-2 text-sm text-muted">{v.tagline[locale]}</p>
+                <p className="label mt-2">{v.stage[locale]}</p>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </>
   )
 }

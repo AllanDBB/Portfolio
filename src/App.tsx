@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { NavBar } from './components/NavBar'
 import { Footer } from './components/Footer'
+import { Cursor, Curtain, Preloader } from './components/Chrome'
+import { HoverPreviewProvider } from './components/HoverPreview'
 import Home from './pages/Home'
 import Work from './pages/Work'
 import Research from './pages/Research'
@@ -11,6 +13,7 @@ import About from './pages/About'
 import NotFound from './pages/NotFound'
 import MyDarling from './pages/MyDarling'
 import { metaForPath } from './lib/seo'
+import { refreshTriggers, scrollTo, scrollToTop, startSmoothScroll } from './lib/scroll'
 
 /** Keeps <title>/description in sync on client-side navigation. */
 function DocumentMeta() {
@@ -19,19 +22,25 @@ function DocumentMeta() {
   useEffect(() => {
     const meta = metaForPath(pathname)
     document.title = meta.title
-    document
-      .querySelector('meta[name="description"]')
-      ?.setAttribute('content', meta.description)
+    document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description)
   }, [pathname])
 
   return null
 }
 
-function ScrollToTop() {
-  const { pathname } = useLocation()
+/** New route → top of page (or to its #anchor), then re-measure triggers. */
+function ScrollManager() {
+  const { pathname, hash } = useLocation()
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
-  }, [pathname])
+    if (hash) {
+      // Let the curtain cover the jump before scrolling to the anchor.
+      const id = setTimeout(() => scrollTo(hash), 450)
+      return () => clearTimeout(id)
+    }
+    scrollToTop()
+    const id = setTimeout(refreshTriggers, 120)
+    return () => clearTimeout(id)
+  }, [pathname, hash])
   return null
 }
 
@@ -42,24 +51,45 @@ export default function App() {
   const { pathname } = useLocation()
   const bare = BARE_ROUTES.includes(pathname.replace(/\/+$/, '') || '/')
 
+  useEffect(() => {
+    if (!bare) startSmoothScroll()
+  }, [bare])
+
+  if (bare) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <DocumentMeta />
+        <main className="relative flex-1">
+          <Routes>
+            <Route path="/my-darling" element={<MyDarling />} />
+          </Routes>
+        </main>
+      </div>
+    )
+  }
+
   return (
-    <div className={`${bare ? '' : 'grain '}flex min-h-screen flex-col`}>
-      <DocumentMeta />
-      <ScrollToTop />
-      {!bare && <NavBar />}
-      <main className={bare ? 'relative flex-1' : 'relative z-[2] flex-1 pb-10'}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/research" element={<Research />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/:id" element={<ProjectDetail />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/my-darling" element={<MyDarling />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      {!bare && <Footer />}
-    </div>
+    <HoverPreviewProvider>
+      <div className="grain flex min-h-screen flex-col">
+        <DocumentMeta />
+        <ScrollManager />
+        <Preloader />
+        <Curtain />
+        <Cursor />
+        <NavBar />
+        <main className="relative z-[2] flex-1 bg-bg">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/work" element={<Work />} />
+            <Route path="/research" element={<Research />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/:id" element={<ProjectDetail />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </HoverPreviewProvider>
   )
 }

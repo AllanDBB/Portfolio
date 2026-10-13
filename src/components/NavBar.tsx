@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { useTheme } from '../theme'
-import { Container } from './primitives'
+import { links } from '../content'
+import { Roll } from './primitives'
+import { setScrollLocked } from '../lib/scroll'
 
 const ROUTES = [
   { to: '/work', key: 'nav.work' },
@@ -11,141 +13,122 @@ const ROUTES = [
   { to: '/about', key: 'nav.about' },
 ]
 
+/** Live clock for San José — tells visitors when a reply is likely. */
+export function useCostaRicaTime() {
+  const [time, setTime] = useState('')
+  useEffect(() => {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZone: 'America/Costa_Rica',
+    })
+    const tick = () => setTime(fmt.format(new Date()))
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [])
+  return time
+}
+
 export function NavBar() {
   const { t, locale, toggleLocale } = useI18n()
   const { theme, toggle } = useTheme()
-  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const location = useLocation()
+  const time = useCostaRicaTime()
+
+  useEffect(() => setOpen(false), [location.pathname])
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
-    onScroll()
+    setScrollLocked(open)
+    return () => setScrollLocked(false)
+  }, [open])
+
+  // Tuck the bar away while reading down, bring it back on scroll up.
+  useEffect(() => {
+    let last = window.scrollY
+    const onScroll = () => {
+      const y = window.scrollY
+      setHidden(y > 200 && y > last)
+      last = y
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => {
-    setOpen(false)
-  }, [location.pathname])
-
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [open])
-
   return (
-    <header
-      className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
-        scrolled ? 'border-line bg-bg/85 backdrop-blur-md' : 'border-transparent bg-transparent'
-      }`}
-    >
-      <Container className="flex h-[72px] items-center justify-between gap-6">
-        <Link to="/" className="group flex items-baseline gap-2.5" aria-label={t('nav.home')}>
-          <span className="display text-xl tracking-tight">Allan Bolaños</span>
-          <span className="h-1.5 w-1.5 rounded-full bg-jade transition-transform duration-300 group-hover:scale-150" />
-        </Link>
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-[60] text-[#efece4] mix-blend-difference transition-transform duration-700 ease-[var(--ease-out-expo)] ${
+          hidden && !open ? '-translate-y-full' : ''
+        }`}
+      >
+        <div className="grid h-[68px] grid-cols-[1fr_auto] items-center gap-6 px-[var(--gutter)] md:grid-cols-[1fr_auto_1fr]">
+          <Link to="/" className="roll-host flex items-baseline gap-2" aria-label={t('nav.home')}>
+            <span className="font-display text-[1.05rem] font-semibold tracking-tight">
+              <Roll>Allan Bolaños</Roll>
+            </span>
+            <span className="mono hidden opacity-60 sm:inline">©26</span>
+          </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {ROUTES.map((route) => (
+          <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
+            {ROUTES.map((route) => (
+              <NavLink key={route.to} to={route.to} className="roll-host mono link-line">
+                <Roll>{t(route.key)}</Roll>
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="flex items-center justify-end gap-4">
+            <span className="mono hidden tabular-nums opacity-60 lg:inline">CR {time}</span>
+            <button onClick={toggleLocale} aria-label={t('common.language')} className="mono roll-host">
+              <Roll>{locale === 'es' ? 'EN' : 'ES'}</Roll>
+            </button>
+            <button onClick={toggle} aria-label={t('common.theme')} className="mono roll-host">
+              <Roll>{theme === 'dark' ? (locale === 'es' ? 'Claro' : 'Light') : locale === 'es' ? 'Oscuro' : 'Dark'}</Roll>
+            </button>
+            <button
+              onClick={() => setOpen((v) => !v)}
+              aria-label={t('common.menu')}
+              aria-expanded={open}
+              className="mono roll-host md:hidden"
+            >
+              <Roll>{open ? t('common.close') : t('common.menu')}</Roll>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Full-screen menu (mobile) */}
+      <div
+        className={`fixed inset-0 z-[55] flex flex-col justify-between bg-signal px-[var(--gutter)] pt-24 pb-8 text-on-signal transition-[clip-path] duration-900 ease-[var(--ease-in-out-quart)] md:hidden ${
+          open ? '[clip-path:inset(0_0_0_0)]' : 'pointer-events-none [clip-path:inset(0_0_100%_0)]'
+        }`}
+        aria-hidden={!open}
+      >
+        <nav className="flex flex-col">
+          {[{ to: '/', key: 'nav.home' }, ...ROUTES].map((route, i) => (
             <NavLink
               key={route.to}
               to={route.to}
-              className={({ isActive }) =>
-                `link-underline font-mono text-[0.7rem] uppercase tracking-[0.16em] transition-colors ${
-                  isActive ? 'text-jade' : 'text-muted hover:text-fg'
-                }`
-              }
+              tabIndex={open ? 0 : -1}
+              className="display flex items-baseline gap-4 border-b border-black/15 py-3 text-[clamp(2.75rem,13vw,5rem)]"
             >
+              <span className="mono">0{i + 1}</span>
               {t(route.key)}
             </NavLink>
           ))}
         </nav>
-
-        <div className="flex items-center gap-1">
-          <button
-            onClick={toggleLocale}
-            aria-label={t('common.language')}
-            className="rounded-full border border-line px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted transition-colors hover:border-jade hover:text-jade"
-          >
-            {locale === 'es' ? 'EN' : 'ES'}
-          </button>
-
-          <button
-            onClick={toggle}
-            aria-label={t('common.theme')}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-line text-muted transition-colors hover:border-jade hover:text-jade"
-          >
-            {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
-          </button>
-
-          <button
-            onClick={() => setOpen((v) => !v)}
-            aria-label={t('common.menu')}
-            aria-expanded={open}
-            className="ml-1 flex h-8 w-8 items-center justify-center rounded-full border border-line text-muted transition-colors hover:border-jade hover:text-jade md:hidden"
-          >
-            <span className="relative block h-2.5 w-4">
-              <span
-                className={`absolute left-0 block h-px w-full bg-current transition-transform duration-300 ${
-                  open ? 'top-1/2 rotate-45' : 'top-0'
-                }`}
-              />
-              <span
-                className={`absolute left-0 block h-px w-full bg-current transition-transform duration-300 ${
-                  open ? 'top-1/2 -rotate-45' : 'top-full'
-                }`}
-              />
-            </span>
-          </button>
-        </div>
-      </Container>
-
-      {/* Mobile drawer */}
-      <div
-        className={`overflow-hidden border-t border-line bg-bg transition-[max-height] duration-400 md:hidden ${
-          open ? 'max-h-80' : 'max-h-0 border-t-transparent'
-        }`}
-      >
-        <Container className="flex flex-col gap-1 py-4">
-          {ROUTES.map((route, i) => (
-            <NavLink
-              key={route.to}
-              to={route.to}
-              className={({ isActive }) =>
-                `flex items-baseline gap-4 py-3 font-mono text-sm uppercase tracking-[0.14em] ${
-                  isActive ? 'text-jade' : 'text-muted'
-                }`
-              }
-            >
-              <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
-              {t(route.key)}
-            </NavLink>
+        <div className="flex flex-wrap gap-x-6 gap-y-2">
+          {links.map((l) => (
+            <a key={l.label} href={l.href} tabIndex={open ? 0 : -1} className="mono" target="_blank" rel="noreferrer">
+              {l.label}
+            </a>
           ))}
-        </Container>
+        </div>
       </div>
-    </header>
-  )
-}
-
-function SunIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <circle cx="12" cy="12" r="4.2" />
-      <path
-        strokeLinecap="round"
-        d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"
-      />
-    </svg>
-  )
-}
-
-function MoonIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M20 14.2A8.2 8.2 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z" />
-    </svg>
+    </>
   )
 }

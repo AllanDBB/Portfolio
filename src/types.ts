@@ -50,6 +50,8 @@ export type Research = {
   kind: ResearchKind
   year: string
   venue?: L10n
+  authors?: string
+  doi?: string
   status: Status
   abstract: L10n
   /** Longer body shown on the detail page. */
@@ -119,6 +121,9 @@ export type Venture = {
   id: string
   name: string
   tagline: L10n
+  problem: L10n
+  bet: L10n
+  stage: L10n
   href?: string
 }
 

@@ -1,112 +1,145 @@
 import { useI18n } from '../i18n'
 import { experience, involvement, letters, profile } from '../content'
-import { Container, Reveal, SectionHead } from '../components/primitives'
-import { ExperienceRow } from '../components/cards'
+import { PageHero } from '../components/PageHero'
+import { Arrow, Eyebrow, Reveal, Split } from '../components/primitives'
+import { opt } from '../lib/img'
+
+function fmt(date: string | null, locale: 'es' | 'en', present: string) {
+  if (!date) return present
+  const [y, m] = date.split('-').map(Number)
+  return new Intl.DateTimeFormat(locale === 'es' ? 'es-CR' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(
+    new Date(Date.UTC(y, m - 1, 1))
+  )
+}
 
 export default function Work() {
   const { t, locale } = useI18n()
 
   return (
-    <Container className="pt-12">
-      <Reveal>
-        <PageHead label={t('nav.work')} title={t('work.title')} lead={t('work.lead')} />
-      </Reveal>
-
-      <div className="mt-4">
-        {experience.map((item, i) => (
-          <Reveal key={item.id} delay={Math.min(i, 4) * 60}>
-            <ExperienceRow item={item} index={i} />
-          </Reveal>
-        ))}
-      </div>
-
-      {/* ---- Education ---- */}
-      <section className="pt-24">
-        <Reveal>
-          <SectionHead label={t('work.education')} title={locale === 'es' ? 'Formación' : 'Education'} />
-        </Reveal>
-        <Reveal>
-          <div className="flex flex-col gap-2 border-b border-line py-8 md:flex-row md:items-baseline md:gap-8">
-            <span className="index-num md:w-12">01</span>
-            <div className="flex-1">
-              <h3 className="text-lg font-medium text-fg">{profile.education.degree[locale]}</h3>
-              <p className="mt-1 text-sm text-muted">{profile.education.school}</p>
-            </div>
-            <span className="font-mono text-xs text-jade">{profile.education.period}</span>
+    <>
+      <PageHero
+        index="E"
+        eyebrow={t('work.title')}
+        title={locale === 'es' ? 'Dos frentes,\n_una_ práctica' : 'Two fronts,\n_one_ practice'}
+        lead={t('work.lead')}
+        meta={
+          <div className="label space-y-1">
+            <p>{t('work.education')}</p>
+            <p className="text-fg">{profile.education.school}</p>
+            <p>{profile.education.period}</p>
           </div>
-        </Reveal>
+        }
+      />
+
+      <section className="px-[var(--gutter)]">
+        <ol className="border-t border-line">
+          {experience.map((e) => (
+            <li key={e.id} id={e.id} className="scroll-mt-24 border-b border-line">
+              <Reveal className="grid gap-8 py-12 md:grid-cols-12 md:py-16">
+                <div className="md:col-span-3">
+                  <p className="font-mono text-xs uppercase tracking-[0.08em] text-fg">
+                    {fmt(e.start, locale, '')} — {fmt(e.end, locale, t('work.present'))}
+                  </p>
+                  <p className="label mt-2">{e.mode[locale]}</p>
+                  <span
+                    className={`mt-6 inline-block rounded-full px-3 py-1 font-mono text-[0.625rem] uppercase tracking-[0.08em] ${
+                      e.track === 'research' ? 'bg-signal text-on-signal' : 'border border-line-strong text-muted'
+                    }`}
+                  >
+                    {t(`work.${e.track}`)}
+                  </span>
+                </div>
+                <div className="md:col-span-6">
+                  <h2 className="display text-[clamp(1.9rem,3.4vw,3.25rem)] leading-[0.95] tracking-[-0.035em]">{e.role[locale]}</h2>
+                  <a
+                    href={e.orgUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link-line mt-3 inline-flex items-center gap-2 text-muted"
+                  >
+                    {e.org} <Arrow />
+                  </a>
+                  <p className="mt-6 text-lg leading-snug text-fg">{e.summary[locale]}</p>
+                  <ul className="mt-6 space-y-3">
+                    {e.highlights.map((h, i) => (
+                      <li key={i} className="grid grid-cols-[1.5rem_1fr] text-[0.95rem] leading-relaxed text-muted">
+                        <span className="label pt-1">{String(i + 1).padStart(2, '0')}</span>
+                        <span>{h[locale]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {e.tech.map((tech) => (
+                      <span key={tech} className="tag">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                {e.image && (
+                  <div className="md:col-span-3">
+                    <div className="overflow-hidden rounded-[2px]">
+                      <img src={opt(e.image)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
+                    </div>
+                  </div>
+                )}
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </section>
 
       {/* ---- Community ---- */}
-      <section className="pt-24">
-        <Reveal>
-          <SectionHead
-            label={t('work.community')}
-            title={locale === 'es' ? 'Comunidad y liderazgo' : 'Community & leadership'}
-          />
-        </Reveal>
-        <div className="mt-2">
+      <section className="px-[var(--gutter)] pt-36">
+        <Eyebrow index="C">{t('work.community')}</Eyebrow>
+        <h2 className="display h-md mt-6">
+          <Split text={locale === 'es' ? 'Fuera del _horario_' : 'Off the _clock_'} />
+        </h2>
+        <div className="mt-14 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
           {involvement.map((item, i) => (
-            <Reveal key={item.id} delay={i * 60}>
-              <article className="row-item grid gap-3 border-b border-line py-7 md:grid-cols-12 md:gap-6">
-                <div className="flex items-baseline gap-4 md:col-span-3 md:flex-col md:gap-2">
-                  <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="font-mono text-xs text-faint">{item.period}</span>
+            <Reveal key={item.id} delay={i * 80} className="group">
+              {item.image && (
+                <div className="overflow-hidden rounded-[2px]">
+                  <img
+                    src={opt(item.image)}
+                    alt=""
+                    loading="lazy"
+                    className="aspect-[4/5] w-full object-cover grayscale transition-[filter,transform] duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-105 group-hover:grayscale-0"
+                  />
                 </div>
-                <div className="md:col-span-9">
-                  <h3 className="text-base font-medium text-fg">{item.role[locale]}</h3>
-                  <p className="mt-1 font-mono text-xs text-faint">{item.org}</p>
-                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{item.summary[locale]}</p>
-                </div>
-              </article>
+              )}
+              <p className="label mt-5">{item.period}</p>
+              <h3 className="mt-2 text-lg font-medium leading-snug tracking-tight">{item.role[locale]}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{item.summary[locale]}</p>
             </Reveal>
           ))}
         </div>
       </section>
 
       {/* ---- Letters ---- */}
-      <section className="pt-24">
-        <Reveal>
-          <SectionHead
-            label={t('work.letters')}
-            title={locale === 'es' ? 'Cartas de recomendación' : 'Letters of recommendation'}
-          />
-        </Reveal>
-        <div className="mt-10 grid gap-5 sm:grid-cols-3">
-          {letters.map((letter, i) => (
-            <Reveal key={letter.id} delay={i * 70}>
+      <section className="px-[var(--gutter)] pt-36">
+        <Eyebrow index="L">{t('work.letters')}</Eyebrow>
+        <ul className="mt-10 border-t border-line">
+          {letters.map((l) => (
+            <li key={l.id}>
               <a
-                href={letter.href}
+                href={l.href}
                 target="_blank"
-                rel="noreferrer noopener"
-                className="card-lift group flex h-full flex-col justify-between rounded-lg border border-line bg-elev p-6"
+                rel="noreferrer"
+                data-cursor={t('work.openLetter')}
+                className="group flex items-baseline justify-between gap-6 border-b border-line py-7"
               >
-                <div>
-                  <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="mt-3 text-base font-medium text-fg group-hover:text-jade">{letter.author}</h3>
-                  <p className="mt-1 text-sm text-muted">{letter.role[locale]}</p>
-                </div>
-                <span className="mt-8 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-jade">
-                  {t('work.openLetter')} ↗
+                <span className="display text-[clamp(2rem,4vw,3.5rem)] tracking-[-0.035em] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-3">
+                  {l.author}
+                </span>
+                <span className="label flex items-center gap-2">
+                  {l.role[locale]} · PDF <Arrow />
                 </span>
               </a>
-            </Reveal>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
-    </Container>
-  )
-}
-
-export function PageHead({ label, title, lead }: { label: string; title: string; lead?: string }) {
-  return (
-    <header className="border-b border-line pb-10">
-      <div className="flex items-center gap-3">
-        <span className="jade-rule" />
-        <span className="label">{label}</span>
-      </div>
-      <h1 className="display mt-5 text-[clamp(2.75rem,7vw,5.5rem)]">{title}</h1>
-      {lead && <p className="prose-body mt-4 max-w-2xl">{lead}</p>}
-    </header>
+    </>
   )
 }
