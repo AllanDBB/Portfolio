@@ -5,7 +5,6 @@ import { awards, experience, featuredProjects, profile, projects, research, skil
 import { Arrow, Eyebrow, Marquee, Pill, Reveal, Roll, SignalCover, Split, StatusDot } from '../components/primitives'
 import { SignalField } from '../components/SignalField'
 import { CpdDemo } from '../components/CpdDemo'
-import { useHoverPreview } from '../components/HoverPreview'
 import { loadGsap } from '../lib/scroll'
 import { opt } from '../lib/img'
 import { tr } from '../types'
@@ -430,7 +429,6 @@ function Founder() {
 
 function ExperienceSection() {
   const { t, locale } = useI18n()
-  const { show, hide } = useHoverPreview()
   return (
     <section className="px-[var(--gutter)] pt-24 md:pt-36">
       <div className="flex flex-wrap items-end justify-between gap-6">
@@ -443,12 +441,11 @@ function ExperienceSection() {
         <Pill to="/work">{t('home.seeAllWork')}</Pill>
       </div>
 
-      <ul className="mt-16 border-t border-line" onPointerLeave={hide}>
+      <ul className="mt-16 border-t border-line">
         {experience.map((e, i) => (
           <Reveal as="li" key={e.id} delay={i * 50}>
             <Link
               to={`/work#${e.id}`}
-              onPointerEnter={() => show(opt(e.image))}
               className="group relative isolate grid grid-cols-[1fr_auto] gap-x-6 gap-y-1 overflow-hidden border-b border-line py-6 md:grid-cols-[9rem_1fr_16rem_7rem] md:items-baseline md:py-8"
             >
               <span
