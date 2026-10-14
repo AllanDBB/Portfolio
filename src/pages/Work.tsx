@@ -1,7 +1,7 @@
 import { useI18n } from '../i18n'
-import { experience, involvement, letters, profile } from '../content'
+import { companyUrl, experienceByCompany, involvement, letters, profile } from '../content'
 import { PageHero } from '../components/PageHero'
-import { Arrow, Eyebrow, Reveal, Split } from '../components/primitives'
+import { Arrow, CompanyLogo, Eyebrow, Reveal, Roll, Split } from '../components/primitives'
 import { opt } from '../lib/img'
 
 function fmt(date: string | null, locale: 'es' | 'en', present: string) {
@@ -33,61 +33,91 @@ export default function Work() {
 
       <section className="px-[var(--gutter)]">
         <ol className="border-t border-line">
-          {experience.map((e) => (
-            <li key={e.id} id={e.id} className="scroll-mt-24 border-b border-line">
-              <Reveal className="grid gap-8 py-12 md:grid-cols-12 md:py-16">
-                <div className="md:col-span-3">
-                  <p className="font-mono text-xs uppercase tracking-[0.08em] text-fg">
-                    {fmt(e.start, locale, '')} — {fmt(e.end, locale, t('work.present'))}
-                  </p>
-                  <p className="label mt-2">{e.mode[locale]}</p>
-                  <span
-                    className={`mt-6 inline-block rounded-full px-3 py-1 font-mono text-[0.625rem] uppercase tracking-[0.08em] ${
-                      e.track === 'founder' ? 'bg-[#FFB524] text-[#111111]' : e.track === 'research' ? 'bg-signal text-on-signal' : 'border border-line-strong text-muted'
-                    }`}
-                  >
-                    {t(`work.${e.track}`)}
-                  </span>
-                </div>
-                <div className="md:col-span-6">
-                  <a
-                    href={e.orgUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group/org inline-flex items-baseline gap-3"
-                  >
-                    <h2 className="display text-[clamp(2.25rem,4.4vw,4.25rem)] leading-[0.92] tracking-[-0.04em]">{e.org}</h2>
-                    <Arrow className="opacity-50 transition-transform duration-500 group-hover/org:rotate-45" />
-                  </a>
-                  <p className="mt-3 text-sm text-muted">{e.orgInfo[locale]}</p>
-                  <p className="mt-6 text-xl font-medium leading-snug tracking-tight">{e.role[locale]}</p>
-                  <p className="mt-6 text-lg leading-snug text-fg">{e.summary[locale]}</p>
-                  <ul className="mt-6 space-y-3">
-                    {e.highlights.map((h, i) => (
-                      <li key={i} className="grid grid-cols-[1.5rem_1fr] text-[0.95rem] leading-relaxed text-muted">
-                        <span className="label pt-1">{String(i + 1).padStart(2, '0')}</span>
-                        <span>{h[locale]}</span>
+          {experienceByCompany().map(({ company, roles }) => {
+            const url = companyUrl(company)
+            return (
+              <li key={company.id} id={company.id} className="scroll-mt-24 border-b border-line">
+                <div className="grid gap-10 py-14 md:grid-cols-12 md:py-20">
+                  {/* Company — sticky while its roles scroll past */}
+                  <Reveal className="md:col-span-4">
+                    <div className="md:sticky md:top-24">
+                      <CompanyLogo company={company} size={72} />
+                      <h2 className="display mt-6 text-[clamp(2.25rem,4vw,3.75rem)] leading-[0.92] tracking-[-0.04em]">{company.name}</h2>
+                      <p className="mt-3 text-sm text-muted">{company.info[locale]}</p>
+                      <p className="label mt-1">{company.location[locale]}</p>
+                      {url && (
+                        <a
+                          href={url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="roll-host mt-4 inline-flex items-center gap-2 font-mono text-[0.8rem] text-signal-ink"
+                        >
+                          <Roll>{company.domain ?? 'LinkedIn'}</Roll>
+                          <Arrow />
+                        </a>
+                      )}
+                      {roles.length > 1 && (
+                        <p className="label mt-6">
+                          {roles.length} {locale === 'es' ? 'roles' : 'roles'}
+                        </p>
+                      )}
+                    </div>
+                  </Reveal>
+
+                  {/* Roles, newest first, on one timeline */}
+                  <ol className="relative md:col-span-8">
+                    {roles.length > 1 && <span aria-hidden className="absolute left-[5px] top-3 bottom-3 w-px bg-line-strong" />}
+                    {roles.map((e, k) => (
+                      <li key={e.id} id={e.id} className={`relative grid grid-cols-[1.75rem_1fr] scroll-mt-24 ${k > 0 ? 'mt-16' : ''}`}>
+                        <span
+                          aria-hidden
+                          className={`relative mt-1.5 h-[11px] w-[11px] rounded-full border ${
+                            e.end === null ? 'border-signal-ink bg-signal' : 'border-line-strong bg-bg'
+                          }`}
+                        />
+                        <Reveal>
+                          <div className="flex flex-wrap items-center gap-3">
+                            <p className="font-mono text-xs uppercase tracking-[0.08em] text-fg">
+                              {fmt(e.start, locale, '')} — {fmt(e.end, locale, t('work.present'))}
+                            </p>
+                            <span
+                              className={`rounded-full px-3 py-1 font-mono text-[0.625rem] uppercase tracking-[0.08em] ${
+                                e.track === 'founder'
+                                  ? 'bg-[#FFB524] text-[#111111]'
+                                  : e.track === 'research'
+                                    ? 'bg-signal text-on-signal'
+                                    : 'border border-line-strong text-muted'
+                              }`}
+                            >
+                              {t(`work.${e.track}`)}
+                            </span>
+                            <span className="label">{e.mode[locale]}</span>
+                          </div>
+                          <h3 className="mt-4 text-[clamp(1.35rem,2.2vw,1.9rem)] font-medium leading-snug tracking-tight">{e.role[locale]}</h3>
+                          <p className="mt-4 text-lg leading-snug text-fg">{e.summary[locale]}</p>
+                          <ul className="mt-6 space-y-3">
+                            {e.highlights.map((h, i) => (
+                              <li key={i} className="grid grid-cols-[1.5rem_1fr] text-[0.95rem] leading-relaxed text-muted">
+                                <span className="label pt-1">{String(i + 1).padStart(2, '0')}</span>
+                                <span>{h[locale]}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="mt-6 flex flex-wrap gap-2">
+                            {e.tech.map((tech) => (
+                              <span key={tech} className="tag">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </Reveal>
                       </li>
                     ))}
-                  </ul>
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {e.tech.map((tech) => (
-                      <span key={tech} className="tag">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                  </ol>
                 </div>
-                {e.image && (
-                  <div className="md:col-span-3">
-                    <div className="overflow-hidden rounded-[2px]">
-                      <img src={opt(e.image)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
-                    </div>
-                  </div>
-                )}
-              </Reveal>
-            </li>
-          ))}
+              </li>
+            )
+          })}
         </ol>
       </section>
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
-import { awards, experience, featuredProjects, profile, projects, research, skillGroups, ventures } from '../content'
-import { Arrow, Eyebrow, Marquee, Pill, Reveal, Roll, SignalCover, Split, StatusDot } from '../components/primitives'
+import { awards, companyUrl, experienceByCompany, featuredProjects, profile, projects, research, skillGroups, ventures } from '../content'
+import { Arrow, CompanyLogo, Eyebrow, Marquee, Pill, Reveal, Roll, SignalCover, Split, StatusDot } from '../components/primitives'
 import { SignalField } from '../components/SignalField'
 import { CpdDemo } from '../components/CpdDemo'
 import { loadGsap } from '../lib/scroll'
@@ -442,35 +442,80 @@ function ExperienceSection() {
       </div>
 
       <ul className="mt-16 border-t border-line">
-        {experience.map((e, i) => (
-          <Reveal as="li" key={e.id} delay={i * 50}>
-            <Link
-              to={`/work#${e.id}`}
-              className="group relative isolate grid grid-cols-[1fr_auto] gap-x-8 gap-y-3 overflow-hidden border-b border-line py-7 md:grid-cols-[8rem_minmax(0,1.1fr)_minmax(0,1fr)_7rem] md:items-start md:py-9"
-            >
-              <span
-                aria-hidden
-                className="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-signal transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-y-100"
-              />
-              <span className="label order-3 pt-2 group-hover:text-on-signal md:order-none">
-                {e.start.slice(0, 4)} — {e.end ? e.end.slice(0, 4) : t('work.present')}
-              </span>
-              <span className="col-span-2 transition-colors group-hover:text-on-signal md:col-span-1">
-                <span className="display block text-[clamp(1.75rem,3.2vw,3rem)] leading-[0.95] tracking-[-0.035em]">{e.org}</span>
-                <span className="mt-2 block text-sm opacity-60">
-                  {e.orgInfo[locale]} · {e.mode[locale]}
-                </span>
-              </span>
-              <span className="order-4 transition-colors group-hover:text-on-signal md:order-none md:pt-1.5">
-                <span className="block text-lg font-medium leading-snug tracking-tight">{e.role[locale].split(' — ')[0]}</span>
-                {e.role[locale].includes(' — ') && (
-                  <span className="mt-1 block text-sm opacity-60">{e.role[locale].split(' — ')[1]}</span>
-                )}
-              </span>
-              <span className="label hidden pt-2 text-right group-hover:text-on-signal md:block">{t(`work.${e.track}`)}</span>
-            </Link>
-          </Reveal>
-        ))}
+        {experienceByCompany().map(({ company, roles }, i) => {
+          const url = companyUrl(company)
+          const first = roles[roles.length - 1]
+          const last = roles[0]
+          return (
+            <Reveal as="li" key={company.id} delay={i * 60}>
+              <div className="group relative grid gap-x-10 gap-y-8 border-b border-line py-9 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:py-12">
+                <span
+                  aria-hidden
+                  className="absolute left-0 top-0 h-px w-0 bg-signal-ink transition-[width] duration-700 ease-[var(--ease-out-expo)] group-hover:w-full"
+                />
+                {/* Company */}
+                <div className="flex gap-5">
+                  <CompanyLogo company={company} size={60} />
+                  <div className="min-w-0">
+                    <p className="label">
+                      {first.start.slice(0, 4)} — {last.end ? last.end.slice(0, 4) : t('work.present')}
+                    </p>
+                    <h3 className="display mt-2 text-[clamp(1.75rem,3.2vw,3rem)] leading-[0.95] tracking-[-0.035em]">{company.name}</h3>
+                    <p className="mt-2 text-sm text-muted">
+                      {company.info[locale]} · {company.location[locale]}
+                    </p>
+                    {company.domain && url && (
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="roll-host mt-3 inline-flex items-center gap-2 font-mono text-[0.75rem] text-signal-ink"
+                      >
+                        <Roll>{company.domain}</Roll>
+                        <Arrow />
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Roles, stacked on a timeline when there is more than one */}
+                <ol className="relative">
+                  {roles.length > 1 && (
+                    <span aria-hidden className="absolute left-[5px] top-3 bottom-3 w-px bg-line-strong" />
+                  )}
+                  {roles.map((r, k) => (
+                    <li key={r.id} className={k > 0 ? 'mt-6' : ''}>
+                      <Link to={`/work#${company.id}`} className="group/role relative grid grid-cols-[1.5rem_1fr] gap-x-3">
+                        <span
+                          aria-hidden
+                          className={`relative mt-2 h-[11px] w-[11px] rounded-full border ${
+                            r.end === null ? 'border-signal-ink bg-signal' : 'border-line-strong bg-bg'
+                          }`}
+                        />
+                        <span>
+                          <span className="flex flex-wrap items-baseline justify-between gap-x-4">
+                            <span className="text-lg font-medium leading-snug tracking-tight transition-colors group-hover/role:text-signal-ink">
+                              {r.role[locale].split(' — ')[0]}
+                            </span>
+                            <span className="label">
+                              {r.start.slice(0, 4)} — {r.end ? r.end.slice(0, 4) : t('work.present')}
+                            </span>
+                          </span>
+                          {r.role[locale].includes(' — ') && (
+                            <span className="mt-1 block text-sm text-muted">{r.role[locale].split(' — ')[1]}</span>
+                          )}
+                          <span className="label mt-2 block">
+                            {t(`work.${r.track}`)} · {r.mode[locale]}
+                          </span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </Reveal>
+          )
+        })}
       </ul>
     </section>
   )

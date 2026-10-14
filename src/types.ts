@@ -20,13 +20,25 @@ export type LinkRef = {
 /* Experience                                                          */
 /* ------------------------------------------------------------------ */
 
+export type Company = {
+  id: string
+  name: string
+  domain?: string
+  /** Where to link when there is no domain of its own. */
+  url?: string
+  /** One line on what the company is. */
+  info: L10n
+  location: L10n
+  logo?: string
+  /** Tile colour behind the logo, so every mark reads on both themes. */
+  logoBg: string
+}
+
 export type Experience = {
   id: string
   role: L10n
-  org: string
-  /** One line on what the company is. */
-  orgInfo: L10n
-  orgUrl?: string
+  /** Key into `companies`. Roles at the same company are stacked. */
+  company: string
   /** Employment shape, e.g. "Part-time · Remote". */
   mode: L10n
   start: string

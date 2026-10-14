@@ -585,14 +585,14 @@ docker compose run --rm nozzle python3 main_pipeline.py --config docs/rans_3d_he
   },
   {
     id: 'petziclub-web',
-    title: 'Petziclub',
+    title: 'PetziClub',
     kind: 'web',
     year: '2024',
     status: 'shipped',
-    context: { es: 'Petziclub · en producción', en: 'Petziclub · in production' },
+    context: { es: 'PetziClub · en producción', en: 'PetziClub · in production' },
     summary: {
-      es: 'Sitio corporativo de Petziclub: catálogo, reservas, galería de servicios e información para dueños de mascotas.',
-      en: 'Petziclub’s corporate site: catalogue, bookings, service gallery and information for pet owners.',
+      es: 'Sitio corporativo de PetziClub: catálogo, reservas, galería de servicios e información para dueños de mascotas.',
+      en: 'PetziClub’s corporate site: catalogue, bookings, service gallery and information for pet owners.',
     },
     tech: ['React', 'TypeScript', 'Tailwind CSS'],
     links: [{ label: 'Ver en vivo', href: 'https://petziclub.com', kind: 'demo' }],

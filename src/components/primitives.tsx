@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
-import type { Status } from '../types'
+import type { Company, Status } from '../types'
 
 /* ------------------------------------------------------------------ */
 /* Layout                                                              */
@@ -411,5 +411,30 @@ export function SignalCover({ seed, label, className = '' }: { seed: string; lab
         </span>
       )}
     </div>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Company logo tile                                                   */
+/* ------------------------------------------------------------------ */
+
+export function CompanyLogo({ company, size = 56 }: { company: Company; size?: number }) {
+  const initials = company.name
+    .split(' ')
+    .filter((w) => /^[A-ZÁÉÍÓÚ]/.test(w))
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join('')
+  return (
+    <span
+      className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[10px] ring-1 ring-line"
+      style={{ width: size, height: size, background: company.logoBg }}
+    >
+      {company.logo ? (
+        <img src={company.logo} alt={`${company.name} logo`} className="h-[66%] w-[66%] object-contain" loading="lazy" />
+      ) : (
+        <span className="font-display text-[0.95rem] font-semibold tracking-tight text-[#efece4]">{initials}</span>
+      )}
+    </span>
   )
 }

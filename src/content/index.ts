@@ -1,5 +1,6 @@
 export { profile, links, languages, skillGroups, ventures } from './profile'
-export { experience } from './experience'
+export { experience, experienceByCompany } from './experience'
+export { companies, companyUrl } from './companies'
 export { research } from './research'
 export { projects, featuredProjects, projectById } from './projects'
 export { awards, involvement, letters } from './recognition'

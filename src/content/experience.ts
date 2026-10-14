@@ -1,13 +1,12 @@
-import type { Experience } from '../types'
+import type { Company, Experience } from '../types'
+import { companies } from './companies'
 
 /** Reverse-chronological. Source of truth: AllanBolanos_CV.pdf */
 export const experience: Experience[] = [
   {
     id: 'noddle',
     role: { es: 'Founder', en: 'Founder' },
-    org: 'Noddle',
-    orgInfo: { es: 'Startup · app y POS para restaurantes', en: 'Startup · app and POS for restaurants' },
-    orgUrl: 'https://noddleapp.com',
+    company: 'noddle',
     mode: { es: 'Costa Rica', en: 'Costa Rica' },
     start: '2026-09',
     end: null,
@@ -39,9 +38,7 @@ export const experience: Experience[] = [
       es: 'Asistente de investigación en IA — Series temporales biomédicas y detección de arritmias',
       en: 'AI Research Assistant — Biomedical Time Series & Arrhythmia Detection',
     },
-    org: 'Tecnológico de Costa Rica',
-    orgInfo: { es: 'Universidad pública · Cartago, Costa Rica', en: 'Public university · Cartago, Costa Rica' },
-    orgUrl: 'https://www.tec.ac.cr',
+    company: 'tec',
     mode: { es: 'Medio tiempo · Remoto', en: 'Part-time · Remote' },
     start: '2025-12',
     end: null,
@@ -77,9 +74,7 @@ export const experience: Experience[] = [
       es: 'Ingeniero de backend y arquitectura de software',
       en: 'Backend & Software Architecture Engineer',
     },
-    org: 'Petziclub',
-    orgInfo: { es: 'Productos y servicios para mascotas', en: 'Products and services for pets' },
-    orgUrl: 'https://petziclub.com',
+    company: 'petziclub',
     mode: { es: 'Remoto', en: 'Remote' },
     start: '2025-07',
     end: null,
@@ -115,9 +110,7 @@ export const experience: Experience[] = [
       es: 'Asistente de investigación en IA — Series temporales y detección de anomalías',
       en: 'AI Research Assistant — Time Series & Anomaly Detection',
     },
-    org: 'Tecnológico de Costa Rica',
-    orgInfo: { es: 'Universidad pública · Cartago, Costa Rica', en: 'Public university · Cartago, Costa Rica' },
-    orgUrl: 'https://www.tec.ac.cr',
+    company: 'tec',
     mode: { es: 'Medio tiempo · Remoto', en: 'Part-time · Remote' },
     start: '2025-02',
     end: '2025-12',
@@ -150,9 +143,7 @@ export const experience: Experience[] = [
   {
     id: 'petziclub-fullstack',
     role: { es: 'Desarrollador full-stack', en: 'Full Stack Developer' },
-    org: 'Petziclub',
-    orgInfo: { es: 'Productos y servicios para mascotas', en: 'Products and services for pets' },
-    orgUrl: 'https://petziclub.com',
+    company: 'petziclub',
     mode: { es: 'Remoto', en: 'Remote' },
     start: '2024-07',
     end: '2025-07',
@@ -181,9 +172,7 @@ export const experience: Experience[] = [
   {
     id: 'ccal',
     role: { es: 'Desarrollador full-stack', en: 'Full Stack Developer' },
-    org: 'Colegio Científico de Alajuela',
-    orgInfo: { es: 'Colegio científico · Alajuela, Costa Rica', en: 'Science high school · Alajuela, Costa Rica' },
-    orgUrl: 'https://ccalajuela.ed.cr',
+    company: 'ccal',
     mode: { es: 'Medio tiempo · Remoto', en: 'Part-time · Remote' },
     start: '2024-01',
     end: null,
@@ -219,9 +208,7 @@ export const experience: Experience[] = [
       es: 'Administrador de bases de datos asistente (pasantía)',
       en: 'Assistant Database Administrator (Intern)',
     },
-    org: 'Centennial Partners',
-    orgInfo: { es: 'Empresa en Panamá', en: 'Company based in Panama' },
-    orgUrl: 'https://www.linkedin.com/company/centennial-partnerstwr/',
+    company: 'centennial',
     mode: { es: 'Contrato temporal · Remoto (Panamá)', en: 'Temporary contract · Remote (Panama)' },
     start: '2024-01',
     end: '2024-04',
@@ -248,3 +235,14 @@ export const experience: Experience[] = [
     image: '/images/centennial_partners.png',
   },
 ]
+
+/** Roles grouped by company, most recent company first; roles stay newest-first. */
+export function experienceByCompany(): { company: Company; roles: Experience[] }[] {
+  const groups: { company: Company; roles: Experience[] }[] = []
+  for (const role of experience) {
+    const g = groups.find((x) => x.company.id === role.company)
+    if (g) g.roles.push(role)
+    else groups.push({ company: companies[role.company], roles: [role] })
+  }
+  return groups
+}
