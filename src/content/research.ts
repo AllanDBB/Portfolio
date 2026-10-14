@@ -32,6 +32,28 @@ export const research: Research[] = [
     image: '/images/timeseries_paper.png',
   },
   {
+    id: 'sbind-als',
+    title: 'Which speech measures differ when ALS speech is rated normal? Between-syllable laryngeal instability',
+    kind: 'paper',
+    year: '2027',
+    venue: {
+      es: 'SBiND 2027 · workshop satélite de ICASSP 2027 · por aparecer',
+      en: 'SBiND 2027 · ICASSP 2027 satellite workshop · to appear',
+    },
+    status: 'research',
+    featured: true,
+    abstract: {
+      es: 'En pacientes con ELA cuyo habla el neurólogo califica como normal, solo una de 39 medidas acústicas interpretables sobrevive al control FDR: la dispersión en semitonos de la F0 entre núcleos silábicos (AUC 0.70, VOC-ALS, n = 153).',
+      en: 'In ALS patients whose speech a neurologist rates as normal, only one of 39 interpretable acoustic measures survives FDR control: the semitone spread of F0 across syllable nuclei (AUC 0.70, VOC-ALS, n = 153).',
+    },
+    detail: {
+      es: 'Neuroingeniería aplicada al habla: buscar biomarcadores de una enfermedad neurodegenerativa antes de que el oído clínico los detecte. El pipeline extrae medidas de fonación, articulación y respiración con Praat/Parselmouth, las valida contra la base pública VOC-ALS y las somete a FDR, validación cruzada repetida, nulos por permutación y pruebas de robustez del pitch tracker.\n\nEl resultado apunta a una inestabilidad laríngea entre sílabas en pacientes sin disartria audible. Con disartria, todos los subsistemas cambian, y las medidas respiratorias y articulatorias siguen la fuerza de los músculos cefálicos más que el puntaje bulbar de motoneurona superior.',
+      en: 'Neuroengineering applied to speech: looking for biomarkers of a neurodegenerative disease before the clinical ear can hear them. The pipeline extracts phonation, articulation and respiratory measures with Praat/Parselmouth, validates them against the public VOC-ALS database, and puts them through FDR, repeated cross-validation, permutation nulls and pitch-tracker robustness checks.\n\nThe result points to a between-syllable laryngeal instability in patients with no audible dysarthria. With dysarthria every subsystem changes, and respiratory and articulatory measures track head-muscle strength rather than the upper-motor-neuron bulbar score.',
+    },
+    tech: ['Speech Biomarkers', 'ALS', 'Praat / Parselmouth', 'Biostatistics', 'Python'],
+    links: [{ label: 'Repositorio', href: 'https://github.com/AllanDBB/sbind-als', kind: 'repo' }],
+  },
+  {
     id: 'arrhythmia',
     title: 'Detección temprana de arritmias en series temporales cardíacas',
     kind: 'line',
@@ -62,14 +84,14 @@ export const research: Research[] = [
     status: 'research',
     featured: true,
     abstract: {
-      es: 'Arquitectura para modelar resiliencia y adaptación cognitiva en sistemas no estacionarios, tratando el cerebro como un sistema dinámico bajo estrés.',
-      en: 'An architecture for modeling cognitive resilience and adaptation in non-stationary systems, treating the brain as a dynamic system under stress.',
+      es: 'El cerebro como sistema dinámico no estacionario: detectar transiciones de estado en EEG, medir recuperación y estudiar cómo un sistema cognitivo se reorganiza o colapsa bajo estrés.',
+      en: 'The brain as a non-stationary dynamical system: detect state transitions in EEG, measure recovery and study how a cognitive system reorganises or collapses under stress.',
     },
     detail: {
       es: 'CORA parte de una pregunta: si un sistema cognitivo se comporta como un sistema dinámico en el tiempo, ¿se puede medir su resiliencia con las mismas herramientas que uso para detectar cambios de régimen en una señal?\n\nEl proyecto tiene dos capas. CORA-core define la arquitectura y las primitivas de modelado sobre dinámicas de series temporales; CORA-Brain aplica esa arquitectura a modelar el cerebro bajo condiciones de estrés, buscando indicadores de adaptación y de pérdida de resiliencia.',
       en: 'CORA starts from a question: if a cognitive system behaves like a dynamical system in time, can its resilience be measured with the same tools I use to detect regime shifts in a signal?\n\nThe project has two layers. CORA-core defines the architecture and modeling primitives over time-series dynamics; CORA-Brain applies that architecture to modeling the brain under stress, looking for indicators of adaptation and of resilience loss.',
     },
-    tech: ['Python', 'Dynamical Systems', 'Time Series', 'Computational Neuroscience'],
+    tech: ['Python', 'EEG', 'Dynamical Systems', 'Change Point Detection', 'PhysioNet'],
     links: [
       { label: 'CORA-core', href: 'https://github.com/AllanDBB/CORA-core', kind: 'repo' },
       { label: 'CORA-Brain', href: 'https://github.com/AllanDBB/CORA-Brain', kind: 'repo' },
@@ -80,17 +102,18 @@ export const research: Research[] = [
     title: 'EMBER — Emergent Memory-Based Encoding and Reactivation',
     kind: 'line',
     year: '2025 —',
-    venue: { es: 'Investigación independiente', en: 'Independent research' },
+    venue: { es: 'Investigación · robótica cognitiva (e-MDB)', en: 'Research · cognitive robotics (e-MDB)' },
     status: 'research',
+    featured: true,
     abstract: {
-      es: 'Exploración de codificación y reactivación de memoria emergente: cómo una representación se consolida y se vuelve a activar sin haber sido almacenada explícitamente.',
-      en: 'Exploring emergent memory encoding and reactivation: how a representation consolidates and reactivates without having been explicitly stored.',
+      es: 'Memoria episódica de largo plazo bioinspirada para robots cognitivos. Una búsqueda exhaustiva sobre 576 diseños de memoria revela la ley del umbral: el mecanismo que importa depende de r = K_proto / C.',
+      en: 'Bio-inspired long-term episodic memory for cognitive robots. An exhaustive search over 576 memory designs reveals the threshold law: which mechanism matters depends on r = K_proto / C.',
     },
     detail: {
-      es: 'EMBER investiga mecanismos de memoria que no dependen de un almacén explícito, sino que emergen de la dinámica del propio sistema. La pregunta central es qué condiciones hacen que un patrón se consolide lo suficiente como para reactivarse después ante una entrada parcial.',
-      en: 'EMBER investigates memory mechanisms that do not rely on an explicit store, but emerge from the dynamics of the system itself. The central question is what conditions make a pattern consolidate enough to reactivate later from partial input.',
+      es: 'Un robot que aprende toda su vida tiene que decidir qué guardar, mantenerlo accesible según su relevancia y recuperarlo desde una pista degradada. El buffer FIFO de e-MDB no hace ninguna de las tres.\n\nEMBER convierte cada mecanismo bioinspirado — lectura, escritura, fuerza modulada por error de predicción, decaimiento, olvido — en un eje de un espacio de diseño y lo recorre entero, tratando al FIFO como un punto más de ese espacio. Por debajo de r = 1 domina la consolidación por fusión; por encima, el olvido selectivo. El régimen cambia a lo largo de la vida del robot, y la arquitectura de la frontera funciona en ambos.',
+      en: 'A robot that learns for its whole life must decide what to keep, keep it accessible in proportion to its relevance, and recall it from a degraded cue. The e-MDB FIFO buffer does none of the three.\n\nEMBER turns every bio-inspired mechanism — read, write, prediction-error-gated strength, decay, eviction — into an axis of a design space and searches all of it, treating the FIFO as one more point in that space. Below r = 1 compression by merging wins; above it, selective forgetting. The regime shifts over the robot’s life, and the frontier architecture works in both.',
     },
-    tech: ['Computational Neuroscience', 'Representation Learning', 'Python'],
+    tech: ['Computational Neuroscience', 'Spiking Networks (LIF + STDP)', 'Sparse Distributed Memory', 'Robotics', 'Python'],
     links: [{ label: 'Repositorio', href: 'https://github.com/AllanDBB/EMBER', kind: 'repo' }],
   },
   {

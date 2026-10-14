@@ -64,6 +64,7 @@ const dict: Record<Locale, Dict> = {
       title: 'Proyectos',
       lead: 'Del modelo entrenado al producto desplegado.',
       all: 'Todos',
+      science: 'Ciencia y neuro',
       ml: 'IA y datos',
       systems: 'Sistemas',
       product: 'Productos',
@@ -81,6 +82,8 @@ const dict: Record<Locale, Dict> = {
       status: 'Estado',
       links: 'Enlaces',
       next: 'Siguiente',
+      built: 'Qué construí',
+      numbers: 'En números',
     },
     about: {
       title: 'Perfil',
@@ -176,6 +179,7 @@ const dict: Record<Locale, Dict> = {
       title: 'Projects',
       lead: 'From the trained model to the deployed product.',
       all: 'All',
+      science: 'Science & neuro',
       ml: 'AI & data',
       systems: 'Systems',
       product: 'Products',
@@ -193,6 +197,8 @@ const dict: Record<Locale, Dict> = {
       status: 'Status',
       links: 'Links',
       next: 'Next',
+      built: 'What I built',
+      numbers: 'By the numbers',
     },
     about: {
       title: 'Profile',

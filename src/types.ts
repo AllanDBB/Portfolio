@@ -66,9 +66,9 @@ export type Research = {
 /* Projects                                                            */
 /* ------------------------------------------------------------------ */
 
-export type ProjectKind = 'ml' | 'systems' | 'product' | 'web' | 'academic'
+export type ProjectKind = 'science' | 'ml' | 'systems' | 'product' | 'web' | 'academic'
 
-export const PROJECT_KINDS: ProjectKind[] = ['ml', 'systems', 'product', 'web', 'academic']
+export const PROJECT_KINDS: ProjectKind[] = ['science', 'ml', 'systems', 'product', 'web', 'academic']
 
 export type Project = {
   /** URL slug — must be unique, used at /projects/:id */
@@ -78,7 +78,15 @@ export type Project = {
   year: string
   status: Status
   summary: L10n
+  /** Where it came from: a course, a client, a lab. */
+  context?: L10n
   detail?: L10n
+  /** Concrete things I built, one line each. */
+  built?: L10n[]
+  /** Hard numbers, only ones that come from the repo or the paper. */
+  metrics?: { value: string; label: L10n }[]
+  /** A short excerpt that shows the work better than a screenshot. */
+  code?: { lang: string; file: string; source: string }
   tech: string[]
   links: LinkRef[]
   image?: string

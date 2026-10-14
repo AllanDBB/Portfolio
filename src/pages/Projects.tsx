@@ -45,11 +45,11 @@ export default function Projects() {
           ))}
         </div>
 
-        <div className="label mt-12 hidden grid-cols-[4rem_1fr_14rem_10rem_5rem] gap-6 border-b border-line pb-4 md:grid">
+        <div className="label mt-12 hidden grid-cols-[4rem_1fr_11rem_15rem_5rem] gap-6 border-b border-line pb-4 md:grid">
           <span>#</span>
           <span>{locale === 'es' ? 'Proyecto' : 'Project'}</span>
           <span>{locale === 'es' ? 'Tipo' : 'Type'}</span>
-          <span>Stack</span>
+          <span>{locale === 'es' ? 'Contexto' : 'Context'}</span>
           <span className="text-right">{t('detail.year')}</span>
         </div>
 
@@ -60,7 +60,7 @@ export default function Projects() {
                 to={`/projects/${p.id}`}
                 onPointerEnter={() => show(opt(p.image))}
                 data-cursor={p.image ? undefined : t('projects.view')}
-                className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-6 gap-y-2 border-b border-line py-6 md:grid-cols-[4rem_1fr_14rem_10rem_5rem] md:py-7"
+                className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-6 gap-y-2 border-b border-line py-6 md:grid-cols-[4rem_1fr_11rem_15rem_5rem] md:py-7"
               >
                 <span className="label">{String(i + 1).padStart(2, '0')}</span>
                 <span className="display text-[clamp(1.5rem,3.2vw,3rem)] leading-[1] tracking-[-0.035em] transition-[transform,color] duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-4 group-hover:text-signal-ink">
@@ -68,7 +68,7 @@ export default function Projects() {
                 </span>
                 <span className="label text-right md:hidden">{p.year}</span>
                 <span className="label col-start-2 md:col-start-auto">{t(`projects.${p.kind}`)}</span>
-                <span className="hidden truncate text-xs text-muted md:block">{p.tech.slice(0, 3).join(' · ')}</span>
+                <span className="hidden truncate text-xs text-muted md:block">{p.context ? p.context[locale] : p.tech.slice(0, 3).join(' · ')}</span>
                 <span className="label hidden text-right md:block">{p.year}</span>
               </Link>
             </Reveal>

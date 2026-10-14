@@ -29,6 +29,11 @@ export default function ProjectDetail() {
             <p className="serif mt-4 text-[clamp(1.5rem,3vw,2.75rem)] text-muted">{subtitle}</p>
           </Reveal>
         )}
+        {project.context && (
+          <Reveal delay={240}>
+            <p className="label mt-6 text-signal-ink">{project.context[locale]}</p>
+          </Reveal>
+        )}
 
         <Reveal delay={250} className="mt-14 grid grid-cols-2 gap-6 border-t border-line pt-6 md:grid-cols-4">
           <Meta label={t('detail.year')} value={project.year} />
@@ -68,6 +73,19 @@ export default function ProjectDetail() {
               ))}
             </Reveal>
           )}
+          {project.built && (
+            <Reveal delay={140} className="mt-12">
+              <p className="label">{t('detail.built')}</p>
+              <ol className="mt-4 border-t border-line">
+                {project.built.map((b, i) => (
+                  <li key={i} className="grid grid-cols-[2.5rem_1fr] border-b border-line py-4 text-[0.95rem] leading-relaxed">
+                    <span className="label pt-0.5 text-signal-ink">{String(i + 1).padStart(2, '0')}</span>
+                    <span>{b[locale]}</span>
+                  </li>
+                ))}
+              </ol>
+            </Reveal>
+          )}
           <Reveal delay={160} className="mt-10 flex flex-wrap gap-2">
             {project.tech.map((tech) => (
               <span key={tech} className="tag">
@@ -84,6 +102,43 @@ export default function ProjectDetail() {
           ))}
         </div>
       </section>
+
+      {project.metrics && (
+        <section className="px-[var(--gutter)] pt-24">
+          <p className="label">{t('detail.numbers')}</p>
+          <div className="mt-6 grid border-t border-line sm:grid-cols-2 lg:grid-cols-4">
+            {project.metrics.map((m, i) => (
+              <Reveal
+                key={i}
+                delay={i * 80}
+                className="flex flex-col justify-between gap-8 border-b border-line py-8 sm:px-6 sm:[&:nth-child(odd)]:border-r lg:border-r lg:first:pl-0 lg:last:border-r-0"
+              >
+                <span className="display text-[clamp(3rem,6vw,5.5rem)]">{m.value}</span>
+                <span className="max-w-[22ch] text-sm leading-snug text-muted">{m.label[locale]}</span>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {project.code && (
+        <section className="px-[var(--gutter)] pt-24">
+          <Reveal className="overflow-hidden rounded-[2px] border border-line bg-elev">
+            <div className="flex items-center justify-between border-b border-line px-5 py-3">
+              <span className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
+                <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
+                <span className="h-2.5 w-2.5 rounded-full bg-signal" />
+              </span>
+              <span className="label">{project.code.file}</span>
+              <span className="label">{project.code.lang}</span>
+            </div>
+            <pre className="overflow-x-auto p-5 font-mono text-[0.8rem] leading-relaxed text-fg md:p-8 md:text-[0.875rem]">
+              <code>{project.code.source}</code>
+            </pre>
+          </Reveal>
+        </section>
+      )}
 
       {/* Next project — the whole band is the link */}
       <Link
