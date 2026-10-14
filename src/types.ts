@@ -35,7 +35,7 @@ export type Experience = {
   tech: string[]
   image?: string
   /** Groups the two halves of the hybrid positioning. */
-  track: 'research' | 'engineering'
+  track: 'research' | 'engineering' | 'founder'
 }
 
 /* ------------------------------------------------------------------ */
@@ -128,6 +128,7 @@ export type Letter = {
 export type Venture = {
   id: string
   name: string
+  role?: L10n
   tagline: L10n
   problem: L10n
   bet: L10n

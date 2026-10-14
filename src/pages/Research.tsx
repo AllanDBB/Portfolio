@@ -96,8 +96,8 @@ export default function Research() {
               <Reveal delay={120}>
                 <p className="mt-4 text-xs leading-relaxed text-faint">
                   {locale === 'es'
-                    ? 'Serie sintética con un cambio de media en τ=132. Subí el ruido: el retardo de detección crece y aparecen falsas alarmas — el trade-off que el paper mide sobre 16 detectores.'
-                    : 'Synthetic series with a mean shift at τ=132. Turn the noise up: detection delay grows and false alarms appear — the trade-off the paper measures across 16 detectors.'}
+                    ? 'Serie sintética con un cambio de media en τ=132. Subí el ruido: el retardo de detección crece y aparecen falsas alarmas — el trade-off que el paper mide entre detectores.'
+                    : 'Synthetic series with a mean shift at τ=132. Turn the noise up: detection delay grows and false alarms appear — the trade-off the paper measures across detectors.'}
                 </p>
               </Reveal>
             </div>

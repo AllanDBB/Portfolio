@@ -60,13 +60,13 @@ export function metaForPath(path: string): PageMeta {
     case '/':
       return meta(
         SITE.title,
-        'Allan Bolaños Barrientos — ingeniero de software e investigador en IA. Detección de puntos de cambio en señales biomédicas, arquitectura backend y productos desplegados.',
+        'Allan Bolaños Barrientos — investigador en IA y neuroingeniería y founder de Noddle. Biomarcadores neurológicos, señales biomédicas y memoria para robots cognitivos.',
         '/'
       )
     case '/work':
       return meta(
         'Trayectoria',
-        'Seis posiciones entre investigación aplicada en el TEC y arquitectura de software en producción, más liderazgo en IEEE EMBS.',
+        'Founder de Noddle, investigación en IA y neuroingeniería en el TEC, y arquitectura de software en producción.',
         '/work'
       )
     case '/research':

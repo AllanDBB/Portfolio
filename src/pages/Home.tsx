@@ -14,12 +14,11 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <ExperienceSection />
       <Manifesto />
-      <Numbers />
       <ResearchSection />
       <SelectedWork />
-      <Sandbox />
-      <ExperienceSection />
+      <Founder />
       <Recognition />
       <StackMarquee />
     </>
@@ -104,8 +103,8 @@ function Manifesto() {
 
   const text =
     locale === 'es'
-      ? 'No creo en mantenerlo simple. [img] Los problemas que valen la pena son complejos: corazones que fallan antes de avisar, cerebros bajo estrés, sistemas que tienen que aguantar el mundo real. Hago ciencia para entenderlos y startups para que ese entendimiento llegue a alguien.'
-      : 'I do not believe in keeping it simple. [img] The problems worth solving are complex: hearts that fail before they warn, brains under stress, systems that must survive the real world. I do science to understand them and startups so that understanding reaches someone.'
+      ? 'Mi foco es la IA y la neuroingeniería. [img] Modelos que leen lo que el cerebro, la voz y el corazón dicen antes de que nadie lo note: memoria para robots que aprenden toda su vida, biomarcadores de ELA en el habla, arritmias antes de que ocurran. No creo en mantenerlo simple: los problemas que valen la pena no lo son.'
+      : 'My focus is AI and neuroengineering. [img] Models that read what the brain, the voice and the heart say before anyone notices: memory for robots that learn for a lifetime, ALS biomarkers in speech, arrhythmias before they happen. I do not believe in keeping it simple: the problems worth solving are not.'
 
   useEffect(() => {
     const el = ref.current
@@ -133,7 +132,7 @@ function Manifesto() {
 
   return (
     <section className="px-[var(--gutter)] pt-32 pb-24 md:pt-48 md:pb-40">
-      <Eyebrow index="01">{t('home.manifesto')}</Eyebrow>
+      <Eyebrow index="02">{t('home.manifesto')}</Eyebrow>
       <p
         ref={ref}
         className="scrub display mt-10 max-w-[22ch] text-[clamp(2rem,5.6vw,5.5rem)] leading-[0.98] tracking-[-0.035em] md:ml-[16.6%]"
@@ -154,67 +153,6 @@ function Manifesto() {
           )
         )}
       </p>
-    </section>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* Numbers                                                             */
-/* ------------------------------------------------------------------ */
-
-function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?: string; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement | null>(null)
-  const [n, setN] = useState(to)
-  useEffect(() => {
-    const el = ref.current
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    setN(0)
-    const io = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting) return
-      io.disconnect()
-      const t0 = performance.now()
-      const step = (now: number) => {
-        const p = Math.min(1, (now - t0) / 1400)
-        setN(Math.round((1 - Math.pow(1 - p, 4)) * to))
-        if (p < 1) requestAnimationFrame(step)
-      }
-      requestAnimationFrame(step)
-    })
-    io.observe(el)
-    return () => io.disconnect()
-  }, [to])
-  return (
-    <span ref={ref} className="tabular-nums">
-      {prefix}
-      {n}
-      {suffix}
-    </span>
-  )
-}
-
-function Numbers() {
-  const { t, locale } = useI18n()
-  const items = [
-    { node: <CountUp to={16} />, label: t('stats.algos') },
-    { node: <>1<span className="serif">{locale === 'es' ? 'º' : 'st'}</span></>, label: t('stats.wro') },
-    { node: <CountUp to={experience.length} />, label: t('stats.roles') },
-    { node: <CountUp to={projects.length} suffix="+" />, label: t('stats.projects') },
-  ]
-  return (
-    <section className="px-[var(--gutter)]">
-      <Eyebrow index="02">{t('home.numbers')}</Eyebrow>
-      <div className="mt-8 grid border-t border-line sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((item, i) => (
-          <Reveal
-            key={i}
-            delay={i * 90}
-            className="flex flex-col justify-between gap-10 border-b border-line py-8 sm:px-6 sm:[&:nth-child(odd)]:border-r lg:border-r lg:last:border-r-0 lg:first:pl-0"
-          >
-            <span className="display text-[clamp(4.5rem,9vw,9rem)]">{item.node}</span>
-            <span className="max-w-[24ch] text-sm leading-snug text-muted">{item.label}</span>
-          </Reveal>
-        ))}
-      </div>
     </section>
   )
 }
@@ -395,12 +333,13 @@ function SelectedWork() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Sandbox — founder mode. A full-bleed band in the signal colour.     */
+/* Founder — Noddle, in Noddle's own gold and charcoal.                 */
 /* ------------------------------------------------------------------ */
 
-function Sandbox() {
+function Founder() {
   const { t, locale } = useI18n()
   const es = locale === 'es'
+  const v = ventures.find((x) => x.id === 'noddle')!
   const record = [
     { k: es ? 'Hackatón nacional → final en Madrid' : 'National hackathon → finals in Madrid', v: 'RetoMarte 2024' },
     { k: es ? '1er lugar, categoría IA' : '1st place, AI category', v: 'WRO International 2023' },
@@ -408,12 +347,12 @@ function Sandbox() {
     { k: es ? 'Capítulo estudiantil' : 'Student chapter', v: 'Chair · IEEE EMBS TEC' },
   ]
   return (
-    <section className="relative mt-36 overflow-hidden bg-signal text-on-signal md:mt-52">
+    <section className="relative mt-36 overflow-hidden bg-[#FFB524] text-[#111111] md:mt-52">
       <div className="px-[var(--gutter)] pt-24 pb-10 md:pt-36">
-        <div className="label flex items-center gap-3 !text-on-signal/70">
+        <div className="flex items-center gap-3 font-mono text-[0.6875rem] uppercase tracking-[0.08em] opacity-70">
           <span>(05)</span>
           <span className="h-px w-8 bg-current" />
-          <span>Sandbox</span>
+          <span>Founder</span>
         </div>
         <h2 className="display h-xl mt-8">
           <Split text={t('home.founderTitle')} />
@@ -425,34 +364,43 @@ function Sandbox() {
         </div>
       </div>
 
-      <div className="grid gap-px border-y border-black/15 bg-black/15 lg:grid-cols-2">
-        {ventures.map((v, i) => (
-          <Reveal key={v.id} delay={i * 120} className="flex flex-col bg-signal px-[var(--gutter)] py-12 md:py-16">
-            <div className="flex items-start justify-between gap-6">
-              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.08em]">
-                {es ? 'Pitch' : 'Pitch'} {String(i + 1).padStart(2, '0')} · {v.stage[locale]}
-              </span>
-              {v.href && (
-                <a href={v.href} target="_blank" rel="noreferrer" data-cursor={t('common.open')} className="roll-host inline-flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em]">
-                  <Roll>{es ? 'Visitar' : 'Visit'}</Roll>
-                  <Arrow />
-                </a>
-              )}
+      <div className="grid gap-px border-y border-black/15 bg-black/15 lg:grid-cols-12">
+        <Reveal className="flex flex-col bg-[#FFB524] px-[var(--gutter)] py-12 md:py-16 lg:col-span-7">
+          <div className="flex items-start justify-between gap-6">
+            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.08em]">{v.stage[locale]}</span>
+            <a
+              href={v.href}
+              target="_blank"
+              rel="noreferrer"
+              data-cursor={t('common.open')}
+              className="roll-host inline-flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em]"
+            >
+              <Roll>noddleapp.com</Roll>
+              <Arrow />
+            </a>
+          </div>
+          <h3 className="display mt-10 text-[clamp(4rem,11vw,11rem)]">{v.name}</h3>
+          <p className="serif mt-2 text-[clamp(1.25rem,2vw,1.75rem)]">{v.tagline[locale]}</p>
+          <dl className="mt-12 grid gap-8 border-t border-black/15 pt-8 sm:grid-cols-2">
+            <div>
+              <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] opacity-60">{es ? '01 — Problema' : '01 — Problem'}</dt>
+              <dd className="mt-3 leading-relaxed">{v.problem[locale]}</dd>
             </div>
-            <h3 className="display mt-10 text-[clamp(3.5rem,8vw,8rem)]">{v.name}</h3>
-            <p className="serif mt-2 text-[clamp(1.25rem,2vw,1.75rem)]">{v.tagline[locale]}</p>
-            <dl className="mt-12 grid gap-8 border-t border-black/15 pt-8 sm:grid-cols-2">
-              <div>
-                <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] opacity-60">{es ? '01 — Problema' : '01 — Problem'}</dt>
-                <dd className="mt-3 leading-relaxed">{v.problem[locale]}</dd>
-              </div>
-              <div>
-                <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] opacity-60">{es ? '02 — La apuesta' : '02 — The bet'}</dt>
-                <dd className="mt-3 leading-relaxed">{v.bet[locale]}</dd>
-              </div>
-            </dl>
-          </Reveal>
-        ))}
+            <div>
+              <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] opacity-60">{es ? '02 — Lo que construimos' : '02 — What we built'}</dt>
+              <dd className="mt-3 leading-relaxed">{v.bet[locale]}</dd>
+            </div>
+          </dl>
+          <div className="mt-10">
+            <Link to="/projects/noddle" className="roll-host inline-flex items-center gap-2 rounded-full bg-[#111111] px-5 py-3 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-[#FAFAF8]">
+              <Roll>{es ? 'Ver el caso completo' : 'See the full case'}</Roll>
+              <Arrow />
+            </Link>
+          </div>
+        </Reveal>
+        <Reveal delay={120} className="relative min-h-[22rem] overflow-hidden bg-[#F2EFEA] lg:col-span-5">
+          <img src={opt('/images/noddle.png')} alt="Noddle — app y POS" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-right" />
+        </Reveal>
       </div>
 
       <div className="px-[var(--gutter)] py-12">
@@ -467,10 +415,10 @@ function Sandbox() {
         </ul>
       </div>
       <Marquee
-        items={es ? ['Sueña en grande', 'Mide todo', 'Construye de noche', 'Lanza', 'Repite'] : ['Dream big', 'Measure everything', 'Build at night', 'Ship', 'Repeat']}
+        items={['Stop noodling', 'Start Noddling', es ? 'Hecho en Costa Rica' : 'Made in Costa Rica']}
         speed={30}
         separator="✳"
-        className="display border-t border-black/15 py-4 text-[clamp(2.5rem,6vw,6rem)] leading-none [&_.text-signal-ink]:text-on-signal"
+        className="display border-t border-black/15 py-4 text-[clamp(2.5rem,6vw,6rem)] leading-none [&_.text-signal-ink]:text-[#111111]"
       />
     </section>
   )
@@ -484,10 +432,10 @@ function ExperienceSection() {
   const { t, locale } = useI18n()
   const { show, hide } = useHoverPreview()
   return (
-    <section className="px-[var(--gutter)] pt-36 md:pt-52">
+    <section className="px-[var(--gutter)] pt-24 md:pt-36">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
-          <Eyebrow index="06">{t('home.experience')}</Eyebrow>
+          <Eyebrow index="01">{t('home.experience')}</Eyebrow>
           <h2 className="display h-lg mt-6">
             <Split text={t('home.experienceTitle')} />
           </h2>
@@ -537,7 +485,7 @@ function Recognition() {
   const big = [locale === 'es' ? '1º' : '1st', locale === 'es' ? 'Oro' : 'Gold', locale === 'es' ? 'Final' : 'Final']
   return (
     <section className="px-[var(--gutter)] pt-36 md:pt-52">
-      <Eyebrow index="07">{t('home.recognition')}</Eyebrow>
+      <Eyebrow index="06">{t('home.recognition')}</Eyebrow>
       <h2 className="display h-lg mt-6">
         <Split text={t('home.recognitionTitle')} />
       </h2>

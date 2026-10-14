@@ -11,14 +11,14 @@ export const profile = {
 
   /** The one-line hybrid positioning. */
   role: {
-    es: 'Investigador en IA y neuroingeniería · Ingeniero de software · Construyendo startups',
-    en: 'AI & neuroengineering researcher · Software engineer · Building startups',
+    es: 'Investigador en IA y neuroingeniería · Founder de Noddle',
+    en: 'AI & neuroengineering researcher · Founder of Noddle',
   } satisfies L10n,
 
   /** Hero statement — the thesis that joins both halves. */
   thesis: {
-    es: 'Estudio cómo cambian las señales del cuerpo y del cerebro, y construyo los sistemas que convierten esa ciencia en algo que la gente usa.',
-    en: 'I study how the signals of the body and the brain change, and build the systems that turn that science into something people use.',
+    es: 'Investigo cómo la IA puede leer las señales del cerebro y del cuerpo — y construyo Noddle, la startup que fundé.',
+    en: 'I research how AI can read the signals of the brain and the body — and I am building Noddle, the startup I founded.',
   } satisfies L10n,
 
   intro: {
@@ -27,8 +27,8 @@ export const profile = {
   } satisfies L10n,
 
   about: {
-    es: 'Soy estudiante de Ingeniería en Computación en el Tecnológico de Costa Rica (graduación esperada 2027) y asistente de investigación en análisis de series temporales aplicado a datos biomédicos. En paralelo trabajo como ingeniero backend y arquitecto de software, diseñando servicios que aguantan carga real.\n\nMe interesa la frontera donde el rigor estadístico se encuentra con la ingeniería que se despliega: modelos que detectan arritmias a partir de señales cardíacas, algoritmos de change point detection evaluados bajo ruido alto, lenguajes de dominio específico para bioinformática, y sistemas multi-agente con RAG. También diseño y despliego productos completos, desde APIs en Node hasta apps móviles en Kotlin.\n\nMe encantan los problemas difíciles, la ciencia que no cabe en un tweet y la energía de construir algo desde cero a las 2 a.m. con un equipo que cree en lo mismo. Amo lo que hago.',
-    en: 'I am a Computer Engineering student at Tecnológico de Costa Rica (expected 2027) and a research assistant in time series analysis applied to biomedical data. In parallel I work as a backend engineer and software architect, designing services that hold up under real load.\n\nI am drawn to the boundary where statistical rigor meets engineering that actually ships: models that detect arrhythmias from cardiac signals, change point detection algorithms evaluated under high noise, domain-specific languages for bioinformatics, and multi-agent systems with RAG. I also design and deploy complete products, from Node APIs to Kotlin mobile apps.\n\nI love hard problems, science that does not fit in a tweet, and the energy of building something from zero at 2 a.m. with a team that believes in the same thing. I love what I do.',
+    es: 'Soy founder de Noddle e investigador en IA y neuroingeniería en el Tecnológico de Costa Rica, donde estudio Ingeniería en Computación (graduación esperada 2027).\n\nMi investigación busca lo que las señales del cuerpo y del cerebro dicen antes de que alguien lo note: biomarcadores de ELA en el habla, detección temprana de arritmias, memoria episódica bioinspirada para robots y el cerebro como sistema dinámico bajo estrés. Publiqué en ITISE 2026 sobre detección de puntos de cambio bajo ruido.\n\nEn paralelo construyo producto: Noddle, la startup que fundé, y antes servicios backend y arquitectura de software en producción. Me encantan los problemas difíciles, la ciencia que no cabe en un tweet y la energía de construir algo desde cero a las 2 a.m. con un equipo que cree en lo mismo. Amo lo que hago.',
+    en: 'I am the founder of Noddle and an AI and neuroengineering researcher at Tecnológico de Costa Rica, where I study Computer Engineering (expected 2027).\n\nMy research looks for what the signals of the body and the brain say before anyone notices: ALS biomarkers in speech, early arrhythmia detection, bio-inspired episodic memory for robots and the brain as a dynamical system under stress. I published at ITISE 2026 on change point detection under noise.\n\nIn parallel I build product: Noddle, the startup I founded, and before that backend services and software architecture in production. I love hard problems, science that does not fit in a tweet, and the energy of building something from zero at 2 a.m. with a team that believes in the same thing. I love what I do.',
   } satisfies L10n,
 
   education: {
@@ -113,22 +113,23 @@ export const skillGroups: { label: L10n; items: string[] }[] = [
 /** Discreet mention — these are initiatives, not the main event. */
 export const ventures: Venture[] = [
   {
-    id: 'philoneural',
-    name: 'Philoneural',
+    id: 'noddle',
+    name: 'Noddle',
+    role: { es: 'Founder', en: 'Founder' },
     tagline: {
-      es: 'Investigación e ingeniería en sistemas cognitivos.',
-      en: 'Research and engineering in cognitive systems.',
+      es: 'La app para pedir y pagar desde la mesa, y el POS que lo recibe al instante.',
+      en: 'The app to order and pay from the table, and the POS that receives it instantly.',
     },
     problem: {
-      es: 'La IA actual imita la cognición sin entenderla. La neurociencia la entiende, pero rara vez la convierte en sistemas.',
-      en: 'Today’s AI imitates cognition without understanding it. Neuroscience understands it, but rarely turns it into systems.',
+      es: 'Comer afuera sigue siendo esperar: al mesero, la carta, la cuenta. Y del otro lado, el salón, la cocina y la caja viven en sistemas que no se hablan.',
+      en: 'Eating out is still waiting: for the waiter, the menu, the bill. And on the other side, the floor, the kitchen and the till live in systems that do not talk to each other.',
     },
     bet: {
-      es: 'Modelar el cerebro como un sistema dinámico — resiliencia, memoria, adaptación — y construir arquitecturas a partir de eso. CORA y EMBER son los primeros prototipos.',
-      en: 'Model the brain as a dynamical system — resilience, memory, adaptation — and build architectures from it. CORA and EMBER are the first prototypes.',
+      es: 'Un solo producto con dos lados. El comensal decide dónde comer, escanea el QR, pide, divide la cuenta y paga con SINPE Móvil; lo que hace en la app cae en vivo en el POS — salón, cocina, caja y gerencia.',
+      en: 'One product with two sides. Guests decide where to eat, scan the QR, order, split the bill and pay with SINPE Móvil; what they do in the app lands live in the POS — floor, kitchen, till and management.',
     },
-    stage: { es: 'Investigación → prototipo', en: 'Research → prototype' },
-    href: 'https://philoneural-landing.vercel.app',
+    stage: { es: 'App + POS completos · acceso anticipado', en: 'App + POS complete · early access' },
+    href: 'https://noddleapp.com',
   },
   {
     id: 'sibora',

@@ -3,6 +3,36 @@ import type { Experience } from '../types'
 /** Reverse-chronological. Source of truth: AllanBolanos_CV.pdf */
 export const experience: Experience[] = [
   {
+    id: 'noddle',
+    role: { es: 'Founder', en: 'Founder' },
+    org: 'Noddle',
+    orgUrl: 'https://noddleapp.com',
+    mode: { es: 'Costa Rica', en: 'Costa Rica' },
+    start: '2026-09',
+    end: null,
+    track: 'founder',
+    summary: {
+      es: 'Fundé Noddle: la app para pedir y pagar desde la mesa y el POS que lo recibe al instante. Producto, diseño, ingeniería y marca.',
+      en: 'I founded Noddle: the app to order and pay from the table and the POS that receives it instantly. Product, design, engineering and brand.',
+    },
+    highlights: [
+      {
+        es: 'App para comensales en Flutter (iOS + Android): descubrir, pedir desde el QR, dividir la cuenta y pagar con tarjeta o SINPE Móvil.',
+        en: 'Guest app in Flutter (iOS + Android): discover, order from the QR, split the bill and pay by card or SINPE Móvil.',
+      },
+      {
+        es: 'POS en Flutter para tablet, teléfono y web con cuatro modos — salón, cocina, caja y gerencia — sincronizados en vivo con la app.',
+        en: 'Flutter POS for tablet, phone and web with four modes — floor, kitchen, till and management — synced live with the app.',
+      },
+      {
+        es: 'Identidad de marca, landing pública y lista de acceso anticipado.',
+        en: 'Brand identity, public landing page and early-access waitlist.',
+      },
+    ],
+    tech: ['Flutter', 'Dart', 'Product', 'Brand', 'Astro'],
+    image: '/images/noddle.png',
+  },
+  {
     id: 'tec-biomedical',
     role: {
       es: 'Asistente de investigación en IA — Series temporales biomédicas y detección de arritmias',

@@ -108,8 +108,9 @@ mem = PolicyMemory(dim=32, capacity=20, genotype=frontier, seed=0)`,
     title: 'CORA — Resiliencia cognitiva',
     kind: 'science',
     year: '2025',
+    featured: true,
     status: 'research',
-    context: { es: 'Investigación independiente · Philoneural', en: 'Independent research · Philoneural' },
+    context: { es: 'Investigación independiente', en: 'Independent research' },
     summary: {
       es: 'El cerebro como sistema dinámico no estacionario: en lugar de etiquetar estados mentales, detectar transiciones, medir recuperación y estudiar cómo un sistema cognitivo se reorganiza — o colapsa — bajo estrés.',
       en: 'The brain as a non-stationary dynamical system: instead of labelling mental states, detect transitions, measure recovery and study how a cognitive system reorganises — or collapses — under stress.',
@@ -216,6 +217,7 @@ mem = PolicyMemory(dim=32, capacity=20, genotype=frontier, seed=0)`,
     title: 'Anomaly Detection — Teacher–Student',
     kind: 'ml',
     year: '2026',
+    featured: true,
     status: 'shipped',
     summary: {
       es: 'Detección de anomalías industriales en MVTec AD: CNN desde cero vs. destilación teacher–student con ResNet-18, más un autoencoder U-Net; embeddings analizados con Mahalanobis y DBSCAN.',
@@ -313,7 +315,6 @@ mem = PolicyMemory(dim=32, capacity=20, genotype=frontier, seed=0)`,
     kind: 'systems',
     year: '2026',
     status: 'shipped',
-    featured: true,
     context: { es: 'IC-6600 Sistemas Operativos · TEC', en: 'IC-6600 Operating Systems · TEC' },
     summary: {
       es: 'La Caja de Mr. Meeseeks hecha sistema operativo: cada solicitud la atienden procesos creados con fork() que se comunican por pipes y comparten contadores en memoria compartida protegidos con semáforos POSIX. Si tarda demasiado: caos planetario.',
@@ -427,12 +428,41 @@ docker compose run --rm nozzle python3 main_pipeline.py --config docs/rans_3d_he
   /* Products & startups                                               */
   /* ---------------------------------------------------------------- */
   {
+    id: 'noddle',
+    title: 'Noddle',
+    kind: 'product',
+    year: '2026',
+    status: 'active',
+    context: { es: 'Mi startup · Founder', en: 'My startup · Founder' },
+    summary: {
+      es: 'La app para pedir y pagar desde la mesa, y el POS que lo recibe al instante. Dos lados de la mesa, un solo producto.',
+      en: 'The app to order and pay from the table, and the POS that receives it instantly. Two sides of the table, one product.',
+    },
+    detail: {
+      es: 'Del lado del comensal: decidir dónde comer — restaurantes cercanos, un mazo para deslizar y un feed de platos estilo Reels — y después comer sin esperar: escanear el QR de la mesa, pedir, seguir el pedido en vivo, llamar al mesero, dividir la cuenta (lo mío, entre N o por ítem) y pagar con tarjeta, SINPE Móvil o efectivo. Con alergias marcadas en cada fila del menú.\n\nDel lado del restaurante: un POS que funciona como el sistema operativo del lugar, con cuatro modos — salón, cocina, caja y gerencia — donde todo lo que el comensal hace en la app aparece en el momento. La tesis: el comensal ya lo dijo.\n\nApp y POS están completos como demo; el siguiente paso es el backend real y el acceso anticipado.',
+      en: 'On the guest side: decide where to eat — nearby restaurants, a swipe deck and a Reels-style dish feed — then eat without waiting: scan the table QR, order, follow the order live, call the waiter, split the bill (mine, between N or by item) and pay by card, SINPE Móvil or cash. With allergens flagged on every menu row.\n\nOn the restaurant side: a POS that works as the operating system of the place, with four modes — floor, kitchen, till and management — where everything the guest does in the app shows up instantly. The thesis: the guest already said it.\n\nApp and POS are complete as demos; next comes the real backend and early access.',
+    },
+    built: [
+      { es: 'App móvil en Flutter para iOS y Android.', en: 'Flutter mobile app for iOS and Android.' },
+      { es: 'POS en Flutter para tablet, teléfono y web, con cocina (KDS), caja y gerencia.', en: 'Flutter POS for tablet, phone and web, with kitchen (KDS), till and management.' },
+      { es: 'Sincronización en vivo entre lo que pide la mesa y lo que ve la cocina.', en: 'Live sync between what the table orders and what the kitchen sees.' },
+      { es: 'Marca, landing pública y lista de acceso anticipado en noddleapp.com.', en: 'Brand, public landing and early-access waitlist at noddleapp.com.' },
+    ],
+    metrics: [
+      { value: '2', label: { es: 'productos: app y POS', en: 'products: app and POS' } },
+      { value: '4', label: { es: 'modos del POS', en: 'POS modes' } },
+      { value: '960+', label: { es: 'commits en su primer mes', en: 'commits in its first month' } },
+    ],
+    tech: ['Flutter', 'Dart', 'iOS', 'Android', 'Astro', 'SINPE Móvil'],
+    links: [{ label: 'Ver en vivo', href: 'https://noddleapp.com', kind: 'demo' }],
+    image: '/images/noddle.png',
+  },
+  {
     id: 'gourmetgo',
     title: 'GourmetGo',
     kind: 'product',
     year: '2025',
     status: 'shipped',
-    featured: true,
     summary: {
       es: 'Marketplace móvil de dos lados para descubrir y reservar experiencias culinarias — cenas temáticas, clases de cocina, eventos — con panel para chefs y restaurantes.',
       en: 'A two-sided mobile marketplace to discover and book culinary experiences — themed dinners, cooking classes, events — with a panel for chefs and restaurants.',
@@ -533,7 +563,6 @@ docker compose run --rm nozzle python3 main_pipeline.py --config docs/rans_3d_he
     kind: 'web',
     year: '2024 —',
     status: 'active',
-    featured: true,
     context: { es: 'Desarrollador full-stack · en producción', en: 'Full-stack developer · in production' },
     summary: {
       es: 'El sitio institucional del Colegio Científico de Alajuela, rehecho para ser rápido: ~30% menos tiempo de carga y 25% menos latencia gracias a un microservicio en Node.js.',

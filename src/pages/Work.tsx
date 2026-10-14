@@ -43,7 +43,7 @@ export default function Work() {
                   <p className="label mt-2">{e.mode[locale]}</p>
                   <span
                     className={`mt-6 inline-block rounded-full px-3 py-1 font-mono text-[0.625rem] uppercase tracking-[0.08em] ${
-                      e.track === 'research' ? 'bg-signal text-on-signal' : 'border border-line-strong text-muted'
+                      e.track === 'founder' ? 'bg-[#FFB524] text-[#111111]' : e.track === 'research' ? 'bg-signal text-on-signal' : 'border border-line-strong text-muted'
                     }`}
                   >
                     {t(`work.${e.track}`)}
