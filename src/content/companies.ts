@@ -22,7 +22,7 @@ export const companies: Record<string, Company> = {
   },
   petziclub: {
     id: 'petziclub',
-    name: 'PetziClub',
+    name: 'petziClub',
     domain: 'petziclub.com',
     info: { es: 'Productos y servicios para mascotas', en: 'Products and services for pets' },
     location: { es: 'Costa Rica', en: 'Costa Rica' },

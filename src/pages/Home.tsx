@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { awards, companyUrl, experienceByCompany, featuredProjects, profile, projects, research, skillGroups, ventures } from '../content'
-import { Arrow, CompanyLogo, Eyebrow, Marquee, Pill, Reveal, Roll, SignalCover, Split, StatusDot } from '../components/primitives'
+import { Arrow, CompanyLogo, Eyebrow, Marquee, Pill, PubChip, Reveal, Roll, SignalCover, Split } from '../components/primitives'
 import { SignalField } from '../components/SignalField'
 import { CpdDemo } from '../components/CpdDemo'
+import { NoddleMocks } from '../components/NoddleMocks'
 import { loadGsap } from '../lib/scroll'
 import { opt } from '../lib/img'
 import { tr } from '../types'
@@ -163,7 +164,7 @@ function Manifesto() {
 function ResearchSection() {
   const { t, locale } = useI18n()
   const paper = research.find((r) => r.kind === 'paper')!
-  const others = research.filter((r) => r.id !== paper.id).slice(0, 4)
+  const others = research.filter((r) => r.kind === 'paper' && r.id !== paper.id)
 
   return (
     <section className="px-[var(--gutter)] pt-36 md:pt-52">
@@ -207,16 +208,16 @@ function ResearchSection() {
           <Reveal as="li" key={r.id} delay={i * 60}>
             <Link
               to={`/research#${r.id}`}
-              className="group grid grid-cols-[auto_1fr_auto] items-baseline gap-x-6 gap-y-2 border-b border-line py-7 md:grid-cols-[4rem_1fr_14rem_8rem]"
+              className="group grid grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-3 border-b border-line py-7 md:grid-cols-[9rem_1fr_15rem]"
             >
-              <span className="label">R—{String(i + 2).padStart(2, '0')}</span>
-              <span className="display text-[clamp(1.5rem,2.8vw,2.6rem)] tracking-[-0.03em] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-3">
-                {r.title.split(' — ')[0]}
+              <span className="order-2 md:order-none">{r.pub && <PubChip pub={r.pub} />}</span>
+              <span className="col-span-2 md:col-span-1">
+                <span className="display block text-[clamp(1.35rem,2.3vw,2.2rem)] leading-[1] tracking-[-0.03em] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-3">
+                  {r.title.split(':')[0]}
+                </span>
+                {r.authors && <span className="mt-2 block truncate text-sm text-muted">{r.authors}</span>}
               </span>
-              <span className="label col-start-2 md:col-start-auto">{t(`research.${r.kind}`)}</span>
-              <span className="hidden justify-end md:flex">
-                <StatusDot status={r.status} />
-              </span>
+              <span className="label order-3 md:order-none md:text-right">{r.venue && tr(r.venue, locale).split(' · ')[0]}</span>
             </Link>
           </Reveal>
         ))}
@@ -234,7 +235,9 @@ function SelectedWork() {
   const section = useRef<HTMLElement | null>(null)
   const track = useRef<HTMLDivElement | null>(null)
 
-  useEffect(() => {
+  // Layout effect: GSAP must unpin (and remove its pin-spacer) before React
+  // detaches this subtree, or React tries to remove a node that moved.
+  useLayoutEffect(() => {
     const mq = window.matchMedia('(min-width: 900px) and (prefers-reduced-motion: no-preference)')
     if (!mq.matches) return
     let ctx: { revert: () => void } | undefined
@@ -264,6 +267,8 @@ function SelectedWork() {
   }, [])
 
   return (
+    // Stable wrapper: the pin-spacer GSAP inserts lives inside it, never in React's way.
+    <div>
     <section ref={section} className="relative mt-36 overflow-hidden md:mt-52">
       <div className="flex min-h-[100svh] flex-col justify-center py-16">
         <div className="flex flex-wrap items-end justify-between gap-6 px-[var(--gutter)]">
@@ -328,6 +333,7 @@ function SelectedWork() {
         </div>
       </div>
     </section>
+    </div>
   )
 }
 
@@ -397,8 +403,10 @@ function Founder() {
             </Link>
           </div>
         </Reveal>
-        <Reveal delay={120} className="relative min-h-[22rem] overflow-hidden bg-[#F2EFEA] lg:col-span-5">
-          <img src={opt('/images/noddle.png')} alt="Noddle — app y POS" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-right" />
+        <Reveal delay={120} className="relative overflow-hidden bg-[#F2EFEA] lg:col-span-5">
+          <div className="flex h-full items-center px-6 py-12 lg:px-10">
+            <NoddleMocks />
+          </div>
         </Reveal>
       </div>
 

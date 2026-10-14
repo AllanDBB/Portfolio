@@ -4,6 +4,7 @@ import { projectById, projects } from '../content'
 import { Arrow, Eyebrow, Pill, Reveal, SignalCover, Split, StatusDot } from '../components/primitives'
 import { opt } from '../lib/img'
 import NotFound from './NotFound'
+import { NoddleMocks } from '../components/NoddleMocks'
 
 export default function ProjectDetail() {
   const { id = '' } = useParams()
@@ -50,7 +51,11 @@ export default function ProjectDetail() {
 
       <Reveal clip className="mt-14 px-[var(--gutter)]">
         <div className="overflow-hidden rounded-[2px]">
-          {project.image ? (
+          {project.id === 'noddle' ? (
+            <div className="bg-[#F2EFEA] px-[6%] pt-[5%] pb-[8%]">
+              <NoddleMocks />
+            </div>
+          ) : project.image ? (
             <img src={opt(project.image)} alt={project.title} className="aspect-[16/9] w-full object-cover" />
           ) : (
             <SignalCover seed={project.id} className="aspect-[16/9] w-full" />

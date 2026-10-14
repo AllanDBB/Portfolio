@@ -30,7 +30,7 @@ export const experience: Experience[] = [
       },
     ],
     tech: ['Flutter', 'Dart', 'Product', 'Brand', 'Astro'],
-    image: '/images/noddle.png',
+    image: '/images/noddle/pos-cocina.webp',
   },
   {
     id: 'tec-biomedical',
@@ -71,8 +71,8 @@ export const experience: Experience[] = [
   {
     id: 'petziclub-backend',
     role: {
-      es: 'Ingeniero de backend y arquitectura de software',
-      en: 'Backend & Software Architecture Engineer',
+      es: 'Technical Lead — Backend y arquitectura de software',
+      en: 'Technical Lead — Backend & software architecture',
     },
     company: 'petziclub',
     mode: { es: 'Remoto', en: 'Remote' },
@@ -80,8 +80,8 @@ export const experience: Experience[] = [
     end: null,
     track: 'engineering',
     summary: {
-      es: 'Defino la arquitectura de sistema y construyo los servicios backend que la sostienen.',
-      en: 'I define the system architecture and build the backend services that hold it up.',
+      es: 'Lidero la parte técnica: defino la arquitectura del sistema y construyo los servicios backend que la sostienen.',
+      en: 'I lead the technical side: I define the system architecture and build the backend services that hold it up.',
     },
     highlights: [
       {

@@ -37,10 +37,17 @@ export function scrollToTop() {
   else window.scrollTo(0, 0)
 }
 
-export function scrollTo(target: string | number) {
-  if (lenis) lenis.scrollTo(target, { duration: 1.4 })
-  else if (typeof target === 'number') window.scrollTo({ top: target, behavior: 'smooth' })
-  else document.querySelector(target)?.scrollIntoView({ behavior: 'smooth' })
+export function scrollTo(target: string | number, offset = 0) {
+  let top: number | undefined
+  if (typeof target === 'number') top = target
+  else {
+    const el = document.getElementById(decodeURIComponent(target.replace(/^#/, '')))
+    if (!el) return false
+    top = el.getBoundingClientRect().top + window.scrollY + offset
+  }
+  if (lenis) lenis.scrollTo(top, { duration: 1.4, force: true })
+  else window.scrollTo({ top, behavior: 'smooth' })
+  return true
 }
 
 export function setScrollLocked(locked: boolean) {

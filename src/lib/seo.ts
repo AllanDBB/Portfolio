@@ -3,7 +3,7 @@ import { projects } from '../content/projects'
 import { research } from '../content/research'
 
 export const SITE = {
-  url: 'https://allanbolanos.com',
+  url: 'https://allandbb.space',
   title: 'Allan Bolaños B.',
   ogImage: '/avatars/1.png',
 }

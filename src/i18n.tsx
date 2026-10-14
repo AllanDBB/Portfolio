@@ -59,6 +59,9 @@ const dict: Record<Locale, Dict> = {
       cite: 'Copiar cita',
       copied: 'Cita copiada',
       read: 'Leer',
+      publications: 'Publicaciones',
+      lines: 'Líneas y experimentos',
+      pub: { published: 'Publicado', accepted: 'Aceptado', submitted: 'En revisión', manuscript: 'Manuscrito' },
     },
     projects: {
       title: 'Proyectos',
@@ -174,6 +177,9 @@ const dict: Record<Locale, Dict> = {
       cite: 'Copy citation',
       copied: 'Citation copied',
       read: 'Read',
+      publications: 'Publications',
+      lines: 'Lines & experiments',
+      pub: { published: 'Published', accepted: 'Accepted', submitted: 'Under review', manuscript: 'Manuscript' },
     },
     projects: {
       title: 'Projects',

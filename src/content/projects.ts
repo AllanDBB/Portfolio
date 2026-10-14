@@ -10,14 +10,14 @@ export const projects: Project[] = [
   /* ---------------------------------------------------------------- */
   {
     id: 'sbind-als',
-    title: 'ALS Speech Biomarkers — SBiND 2027',
+    title: 'ALS Speech Biomarkers — ICASSP 2027',
     kind: 'science',
     year: '2026',
     status: 'research',
     featured: true,
     context: {
-      es: 'Paper para SBiND 2027 · workshop satélite de ICASSP 2027',
-      en: 'Paper for SBiND 2027 · ICASSP 2027 satellite workshop',
+      es: 'Paper en revisión · SBiND @ ICASSP 2027',
+      en: 'Paper under review · SBiND @ ICASSP 2027',
     },
     summary: {
       es: '¿Qué medidas del habla ya difieren en pacientes con ELA cuyo habla el neurólogo califica como normal? Un pipeline acústico reproducible sobre la base pública VOC-ALS que busca la señal antes de que el oído clínico la detecte.',
@@ -52,7 +52,10 @@ python src/make_paper_tables.py --features results/features.csv --out paper
 cd paper && latexmk -pdf main.tex`,
     },
     tech: ['Python', 'Praat / Parselmouth', 'Signal Processing', 'scikit-learn', 'Biostatistics', 'LaTeX'],
-    links: [{ label: 'Repositorio', href: 'https://github.com/AllanDBB/sbind-als', kind: 'repo' }],
+    links: [
+      { label: 'Repositorio', href: 'https://github.com/AllanDBB/sbind-als', kind: 'repo' },
+      { label: 'Paper', href: '/research#sbind-als', kind: 'paper' },
+    ],
   },
   {
     id: 'ember',
@@ -62,8 +65,8 @@ cd paper && latexmk -pdf main.tex`,
     status: 'research',
     featured: true,
     context: {
-      es: 'Investigación · arquitectura cognitiva e-MDB',
-      en: 'Research · e-MDB cognitive architecture',
+      es: 'Paper aceptado · IEEE BIP 2026',
+      en: 'Accepted paper · IEEE BIP 2026',
     },
     summary: {
       es: 'Memoria episódica de largo plazo bioinspirada para robots cognitivos: qué guardar, cuánto tiempo mantenerlo y cómo recuperarlo desde una pista degradada. Una búsqueda exhaustiva sobre 576 diseños de memoria que termina en una ley.',
@@ -101,30 +104,12 @@ frontier = Genotype(
 mem = PolicyMemory(dim=32, capacity=20, genotype=frontier, seed=0)`,
     },
     tech: ['Python', 'Computational Neuroscience', 'Spiking Networks', 'Robotics', 'NAS', 'MiniGrid'],
-    links: [{ label: 'Repositorio', href: 'https://github.com/AllanDBB/EMBER', kind: 'repo' }],
-  },
-  {
-    id: 'cora',
-    title: 'CORA — Resiliencia cognitiva',
-    kind: 'science',
-    year: '2025',
-    featured: true,
-    status: 'research',
-    context: { es: 'Investigación independiente', en: 'Independent research' },
-    summary: {
-      es: 'El cerebro como sistema dinámico no estacionario: en lugar de etiquetar estados mentales, detectar transiciones, medir recuperación y estudiar cómo un sistema cognitivo se reorganiza — o colapsa — bajo estrés.',
-      en: 'The brain as a non-stationary dynamical system: instead of labelling mental states, detect transitions, measure recovery and study how a cognitive system reorganises — or collapses — under stress.',
-    },
-    detail: {
-      es: 'La mayoría del machine learning sobre datos cerebrales es clasificación supervisada con etiquetas diagnósticas. CORA toma la perspectiva opuesta: el objetivo es entender cómo cambia el cerebro, no etiquetar qué es.\n\nCORA-core define las abstracciones — estados, estresores, detección de cambios, métricas de adaptación — sobre series temporales multivariadas, de forma agnóstica al dominio. CORA-Brain lo aplica a EEG y señales neurales públicas (PhysioNet): modela el comportamiento base, introduce u observa perturbaciones, detecta transiciones con change point detection y evalúa estabilidad, recuperación o colapso. Las etiquetas solo se usan para validar a posteriori.',
-      en: 'Most machine learning on brain data is supervised classification against diagnostic labels. CORA takes the opposite view: the goal is to understand how the brain changes, not to label what it is.\n\nCORA-core defines the abstractions — states, stressors, change detection, adaptation metrics — over multivariate time series, domain-agnostic. CORA-Brain applies it to EEG and public neural signals (PhysioNet): model baseline behaviour, introduce or observe perturbations, detect transitions with change point detection, and evaluate stability, recovery or collapse. Labels are only used for post-hoc validation.',
-    },
-    tech: ['Python', 'EEG', 'Dynamical Systems', 'Change Point Detection', 'PhysioNet'],
     links: [
-      { label: 'CORA-core', href: 'https://github.com/AllanDBB/CORA-core', kind: 'repo' },
-      { label: 'CORA-Brain', href: 'https://github.com/AllanDBB/CORA-Brain', kind: 'repo' },
+      { label: 'Repositorio', href: 'https://github.com/AllanDBB/EMBER', kind: 'repo' },
+      { label: 'Paper', href: '/research#ember', kind: 'paper' },
     ],
   },
+
   {
     id: 'online-cpd-pipeline',
     title: 'Online CPD Pipeline',
@@ -153,13 +138,27 @@ mem = PolicyMemory(dim=32, capacity=20, genotype=frontier, seed=0)`,
     kind: 'science',
     year: '2026',
     status: 'active',
-    context: { es: 'Línea de arritmias · TEC', en: 'Arrhythmia line · TEC' },
+    featured: true,
+    context: { es: 'Manuscrito · Intelligent Computing', en: 'Manuscript · Intelligent Computing' },
     summary: {
-      es: 'Modelos de pronóstico sobre series de frecuencia cardíaca: la base experimental para adelantarse a un evento arrítmico en lugar de clasificarlo después.',
-      en: 'Forecasting models over heart-rate series: the experimental base for getting ahead of an arrhythmic event instead of classifying it afterwards.',
+      es: 'Pronosticar la frecuencia cardíaca en tiempo real durante ejercicio por intervalos, enrutando cada serie al modelo especializado en su tipo de dinámica.',
+      en: 'Forecasting heart rate in real time during interval exercise, routing each series to the model that specialises in its kind of dynamics.',
     },
-    tech: ['Python', 'Time Series', 'Forecasting', 'ECG / HRV', 'Jupyter'],
-    links: [{ label: 'Repositorio', href: 'https://github.com/AllanDBB/heartrate-forecasting', kind: 'repo' }],
+    detail: {
+      es: 'Con la Universidad de Murcia y la Escuela de Negocios del TEC. Sobre 134 series de 10 sesiones de indoor cycling se encontraron cuatro patrones temporales; un clasificador incremental con dynamic time warping asigna cada serie parcial a su grupo y elige el modelo que pronostica los siguientes 200 segundos.\n\nEl entrenamiento por grupo mejora los cinco tipos de modelo evaluados — LSTM, encoder-decoder, TiDE y dos preentrenados — y TiDE logra el mejor resultado.',
+      en: 'With the University of Murcia and TEC’s School of Business. Across 134 series from 10 indoor-cycling sessions four temporal patterns emerged; an incremental classifier with dynamic time warping assigns each partial series to its group and picks the model that forecasts the next 200 seconds.\n\nCluster-specific training improves all five model types evaluated — LSTM, encoder-decoder, TiDE and two pretrained models — and TiDE does best.',
+    },
+    metrics: [
+      { value: '4.95%', label: { es: 'MAPE del mejor modelo', en: 'MAPE of the best model' } },
+      { value: '0.78', label: { es: 'correlación de Pearson', en: 'Pearson correlation' } },
+      { value: '134', label: { es: 'series de frecuencia cardíaca', en: 'heart-rate series' } },
+      { value: '200 s', label: { es: 'de horizonte de pronóstico', en: 'forecast horizon' } },
+    ],
+    tech: ['Python', 'TiDE', 'LSTM', 'Dynamic Time Warping', 'Time Series'],
+    links: [
+      { label: 'Repositorio', href: 'https://github.com/AllanDBB/heartrate-forecasting', kind: 'repo' },
+      { label: 'Paper', href: '/research#hr-forecasting', kind: 'paper' },
+    ],
   },
 
   /* ---------------------------------------------------------------- */
@@ -455,7 +454,7 @@ docker compose run --rm nozzle python3 main_pipeline.py --config docs/rans_3d_he
     ],
     tech: ['Flutter', 'Dart', 'iOS', 'Android', 'Astro', 'SINPE Móvil'],
     links: [{ label: 'Ver en vivo', href: 'https://noddleapp.com', kind: 'demo' }],
-    image: '/images/noddle.png',
+    image: '/images/noddle/pos-cocina.webp',
   },
   {
     id: 'gourmetgo',
@@ -479,7 +478,6 @@ docker compose run --rm nozzle python3 main_pipeline.py --config docs/rans_3d_he
     ],
     tech: ['Kotlin', 'Android', 'REST API', 'Firebase', 'QR'],
     links: [
-      { label: 'Ver en vivo', href: 'https://gourmetgocore.vercel.app', kind: 'demo' },
       { label: 'Repositorio', href: 'https://github.com/AllanDBB/GourmetGo', kind: 'repo' },
     ],
   },
@@ -499,7 +497,6 @@ docker compose run --rm nozzle python3 main_pipeline.py --config docs/rans_3d_he
     },
     tech: ['NestJS', 'TypeScript', 'React Native', 'Expo', 'MongoDB'],
     links: [
-      { label: 'Ver en vivo', href: 'https://logi-events-phi.vercel.app', kind: 'demo' },
       { label: 'Repositorio', href: 'https://github.com/AllanDBB/LogiEvents', kind: 'repo' },
     ],
   },
@@ -585,14 +582,14 @@ docker compose run --rm nozzle python3 main_pipeline.py --config docs/rans_3d_he
   },
   {
     id: 'petziclub-web',
-    title: 'PetziClub',
+    title: 'petziClub',
     kind: 'web',
     year: '2024',
     status: 'shipped',
-    context: { es: 'PetziClub · en producción', en: 'PetziClub · in production' },
+    context: { es: 'petziClub · en producción', en: 'petziClub · in production' },
     summary: {
-      es: 'Sitio corporativo de PetziClub: catálogo, reservas, galería de servicios e información para dueños de mascotas.',
-      en: 'PetziClub’s corporate site: catalogue, bookings, service gallery and information for pet owners.',
+      es: 'Sitio corporativo de petziClub: catálogo, reservas, galería de servicios e información para dueños de mascotas.',
+      en: 'petziClub’s corporate site: catalogue, bookings, service gallery and information for pet owners.',
     },
     tech: ['React', 'TypeScript', 'Tailwind CSS'],
     links: [{ label: 'Ver en vivo', href: 'https://petziclub.com', kind: 'demo' }],

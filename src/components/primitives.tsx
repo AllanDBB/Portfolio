@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n'
-import type { Company, Status } from '../types'
+import type { Company, Research, Status } from '../types'
 
 /* ------------------------------------------------------------------ */
 /* Layout                                                              */
@@ -436,5 +436,48 @@ export function CompanyLogo({ company, size = 56 }: { company: Company; size?: n
         <span className="font-display text-[0.95rem] font-semibold tracking-tight text-[#efece4]">{initials}</span>
       )}
     </span>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Publication status + smart links                                    */
+/* ------------------------------------------------------------------ */
+
+export function PubChip({ pub }: { pub: NonNullable<Research['pub']> }) {
+  const { t } = useI18n()
+  const style = {
+    published: 'bg-signal text-on-signal',
+    accepted: 'bg-fg text-bg',
+    submitted: 'border border-line-strong text-fg',
+    manuscript: 'border border-line text-muted',
+  }[pub]
+  return (
+    <span className={`inline-flex items-center rounded-full px-3 py-1 font-mono text-[0.625rem] uppercase tracking-[0.08em] ${style}`}>
+      {t(`research.pub.${pub}`)}
+    </span>
+  )
+}
+
+/**
+ * One link component for content: routes stay in the SPA, while external
+ * sites and files (PDFs) open in a new tab.
+ */
+export function SmartLink({
+  href,
+  className = '',
+  children,
+  ...rest
+}: { href: string; className?: string; children: React.ReactNode } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>) {
+  const external = /^(https?:|mailto:)/.test(href) || /\.(pdf|png|jpe?g|webp)$/i.test(href)
+  if (!external)
+    return (
+      <Link to={href} className={className} {...rest}>
+        {children}
+      </Link>
+    )
+  return (
+    <a href={href} className={className} {...(href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noreferrer' })} {...rest}>
+      {children}
+    </a>
   )
 }

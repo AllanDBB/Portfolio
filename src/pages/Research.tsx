@@ -3,7 +3,7 @@ import { useI18n } from '../i18n'
 import { profile, research } from '../content'
 import { PageHero } from '../components/PageHero'
 import { CpdDemo } from '../components/CpdDemo'
-import { Arrow, Pill, Reveal, StatusDot } from '../components/primitives'
+import { Arrow, Eyebrow, Pill, PubChip, Reveal, SmartLink, StatusDot } from '../components/primitives'
 import { opt } from '../lib/img'
 import { tr } from '../types'
 import type { Research as ResearchItem } from '../types'
@@ -15,7 +15,8 @@ function citation(r: ResearchItem) {
 export default function Research() {
   const { t, locale } = useI18n()
   const paper = research.find((r) => r.kind === 'paper')!
-  const rest = research.filter((r) => r.id !== paper.id)
+  const papers = research.filter((r) => r.kind === 'paper' && r.id !== paper.id)
+  const lines = research.filter((r) => r.kind !== 'paper')
   const [copied, setCopied] = useState(false)
 
   const copyCite = async () => {
@@ -105,14 +106,59 @@ export default function Research() {
         </div>
       </section>
 
+      {/* ---- Publications ---- */}
+      <section className="px-[var(--gutter)] pt-32">
+        <Eyebrow index="P">{t('research.publications')}</Eyebrow>
+        <ol className="mt-10 border-t border-line">
+          {papers.map((r) => (
+            <li key={r.id} id={r.id} className="scroll-mt-24 border-b border-line">
+              <Reveal className="grid gap-8 py-12 md:grid-cols-12 md:py-14">
+                <div className="space-y-3 md:col-span-3">
+                  {r.pub && <PubChip pub={r.pub} />}
+                  <p className="label">{r.year}</p>
+                  {r.venue && <p className="text-sm leading-snug text-muted">{tr(r.venue, locale)}</p>}
+                </div>
+                <div className="md:col-span-6">
+                  <h3 className="display text-[clamp(1.7rem,2.9vw,2.75rem)] leading-[0.97] tracking-[-0.035em]">{r.title}</h3>
+                  {r.authors && <p className="mt-4 text-sm text-muted">{r.authors}</p>}
+                  <div className="prose-body mt-6">
+                    {(r.detail ?? r.abstract)[locale].split('\n\n').map((para, k) => (
+                      <p key={k}>{para}</p>
+                    ))}
+                  </div>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {r.tech.map((tech) => (
+                      <span key={tech} className="tag">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <ul className="space-y-2 md:col-span-3">
+                  {r.links.map((l) => (
+                    <li key={l.href}>
+                      <SmartLink href={l.href} className="link-line inline-flex items-center gap-2 text-sm text-fg">
+                        {l.label}
+                        <Arrow />
+                      </SmartLink>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       {/* ---- Lines & experiments ---- */}
       <section className="px-[var(--gutter)] pt-32">
-        <ol className="border-t border-line">
-          {rest.map((r, i) => (
+        <Eyebrow index="L">{t('research.lines')}</Eyebrow>
+        <ol className="mt-10 border-t border-line">
+          {lines.map((r, i) => (
             <li key={r.id} id={r.id} className="scroll-mt-24 border-b border-line">
               <Reveal className="grid gap-8 py-12 md:grid-cols-12 md:py-16">
                 <div className="md:col-span-3">
-                  <span className="display block text-[clamp(3rem,6vw,6rem)] text-faint">{String(i + 2).padStart(2, '0')}</span>
+                  <span className="display block text-[clamp(3rem,6vw,6rem)] text-faint">{String(i + 1).padStart(2, '0')}</span>
                   <div className="mt-4 space-y-2">
                     <p className="label">{t(`research.${r.kind}`)} · {r.year}</p>
                     <StatusDot status={r.status} />
@@ -143,10 +189,10 @@ export default function Research() {
                   <ul className="space-y-2">
                     {r.links.map((l) => (
                       <li key={l.href}>
-                        <a href={l.href} target="_blank" rel="noreferrer" className="link-line inline-flex items-center gap-2 text-sm text-fg">
+                        <SmartLink href={l.href} className="link-line inline-flex items-center gap-2 text-sm text-fg">
                           {l.label}
                           <Arrow />
-                        </a>
+                        </SmartLink>
                       </li>
                     ))}
                   </ul>

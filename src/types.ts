@@ -66,6 +66,8 @@ export type Research = {
   venue?: L10n
   authors?: string
   doi?: string
+  /** Publication pipeline: only papers carry it. */
+  pub?: 'published' | 'accepted' | 'submitted' | 'manuscript'
   status: Status
   abstract: L10n
   /** Longer body shown on the detail page. */

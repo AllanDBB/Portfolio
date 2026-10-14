@@ -32,12 +32,18 @@ function DocumentMeta() {
 function ScrollManager() {
   const { pathname, hash } = useLocation()
   useEffect(() => {
+    scrollToTop()
     if (hash) {
-      // Let the curtain cover the jump before scrolling to the anchor.
-      const id = setTimeout(() => scrollTo(hash), 450)
+      // Wait for the new page to lay out (and the curtain to lift), then glide
+      // to the anchor; retry briefly in case the target mounts late.
+      let tries = 0
+      const go = () => {
+        if (scrollTo(hash, -96) || ++tries > 10) return
+        id = window.setTimeout(go, 150)
+      }
+      let id = window.setTimeout(go, 500)
       return () => clearTimeout(id)
     }
-    scrollToTop()
     const id = setTimeout(refreshTriggers, 120)
     return () => clearTimeout(id)
   }, [pathname, hash])
