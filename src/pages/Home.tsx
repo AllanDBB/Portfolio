@@ -446,25 +446,28 @@ function ExperienceSection() {
           <Reveal as="li" key={e.id} delay={i * 50}>
             <Link
               to={`/work#${e.id}`}
-              className="group relative isolate grid grid-cols-[1fr_auto] gap-x-6 gap-y-1 overflow-hidden border-b border-line py-6 md:grid-cols-[9rem_1fr_16rem_7rem] md:items-baseline md:py-8"
+              className="group relative isolate grid grid-cols-[1fr_auto] gap-x-8 gap-y-3 overflow-hidden border-b border-line py-7 md:grid-cols-[8rem_minmax(0,1.1fr)_minmax(0,1fr)_7rem] md:items-start md:py-9"
             >
               <span
                 aria-hidden
                 className="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-signal transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-y-100"
               />
-              <span className="label order-3 group-hover:text-on-signal md:order-none">
+              <span className="label order-3 pt-2 group-hover:text-on-signal md:order-none">
                 {e.start.slice(0, 4)} — {e.end ? e.end.slice(0, 4) : t('work.present')}
               </span>
-              <span className="transition-colors group-hover:text-on-signal">
-                <span className="display block text-[clamp(1.35rem,2.4vw,2.25rem)] tracking-[-0.03em]">
-                  {e.role[locale].split(' — ')[0]}
+              <span className="col-span-2 transition-colors group-hover:text-on-signal md:col-span-1">
+                <span className="display block text-[clamp(1.75rem,3.2vw,3rem)] leading-[0.95] tracking-[-0.035em]">{e.org}</span>
+                <span className="mt-2 block text-sm opacity-60">
+                  {e.orgInfo[locale]} · {e.mode[locale]}
                 </span>
+              </span>
+              <span className="order-4 transition-colors group-hover:text-on-signal md:order-none md:pt-1.5">
+                <span className="block text-lg font-medium leading-snug tracking-tight">{e.role[locale].split(' — ')[0]}</span>
                 {e.role[locale].includes(' — ') && (
                   <span className="mt-1 block text-sm opacity-60">{e.role[locale].split(' — ')[1]}</span>
                 )}
               </span>
-              <span className="order-4 text-sm text-muted group-hover:text-on-signal md:order-none">{e.org}</span>
-              <span className="label hidden text-right group-hover:text-on-signal md:block">{t(`work.${e.track}`)}</span>
+              <span className="label hidden pt-2 text-right group-hover:text-on-signal md:block">{t(`work.${e.track}`)}</span>
             </Link>
           </Reveal>
         ))}

@@ -24,6 +24,8 @@ export type Experience = {
   id: string
   role: L10n
   org: string
+  /** One line on what the company is. */
+  orgInfo: L10n
   orgUrl?: string
   /** Employment shape, e.g. "Part-time · Remote". */
   mode: L10n

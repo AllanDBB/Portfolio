@@ -50,15 +50,17 @@ export default function Work() {
                   </span>
                 </div>
                 <div className="md:col-span-6">
-                  <h2 className="display text-[clamp(1.9rem,3.4vw,3.25rem)] leading-[0.95] tracking-[-0.035em]">{e.role[locale]}</h2>
                   <a
                     href={e.orgUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="link-line mt-3 inline-flex items-center gap-2 text-muted"
+                    className="group/org inline-flex items-baseline gap-3"
                   >
-                    {e.org} <Arrow />
+                    <h2 className="display text-[clamp(2.25rem,4.4vw,4.25rem)] leading-[0.92] tracking-[-0.04em]">{e.org}</h2>
+                    <Arrow className="opacity-50 transition-transform duration-500 group-hover/org:rotate-45" />
                   </a>
+                  <p className="mt-3 text-sm text-muted">{e.orgInfo[locale]}</p>
+                  <p className="mt-6 text-xl font-medium leading-snug tracking-tight">{e.role[locale]}</p>
                   <p className="mt-6 text-lg leading-snug text-fg">{e.summary[locale]}</p>
                   <ul className="mt-6 space-y-3">
                     {e.highlights.map((h, i) => (
