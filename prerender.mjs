@@ -39,7 +39,7 @@ for (const route of routes) {
   const { html, meta } = render(route)
   const absoluteImage = meta.image.startsWith('http')
     ? meta.image
-    : `https://allandbb.space${meta.image}`
+    : `https://www.allandbb.space${meta.image}`
 
   let page = template
     .replace('<!--app-html-->', html)
@@ -82,7 +82,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 ${indexed
   .map(
     (route) =>
-      `  <url><loc>https://allandbb.space${route === '/' ? '' : route}</loc><lastmod>${today}</lastmod></url>`
+      `  <url><loc>https://www.allandbb.space${route === '/' ? '' : route}</loc><lastmod>${today}</lastmod></url>`
   )
   .join('\n')}
 </urlset>
@@ -92,7 +92,7 @@ await writeFile(join(distDir, 'sitemap.xml'), sitemap, 'utf8')
 const hidden = routes.filter((route) => !indexed.includes(route))
 await writeFile(
   join(distDir, 'robots.txt'),
-  `User-agent: *\nAllow: /\n${hidden.map((route) => `Disallow: ${route}\n`).join('')}\nSitemap: https://allandbb.space/sitemap.xml\n`,
+  `User-agent: *\nAllow: /\n${hidden.map((route) => `Disallow: ${route}\n`).join('')}\nSitemap: https://www.allandbb.space/sitemap.xml\n`,
   'utf8'
 )
 
